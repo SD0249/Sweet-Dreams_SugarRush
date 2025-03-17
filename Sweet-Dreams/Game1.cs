@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -21,6 +22,9 @@ namespace Sweet_Dreams
         {
             Console.WriteLine("This is the place where we add " +
                               "the Initialization logic.");
+
+            // mmmjkadbjhsbfjsbv
+            Console.WriteLine("llll");
 
             base.Initialize();
         }
