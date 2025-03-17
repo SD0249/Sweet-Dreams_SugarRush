@@ -18,8 +18,7 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here 12
-
+            // TODO: Add your initialization logic here
             // La La La La
 
             base.Initialize();
