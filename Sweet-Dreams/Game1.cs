@@ -20,8 +20,8 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            Console.WriteLine("LLLLLLL");
+            Console.WriteLine("This is the place where we add " +
+                              "the Initialization logic.");
 
             base.Initialize();
         }
