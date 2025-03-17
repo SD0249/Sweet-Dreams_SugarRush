@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -18,7 +19,7 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            Console.WriteLine("your mom");
 
             base.Initialize();
         }
