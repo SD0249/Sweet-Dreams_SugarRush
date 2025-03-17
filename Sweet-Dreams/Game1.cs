@@ -19,7 +19,9 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
-            Console.WriteLine("your mom");
+            // TODO: Add your initialization logic here
+            // PPPPP
+            // La La La La
 
             base.Initialize();
         }
