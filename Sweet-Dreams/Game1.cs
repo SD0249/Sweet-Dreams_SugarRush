@@ -22,7 +22,6 @@ namespace Sweet_Dreams
             Console.WriteLine("This is the place where we add " +
                               "the Initialization logic.");
 
-
             // mmmjkadbjhsbfjsbv
             Console.WriteLine("llll");
 
