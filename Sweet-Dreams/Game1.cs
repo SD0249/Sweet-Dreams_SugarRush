@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Sweet_Dreams
 {
@@ -19,7 +20,7 @@ namespace Sweet_Dreams
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            // La La La La
+            Console.WriteLine("LLLLLLL");
 
             base.Initialize();
         }
