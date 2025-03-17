@@ -43,5 +43,14 @@ namespace Sweet_Dreams
             this.sourceRectangle = sourceRectangle;
             this.drawnRectangle = drawnRectangle;
         }
+
+
+        // --------------------------------------------------------------
+        // Class Methods
+        // --------------------------------------------------------------
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(spriteSheet, drawnRectangle, sourceRectangle, Color.White);
+        }
     }
 }
