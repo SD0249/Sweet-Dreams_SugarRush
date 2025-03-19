@@ -25,16 +25,30 @@ namespace Sweet_Dreams
         int damage;
 
         // CONSTRUCTORS
-        public Enemy()
+        public Enemy(int points, int damage)
         {
             isAlive = true;
 
+            // setting by random generation or by file?
+            this.points = points;
+            this.damage = damage;
         }
 
         //METHODS
         bool CollidesWith()
         {
             return true;
+        }
+
+        /// <summary>
+        /// When the enemy dies, a Candy will be drawn in at the enemy position
+        /// </summary>
+        void DropCandy()
+        {
+            if (!isAlive)
+            {
+
+            }
         }
     }
 }
