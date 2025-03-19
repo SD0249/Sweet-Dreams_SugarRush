@@ -5,11 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Sweet Dreams - Sugar Rush
+// A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
     enum EnemyType
     {
-        
+        Imp,
+        MouthDemon,
+        HornDemon,
+        Cloak
     }
     internal class Enemy
     {
@@ -22,7 +27,8 @@ namespace Sweet_Dreams
         // CONSTRUCTORS
         public Enemy()
         {
-            
+            isAlive = true;
+
         }
 
         //METHODS
