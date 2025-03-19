@@ -9,7 +9,8 @@ namespace Sweet_Dreams
 
     /* Amy Lee
      * Purpose: A LevelTile class to represent a single tile that 
-     *          will be used to form a level from the level class. */
+     *          will be used to form a level from the level class. 
+     */
     internal class LevelTile
     {
         // --------------------------------------------------------------

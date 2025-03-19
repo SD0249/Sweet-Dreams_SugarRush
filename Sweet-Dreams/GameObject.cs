@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Sweet_Dreams
 {
     internal class GameObject
-{
+    {
         // #CodeHere :P
 
 
@@ -18,5 +18,5 @@ namespace Sweet_Dreams
 
 
 
-}
+    }
 }

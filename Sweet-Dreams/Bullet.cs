@@ -6,16 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sweet_Dreams
 {
-    internal class Candy
+    internal class Bullet
     {
-    // Felids :)
-
-
-
-
-
-
-
+        //Fields :(
 
 
 
