@@ -4,9 +4,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+// Sweet Dreams - Sugar Rush
+// A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-
     /* Amy Lee
      * Purpose: A LevelTile class to represent a single tile that 
      *          will be used to form a level from the level class. */
@@ -42,6 +43,15 @@ namespace Sweet_Dreams
             this.spriteSheet = spriteSheet;
             this.sourceRectangle = sourceRectangle;
             this.drawnRectangle = drawnRectangle;
+        }
+
+
+        // --------------------------------------------------------------
+        // Class Methods
+        // --------------------------------------------------------------
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(spriteSheet, drawnRectangle, sourceRectangle, Color.White);
         }
     }
 }
