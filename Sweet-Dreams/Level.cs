@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -73,7 +74,8 @@ namespace Sweet_Dreams
             }
             catch(Exception error)
             {
-
+                Debug.WriteLine("There was an error in texture mapping.");
+                Debug.WriteLine("Check the following the details: " + error.Message);
             }
 
         }
@@ -84,9 +86,10 @@ namespace Sweet_Dreams
         // ----------------------------------------------------------------
 
         /// <summary>
-        /// Reads information from the file and 
+        /// Reads information from the file and constructs the
+        /// LevelTile 2D array with correct information
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="filePath">File Path to read the level information from.</param>
         public void LoadLevel(string filePath)
         {
 
@@ -98,7 +101,13 @@ namespace Sweet_Dreams
         /// </summary>
         public void DisplayTiles()
         {
-
+            for(int r = 0; r < tileSet.GetLength(0); r++)
+            {
+                for(int c = 0; c < tileSet.GetLength(1); c++)
+                {
+                    tileSet[r, c].Draw(spriteBatch);
+                }
+            }
         }
     }
 }
