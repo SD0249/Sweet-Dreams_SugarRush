@@ -20,7 +20,7 @@ namespace Sweet_Dreams
         // Where in the sprite sheet to get the tile
         private Rectangle sourceRectangle;
 
-        // Where to draw the tile
+        // Where and what size to draw the tile
         private Rectangle drawnRectangle;
 
         // The original sprite sheet to get the tile asset
@@ -36,7 +36,7 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="spriteSheet">The original sprite sheet to get the tile asset</param>
         /// <param name="sourceRectangle">Where in the sprite sheet to get the tile</param>
-        /// <param name="drawnRectangle">The original sprite sheet to get the tile asset</param>
+        /// <param name="drawnRectangle"> Where and what size to draw the tile</param>
         public LevelTile
             (Texture2D spriteSheet, Rectangle sourceRectangle, Rectangle drawnRectangle)
         {
@@ -49,6 +49,11 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Class Methods
         // --------------------------------------------------------------
+        /// <summary>
+        /// Draws a single Level tile object on the game window
+        /// </summary>
+        /// <param name="sb">SpriteBatch object used to 
+        /// draw the object on the game window</param>
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(spriteSheet, drawnRectangle, sourceRectangle, Color.White);
