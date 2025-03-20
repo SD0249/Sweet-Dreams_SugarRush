@@ -8,9 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 // Sweet Dreams - Sugar Rush
-// A shooter game. Kill all the enemies to survive and collect candies!
+// A shooter game. Kill all the enemies to survive and collect candies
 namespace Sweet_Dreams
 {
+    /* Nickolas Sailer
+     * Purpose: A GameObject class will be the parent class for Bullet,
+     * Player, and Enemies classes, since they all have similar fields and methods. */
     abstract class GameObject
     {
         // --------------------------------------------------------------
@@ -18,6 +21,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         protected Texture2D asset;
         protected Rectangle position;
+        protected bool onScreen;
 
 
         // --------------------------------------------------------------
@@ -27,15 +31,19 @@ namespace Sweet_Dreams
         {
             get { return position; }
         }
-
+        public bool OnScreen
+        {
+            get { return onScreen; } 
+        }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle positon)
+        public GameObject(Texture2D asset, Rectangle positon, bool onScreen)
         {
             this.asset = asset;
             this.position = positon;
+            this.onScreen = onScreen;
         }
 
 
