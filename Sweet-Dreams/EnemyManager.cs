@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO.Enumeration;
 using System.Linq;
@@ -36,15 +38,28 @@ namespace Sweet_Dreams
 
         // Public methods
         /// <summary>
-        /// Updates all enemy positions, removes them from the level if they're dead,
-        /// and also has them drop candy if they're dead.
+        /// Updates all enemy positions, removes them from the level and has them
+        /// drop candies if they're dead, and dequeues more enemies into the level 
+        /// if the current wave has finished.
+        /// <paramref name="gameTime">Time information from MonoGame.</param>
         /// </summary>
-        public void UpdateAll()
+        public void UpdateAll(GameTime gameTime)
         {
-            // TODO: Should the camera system translation matrix be a parameter?
+            
         }
 
-        // TODO: Add the rest of the method stubs
+        /// <summary>
+        /// Draws all enemies currently in the level to the screen (if they're in bounds).
+        /// </summary>
+        /// <param name="sb">The SpriteBatch object that does the drawing.</param>
+        public void DrawAll(SpriteBatch sb)
+        {
+            //// Draws all enemies
+            //for (int i = 0; i < currentEnemies.Count; i++)
+            //{
+            //    currentEnemies[i].Draw(sb);
+            //}
+        }
 
         // Private helper methods
         /// <summary>

@@ -38,19 +38,19 @@ namespace Sweet_Dreams
             this.position = position;
 
             // this value will be determine the type of Candy
-            int rngNum = rng.Next(0, 5);
+            int rngNum = rng.Next(0, 4);
             switch (rngNum)
             {
-                case 1:
+                case 0:
                     cType = CandyType.SkullCandy;
                     break;
-                case 2:
+                case 1:
                     cType = CandyType.Peppermint;
                     break;
-                case 3:
+                case 2:
                     cType = CandyType.PinkCandy;
                     break;
-                case 4:
+                case 3:
                     cType = CandyType.GreenCandy;
                     break;
             }
