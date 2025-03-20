@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
+
+// -------------------------------
+// NOTE: all the damage variables are at 1 as placeholder values
+// -------------------------------
 namespace Sweet_Dreams
 {
     enum EnemyType
@@ -24,14 +28,55 @@ namespace Sweet_Dreams
         int points;
         int damage;
 
+        // generates a number that determines the type of enemy
+        Random rng;
+
         // CONSTRUCTORS
-        public Enemy(int points, int damage)
+        public Enemy()
         {
+            rng = new Random();
+
             isAlive = true;
 
-            // setting by random generation or by file?
-            this.points = points;
-            this.damage = damage;
+            // this value will be determine the type of Enemy
+            int rngNum = rng.Next(0, 4);
+            switch (rngNum)
+            {
+                case 0:
+                    eType = EnemyType.Imp;
+                    damage = 1;
+                    break;
+                case 1:
+                    eType = EnemyType.MouthDemon;
+                    damage = 1;
+                    break;
+                case 2:
+                    eType = EnemyType.HornDemon;
+                    damage = 1;
+                    break;
+                case 3:
+                    eType = EnemyType.Cloak;
+                    damage =
+                    break;
+            }
+        }
+        public Enemy(EnemyType eType)
+        {
+            switch (eType)
+            {
+                case EnemyType.Imp:
+                    damage =
+                    break;
+                case EnemyType.MouthDemon:
+                    damage =
+                    break;
+                case EnemyType.HornDemon:
+                    damage =
+                    break;
+                case EnemyType.Cloak:
+                    damage =
+                    break;
+            }
         }
 
         //METHODS

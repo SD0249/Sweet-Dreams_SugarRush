@@ -12,6 +12,9 @@ namespace Sweet_Dreams
     enum CandyType
     {
         SkullCandy,
+        Peppermint,
+        PinkCandy,
+        GreenCandy
     }
     internal class Candy
     {
@@ -34,8 +37,23 @@ namespace Sweet_Dreams
             // this value will be determined by the Enemy position
             this.position = position;
 
-            // this value will be determined randomly
+            // this value will be determine the type of Candy
             int rngNum = rng.Next(0, 5);
+            switch (rngNum)
+            {
+                case 1:
+                    cType = CandyType.SkullCandy;
+                    break;
+                case 2:
+                    cType = CandyType.Peppermint;
+                    break;
+                case 3:
+                    cType = CandyType.PinkCandy;
+                    break;
+                case 4:
+                    cType = CandyType.GreenCandy;
+                    break;
+            }
         }
     }
 }
