@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,26 +17,21 @@ namespace Sweet_Dreams
         PinkCandy,
         GreenCandy
     }
-    internal class Candy
+    internal class Candy : GameObject
     {
         // FIELDS
         // the type of candy that will appear on screen
         CandyType cType;
-
-        // this will correlate with the position of the enemy
-        Rectangle position;
 
         // generates a number that determines the type of candy dropped
         Random rng;
 
 
         // CONSTRUCTORS
-        public Candy(Rectangle position)
+        public Candy(Texture2D asset, Rectangle position)
+            : base(asset, position)
         {
             rng = new Random();
-
-            // this value will be determined by the Enemy position
-            this.position = position;
 
             // this value will be determine the type of Candy
             int rngNum = rng.Next(0, 4);
@@ -54,6 +50,20 @@ namespace Sweet_Dreams
                     cType = CandyType.GreenCandy;
                     break;
             }
+        }
+
+        // METHODS
+        public override void UpdateAnimation(GameTime gameTime)
+        {
+           
+        }
+        public override void Update(GameTime gameTime)
+        {
+
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+
         }
     }
 }
