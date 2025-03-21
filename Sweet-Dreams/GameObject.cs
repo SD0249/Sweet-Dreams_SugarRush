@@ -30,20 +30,24 @@ namespace Sweet_Dreams
         public Rectangle Position
         {
             get { return position; }
+            set { position = value; }
         }
         public bool OnScreen
         {
-            get { return onScreen; } 
+            get { return onScreen; }
+            set { onScreen = value; }
         }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle position, bool onScreen)
+        public GameObject(Texture2D asset, Rectangle position)
         {
             this.asset = asset;
             this.position = position;
-            this.onScreen = onScreen;
+
+            // onScreen defaults to true, but will be accurately set in Update()
+            onScreen = true; 
         }
 
 

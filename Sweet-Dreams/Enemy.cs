@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 // NOTE: all the damage and candyNum variables are at 1 as placeholder values
 // -------------------------------
 // -------------------------------
-// ANOTHER NOTE: A List<Candy> field should be added, and candyNum should be replaced 
-//               with the count. Also change switch(EnemyType) to be a helper method.
+// ANOTHER NOTE: candyNum should be replaced with candyDrops.Count
+//               Also maybe change switch(EnemyType) to be a helper method.
 // -------------------------------
 namespace Sweet_Dreams
 {
@@ -31,19 +31,19 @@ namespace Sweet_Dreams
         // FIELDS
 
         // the type of Enemy
-        EnemyType eType;
+        private EnemyType eType;
 
         // the status of the Enemy
-        bool isAlive;
+        private bool isAlive;
+
+        // candies the enemy will drop when it dies
+        private List<Candy> candyDrops;
 
         // the number of candies the Enemy will drop
-        int candyNum;
+        private int candyNum;
 
         // the amount of damage that the Enemy can deal to the player
-        int damage;
-
-        // reference to the game's random generator, used to determine the type of enemy
-        Random rng;
+        private int damage;
 
         // CONSTRUCTORS
         /// <summary>
@@ -53,8 +53,6 @@ namespace Sweet_Dreams
             :base(asset, position)
         {
             isAlive = true;
-            this.rng = rng;
-
 
             // This value will determine the type of Enemy
             int randomNum = rng.Next(0, 4);
@@ -86,11 +84,10 @@ namespace Sweet_Dreams
         /// Generates chosen enemies
         /// </summary>
         /// <param name="eType">the type of enemy chosen</param>
-        public Enemy(Random rng, EnemyType eType, Texture2D asset, Rectangle position)
+        public Enemy(EnemyType eType, Texture2D asset, Rectangle position)
             : base(asset, position)
         {
             isAlive = true;
-            this.rng = rng;
 
             switch (eType)
             {

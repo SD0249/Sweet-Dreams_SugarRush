@@ -29,12 +29,11 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle position, bool onScreen)
-        :base(asset, position, onScreen)
+        public Bullet(Texture2D asset, Rectangle position)
+        :base(asset, position)
         {
             this.asset = asset;
             this.position = position;
-            this.onScreen = onScreen;
         }
 
 
