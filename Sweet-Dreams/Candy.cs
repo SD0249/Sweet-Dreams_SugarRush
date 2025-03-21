@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    enum CandyType
+    public enum CandyType
     {
         SkullCandy,
         Peppermint,
         PinkCandy,
         GreenCandy
     }
-    internal class Candy : GameObject
+    public class Candy : GameObject
     {
         // FIELDS
         // the type of candy that will appear on screen

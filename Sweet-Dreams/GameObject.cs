@@ -14,7 +14,7 @@ namespace Sweet_Dreams
     /* Nickolas Sailer
      * Purpose: A GameObject class will be the parent class for Bullet,
      * Player, and Enemies classes, since they all have similar fields and methods. */
-    abstract class GameObject
+    public abstract class GameObject
     {
         // --------------------------------------------------------------
         // Fields
@@ -39,10 +39,10 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle positon, bool onScreen)
+        public GameObject(Texture2D asset, Rectangle position, bool onScreen)
         {
             this.asset = asset;
-            this.position = positon;
+            this.position = position;
             this.onScreen = onScreen;
         }
 

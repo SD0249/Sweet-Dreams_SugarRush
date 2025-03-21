@@ -26,7 +26,7 @@ namespace Sweet_Dreams
         HornDemon,
         Cloak
     }
-    internal class Enemy : GameObject
+    public class Enemy : GameObject
     {
         // FIELDS
 

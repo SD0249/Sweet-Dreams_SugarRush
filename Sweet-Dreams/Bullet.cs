@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    internal class Bullet : GameObject
+    public class Bullet : GameObject
     {
         // --------------------------------------------------------------
         // Fields

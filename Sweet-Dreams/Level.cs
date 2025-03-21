@@ -13,7 +13,7 @@ namespace Sweet_Dreams
      * Purpose: A Level class that uses the LevelTile objects as 
      *          the basic building blocks of a level background. 
      *          Loads information from the file and constructs the level accordingly. */
-    internal class Level
+    public class Level
     {
         // ----------------------------------------------------------------
         // Fields
