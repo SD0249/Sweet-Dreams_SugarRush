@@ -28,8 +28,8 @@ namespace Sweet_Dreams
 
 
         // CONSTRUCTORS
-        public Candy(Texture2D asset, Rectangle position)
-            : base(asset, position)
+        public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
+            : base(asset, position, screenWidth, screenHeight)
         {
             rng = new Random();
 
@@ -53,6 +53,10 @@ namespace Sweet_Dreams
         }
 
         // METHODS
+        public override bool IsOnScreen(Vector2 worldToScreen)
+        {
+            return false;
+        }
         public override void UpdateAnimation(GameTime gameTime)
         {
            

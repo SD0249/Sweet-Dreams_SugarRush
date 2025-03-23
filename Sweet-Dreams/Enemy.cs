@@ -49,8 +49,9 @@ namespace Sweet_Dreams
         /// <summary>
         /// Randomly generates an Enemy
         /// </summary>
-        public Enemy(Random rng, Texture2D asset, Rectangle position)
-            :base(asset, position)
+        public Enemy(Random rng, Texture2D asset, Rectangle position, int screenWidth, 
+            int screenHeight)
+            :base(asset, position, screenWidth, screenHeight)
         {
             isAlive = true;
 
@@ -84,8 +85,8 @@ namespace Sweet_Dreams
         /// Generates chosen enemies
         /// </summary>
         /// <param name="eType">the type of enemy chosen</param>
-        public Enemy(EnemyType eType, Texture2D asset, Rectangle position)
-            : base(asset, position)
+        public Enemy(EnemyType eType, Texture2D asset, Rectangle position, int screenWidth, 
+            int screenHeight) : base(asset, position, screenWidth, screenHeight)
         {
             isAlive = true;
 
@@ -111,6 +112,10 @@ namespace Sweet_Dreams
         }
 
         //METHODS
+        public override bool IsOnScreen(Vector2 worldToScreen)
+        {
+            return false;
+        }
 
         public override void UpdateAnimation(GameTime gameTime)
         {

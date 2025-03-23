@@ -21,8 +21,8 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         protected Texture2D asset;
         protected Rectangle position;
-        protected bool onScreen;
-
+        protected int screenWidth;
+        protected int screenHeight;
 
         // --------------------------------------------------------------
         // Properties
@@ -32,22 +32,16 @@ namespace Sweet_Dreams
             get { return position; }
             set { position = value; }
         }
-        public bool OnScreen
-        {
-            get { return onScreen; }
-            set { onScreen = value; }
-        }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle position)
+        public GameObject(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
         {
             this.asset = asset;
             this.position = position;
-
-            // onScreen defaults to true, but will be accurately set in Update()
-            onScreen = true; 
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
         }
 
 
@@ -55,6 +49,13 @@ namespace Sweet_Dreams
         // Methods
         // --------------------------------------------------------------
 
+        /// <summary>
+        /// Requires child classes to be able to determine if they're on-screen.
+        /// </summary>
+        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
+        /// <returns></returns>
+        public abstract bool IsOnScreen(Vector2 worldToScreen);
+        
         /// <summary>
         /// Requires child classes to update their animation
         /// </summary>

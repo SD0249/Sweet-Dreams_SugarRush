@@ -29,6 +29,11 @@ namespace Sweet_Dreams
         private List<Candy> collectibles;
         private EnemyManager enemyManager;
         private GameState gameState;
+        private int screenWidth;
+        private int screenHeight;
+        private int worldWidth;
+        private int worldHeight;
+        private Vector2 worldToScreen;
 
         public Game1()
         {
