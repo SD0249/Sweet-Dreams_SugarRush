@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Fields
         // --------------------------------------------------------------
-        
+        private MouseState mouse;
 
 
         // --------------------------------------------------------------
@@ -71,6 +72,8 @@ namespace Sweet_Dreams
 
         public override void Update(GameTime gameTime)
         {
+            mouse = Mouse.GetState();
+            
             position.X += position.X/10;
             // Use this youtube video to help with shooting bullets
             //https://www.youtube.com/watch?v=yESHtmwYgDY&t=513s

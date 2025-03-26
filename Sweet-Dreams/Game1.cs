@@ -29,6 +29,7 @@ namespace Sweet_Dreams
         private List<Candy> collectibles;
         private EnemyManager enemyManager;
         private GameState gameState;
+        private MouseState mouse;
         private Player player;
         private int screenWidth;
         private int screenHeight;
@@ -38,6 +39,7 @@ namespace Sweet_Dreams
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
         private Texture2D darkDungeon;
+        private SpriteFont arial12;
 
         public Game1()
         {
@@ -51,6 +53,7 @@ namespace Sweet_Dreams
             screenHeight = _graphics.GraphicsDevice.Viewport.Height;
             screenWidth = _graphics.GraphicsDevice.Viewport.Width;
 
+            mouse = Mouse.GetState();
 
             base.Initialize();
         }
@@ -62,9 +65,10 @@ namespace Sweet_Dreams
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             darkDungeon = Content.Load<Texture2D>("mainlevbuild");
+            arial12 = Content.Load<SpriteFont>("arial12");
 
             player = new Player(playerAnimation, 
-                new Rectangle(screenWidth/2 - 25, screenHeight/2 - 45, 50, 90), 
+                new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
                 screenHeight, 
                 screenHeight);
         }
@@ -74,7 +78,11 @@ namespace Sweet_Dreams
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            mouse = Mouse.GetState();
+
+            //Update Methods for the player
+            player.Update(gameTime);
+            player.UpdateAnimation(gameTime);
 
             base.Update(gameTime);
         }
@@ -84,12 +92,42 @@ namespace Sweet_Dreams
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             
-            
+            //Draws the player
             player.Draw(_spriteBatch);
 
+            //Draws the Debug Information
+            DebugInfo(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Draws the needing Debuging info to the game screen
+        /// </summary>
+        /// <param name="sb">The sprite batch needed to draw</param>
+        private void DebugInfo(SpriteBatch sb)
+        {
+            //Draws the Mouses's X and Y position
+            sb.DrawString(
+                arial12,
+                $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 24),
+                Color.Black);
+
+            //Draws the current state of the game
+            sb.DrawString(
+                arial12,
+                $"Game's State: {gameState}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 48),
+                Color.Black);
+
+            //Draws the current state of the player
+            sb.DrawString(
+                arial12,
+                $"Game's State: {player.PlayerState}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 74),
+                Color.Black);
         }
     }
 }

@@ -2,22 +2,38 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    public class Player : GameObject
+    enum PlayerState
+    {
+        WalkRight,
+        WalkLeft,
+        FaceRight,
+        FaceLeft,
+        Dead,
+        Hit
+    }
+    
+    internal class Player : GameObject
     {
         // --------------------------------------------------------------
         // Fields
         // --------------------------------------------------------------
-
-
+        private PlayerState playerState;
+        private KeyboardState kbState;
+        private double stunTimer;
 
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
+        public PlayerState PlayerState
+        {
+            get { return playerState; }
+        }
 
 
         // --------------------------------------------------------------
@@ -28,6 +44,7 @@ namespace Sweet_Dreams
         {
             this.asset = asset;
             this.position = position;
+            stunTimer = 1;
         }
 
 
@@ -63,7 +80,64 @@ namespace Sweet_Dreams
 
         public override void Update(GameTime gameTime)
         {
+            kbState = Keyboard.GetState();
             
+            //Player FSM (incomplete)
+            switch (playerState)
+            {
+                
+                case PlayerState.WalkLeft:
+                    if (kbState.IsKeyDown(Keys.Left)) { }
+                    if (kbState.IsKeyUp(Keys.Left))
+                    {
+                        playerState = PlayerState.FaceLeft;
+                    }
+                    if (kbState.IsKeyDown(Keys.Right))
+                    {
+                        playerState = PlayerState.WalkRight;
+                    }
+                    break;
+
+                case PlayerState.WalkRight:
+                    if (kbState.IsKeyDown(Keys.Left))
+                    {
+                        playerState = PlayerState.WalkLeft;
+                    }
+                    if (kbState.IsKeyUp(Keys.Right))
+                    {
+                        playerState = PlayerState.FaceRight;
+                    }
+
+                    break;
+
+                case PlayerState.FaceLeft:
+                    if (kbState.IsKeyDown(Keys.Left))
+                    {
+                        playerState = PlayerState.WalkLeft;
+                    }
+                    if (kbState.IsKeyDown(Keys.Right))
+                    {
+                        playerState = PlayerState.WalkRight;
+                    }
+                    break;
+
+                case PlayerState.FaceRight:
+                    if (kbState.IsKeyDown(Keys.Left))
+                    {
+                        playerState = PlayerState.WalkLeft;
+                    }
+                    if (kbState.IsKeyDown(Keys.Right))
+                    {
+                        playerState = PlayerState.WalkRight;
+                    }
+                    break;
+
+                case PlayerState.Hit:
+                    break;
+
+                case PlayerState.Dead:
+                    break;
+            }
         }
 
         public override void Draw(SpriteBatch sb)
