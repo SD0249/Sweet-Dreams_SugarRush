@@ -17,7 +17,9 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         private MouseState mouse;
-
+        private int speed;
+        private double rotation;
+        private Vector2 direction;
 
         // --------------------------------------------------------------
         // Properties
@@ -32,6 +34,7 @@ namespace Sweet_Dreams
         {
             this.asset = asset;
             this.position = position;
+            speed = 50;
         }
 
 
@@ -73,8 +76,12 @@ namespace Sweet_Dreams
         public override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
-            
-            position.X += position.X/10;
+
+            rotation = Math.Atan2(mouse.Y, mouse.X);
+            direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+
+            position.X += (int)direction.X * speed;
+            position.Y += (int)direction.Y * speed;
             // Use this youtube video to help with shooting bullets
             //https://www.youtube.com/watch?v=yESHtmwYgDY&t=513s
         }
