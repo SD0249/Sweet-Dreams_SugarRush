@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -70,14 +71,53 @@ namespace Sweet_Dreams
 
             try
             {
+                StreamReader reader = new StreamReader(filePath);
 
+                // String variables to temporarily store the information
+                // read from the file
+                string line = "";
+                string[] splitData = null;
+
+                while((line = reader.ReadLine()!) != null)
+                {
+                    // The line that starts with either
+                    // of these characters should be ignored.
+                    if(!line.StartsWith('/') && !line.StartsWith('-'))
+                    {
+                        splitData = line.Split(',');
+
+                        // We have the size of one tile from the file
+                        if(splitData.Length == 2)
+                        {
+                            spriteWidth = int.Parse(splitData[0]);
+                            spriteHeight = int.Parse(splitData[1]);
+                        }
+
+                        // We have a tile to populate the dictionary
+                        if(splitData.Length == 3)
+                        {
+                            // Save the corresponding row and column data
+                            // from the text file
+                            int column = int.Parse(splitData[1]);
+                            int row = int.Parse(splitData[2]);
+
+                            textureMap.Add(splitData[0],                        // KEY
+                                           new Rectangle(column * spriteWidth,  // X position
+                                                         row * spriteHeight,    // Y position
+                                                         spriteWidth,           // Width
+                                                         spriteHeight));        // Height
+                        }
+                    }
+                }
+
+                // Close the stream to ensure the population of Dictionary is saved
+                reader.Close();
             }
             catch(Exception error)
             {
                 Debug.WriteLine("There was an error in texture mapping.");
                 Debug.WriteLine("Check the following the details: " + error.Message);
             }
-
         }
 
 
