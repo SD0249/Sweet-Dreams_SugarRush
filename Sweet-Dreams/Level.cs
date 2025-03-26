@@ -24,19 +24,40 @@ namespace Sweet_Dreams
         private Texture2D spriteSheet;
 
         // A SpriteBatch field used to draw the level to the game window
-        private SpriteBatch spriteBatch;
+        // private SpriteBatch spriteBatch;
 
-        // The intended Size of each level tile in pixels.
+        // The intended Size of each level tile in pixels drawn on the game window.
         private int intendedSize;
 
         // The 2D array of LevelTiles to store tile information
         // of the level read from the file
         private LevelTile[,] tileSet;
 
+        // The column dimension of the tile set. 
+        private int column;
+
+        // The row dimension of the tile set.
+        private int row;
+
         // A string-Rectangle dictionary to store the asset associated
         // with a particular tile using the source rectangle
         private Dictionary<string, Rectangle> textureMap;
 
+
+        // ----------------------------------------------------------------
+        // Properties
+        // ----------------------------------------------------------------
+
+        // World Width & Height returned for future clamping
+        public int WorldWidth
+        {
+            get { return column * intendedSize; }
+        }
+
+        public int WorldHeight
+        {
+            get { return row * intendedSize; }
+        }
 
         // ----------------------------------------------------------------
         // Parameterized Constructor
@@ -56,7 +77,6 @@ namespace Sweet_Dreams
             // Setting the fields of the Level class
             // **********************************************************
             this.spriteSheet = spriteSheet;
-            this.spriteBatch = sb;
             this.textureMap = new Dictionary<string, Rectangle>();
 
 
@@ -113,6 +133,7 @@ namespace Sweet_Dreams
                 // Close the stream to ensure the population of Dictionary is saved
                 reader.Close();
             }
+            // Throw an exception if there is an error in the process
             catch(Exception error)
             {
                 Debug.WriteLine("There was an error in texture mapping.");
@@ -132,20 +153,29 @@ namespace Sweet_Dreams
         /// <param name="filePath">File Path to read the level information from.</param>
         public void LoadLevel(string filePath)
         {
+            // Read the level data from a text file and create the tileset that way
+            try
+            {
 
+            }
+            // Throw an exception if there is an error in the process
+            catch(Exception error)
+            {
+
+            }
         }
 
 
         /// <summary>
         /// Draws all the level tile to the console window
         /// </summary>
-        public void DisplayTiles()
+        public void DisplayTiles(SpriteBatch sb)
         {
             for(int r = 0; r < tileSet.GetLength(0); r++)
             {
                 for(int c = 0; c < tileSet.GetLength(1); c++)
                 {
-                    tileSet[r, c].Draw(spriteBatch);
+                    tileSet[r, c].Draw(sb);
                 }
             }
         }
