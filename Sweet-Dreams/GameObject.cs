@@ -8,17 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 
 // Sweet Dreams - Sugar Rush
-// A shooter game. Kill all the enemies to survive and collect candies!
+// A shooter game. Kill all the enemies to survive and collect candies
 namespace Sweet_Dreams
 {
-    abstract class GameObject
+    /* Nickolas Sailer
+     * Purpose: A GameObject class will be the parent class for Bullet,
+     * Player, and Enemies classes, since they all have similar fields and methods. */
+    public abstract class GameObject
     {
         // --------------------------------------------------------------
         // Fields
         // --------------------------------------------------------------
         protected Texture2D asset;
         protected Rectangle position;
-
+        protected int screenWidth;
+        protected int screenHeight;
+        protected int currentFrame;
+        protected double timer;
+        protected double fps;
+        protected double spf;
 
         // --------------------------------------------------------------
         // Properties
@@ -26,16 +34,18 @@ namespace Sweet_Dreams
         public Rectangle Position
         {
             get { return position; }
+            set { position = value; }
         }
-
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle positon)
+        public GameObject(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
         {
             this.asset = asset;
-            this.position = positon;
+            this.position = position;
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
         }
 
 
@@ -43,6 +53,13 @@ namespace Sweet_Dreams
         // Methods
         // --------------------------------------------------------------
 
+        /// <summary>
+        /// Requires child classes to be able to determine if they're on-screen.
+        /// </summary>
+        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
+        /// <returns></returns>
+        public abstract bool IsOnScreen(Vector2 worldToScreen);
+        
         /// <summary>
         /// Requires child classes to update their animation
         /// </summary>

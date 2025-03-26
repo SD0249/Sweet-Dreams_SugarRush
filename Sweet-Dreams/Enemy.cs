@@ -13,50 +13,51 @@ using System.Threading.Tasks;
 // -------------------------------
 // NOTE: all the damage and candyNum variables are at 1 as placeholder values
 // -------------------------------
+// -------------------------------
+// ANOTHER NOTE: candyNum should be replaced with candyDrops.Count
+//               Also maybe change switch(EnemyType) to be a helper method.
+// -------------------------------
 namespace Sweet_Dreams
 {
-    enum EnemyType
+    public enum EnemyType
     {
         Imp,
         MouthDemon,
         HornDemon,
         Cloak
     }
-    internal class Enemy : GameObject
+    public class Enemy : GameObject
     {
         // FIELDS
 
         // the type of Enemy
-        EnemyType eType;
+        private EnemyType eType;
 
         // the status of the Enemy
-        bool isAlive;
+        private bool isAlive;
 
-        // the number of candies that an Enemy can drop
-        int candyNum;
+        // candies the enemy will drop when it dies
+        private List<Candy> candyDrops;
+
+        // the number of candies the Enemy will drop
+        private int candyNum;
 
         // the amount of damage that the Enemy can deal to the player
-        int damage;
-
-        // generates a number that determines the type of enemy
-        Random rng;
+        private int damage;
 
         // CONSTRUCTORS
         /// <summary>
         /// Randomly generates an Enemy
         /// </summary>
-        public Enemy(Texture2D asset, Rectangle position)
-            :base(asset, position)
+        public Enemy(Random rng, Texture2D asset, Rectangle position, int screenWidth, 
+            int screenHeight)
+            :base(asset, position, screenWidth, screenHeight)
         {
-            rng = new Random();
-
             isAlive = true;
 
-
-
-            // this value will be determine the type of Enemy
-            int rngNum = rng.Next(0, 4);
-            switch (rngNum)
+            // This value will determine the type of Enemy
+            int randomNum = rng.Next(0, 4);
+            switch (randomNum)
             {
                 case 0:
                     eType = EnemyType.Imp;
@@ -84,8 +85,8 @@ namespace Sweet_Dreams
         /// Generates chosen enemies
         /// </summary>
         /// <param name="eType">the type of enemy chosen</param>
-        public Enemy(EnemyType eType, Texture2D asset, Rectangle position)
-            : base(asset, position)
+        public Enemy(EnemyType eType, Texture2D asset, Rectangle position, int screenWidth, 
+            int screenHeight) : base(asset, position, screenWidth, screenHeight)
         {
             isAlive = true;
 
@@ -111,6 +112,10 @@ namespace Sweet_Dreams
         }
 
         //METHODS
+        public override bool IsOnScreen(Vector2 worldToScreen)
+        {
+            return false;
+        }
 
         public override void UpdateAnimation(GameTime gameTime)
         {

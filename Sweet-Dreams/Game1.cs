@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,10 +8,38 @@ using Microsoft.Xna.Framework.Input;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /// <summary>
+    /// Possible states of the game
+    /// </summary>
+    public enum GameState
+    {
+        Menu,
+        Game,
+        Win,
+        Lose
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        // Additional fields used for the game
+        private Random rng;
+        private List<Candy> collectibles;
+        private EnemyManager enemyManager;
+        private GameState gameState;
+        private MouseState mouse;
+        private Player player;
+        private int screenWidth;
+        private int screenHeight;
+        private int worldWidth;
+        private int worldHeight;
+        private Vector2 worldToScreen;
+        private Texture2D playerAnimation;
+        private Texture2D purpleDungeon;
+        private Texture2D darkDungeon;
+        private SpriteFont arial12;
 
         public Game1()
         {
@@ -21,11 +50,10 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
-            Console.WriteLine("This is the place where we add " +
-                              "the Initialization logic.");
+            screenHeight = _graphics.GraphicsDevice.Viewport.Height;
+            screenWidth = _graphics.GraphicsDevice.Viewport.Width;
 
-            // mmmjkadbjhsbfjsbv
-            Console.WriteLine("llll");
+            mouse = Mouse.GetState();
 
             base.Initialize();
         }
@@ -34,7 +62,15 @@ namespace Sweet_Dreams
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
+            purpleDungeon = Content.Load<Texture2D>("Full");
+            darkDungeon = Content.Load<Texture2D>("mainlevbuild");
+            arial12 = Content.Load<SpriteFont>("arial12");
+
+            player = new Player(playerAnimation, 
+                new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
+                screenHeight, 
+                screenHeight);
         }
 
         protected override void Update(GameTime gameTime)
@@ -42,7 +78,11 @@ namespace Sweet_Dreams
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            mouse = Mouse.GetState();
+
+            //Update Methods for the player
+            player.Update(gameTime);
+            player.UpdateAnimation(gameTime);
 
             base.Update(gameTime);
         }
@@ -50,10 +90,44 @@ namespace Sweet_Dreams
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            
+            //Draws the player
+            player.Draw(_spriteBatch);
 
-            // TODO: Add your drawing code here
+            //Draws the Debug Information
+            DebugInfo(_spriteBatch);
 
+            _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Draws the needing Debuging info to the game screen
+        /// </summary>
+        /// <param name="sb">The sprite batch needed to draw</param>
+        private void DebugInfo(SpriteBatch sb)
+        {
+            //Draws the Mouses's X and Y position
+            sb.DrawString(
+                arial12,
+                $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 24),
+                Color.Black);
+
+            //Draws the current state of the game
+            sb.DrawString(
+                arial12,
+                $"Game's State: {gameState}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 48),
+                Color.Black);
+
+            //Draws the current state of the player
+            sb.DrawString(
+                arial12,
+                $"Game's State: {player.PlayerState}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 74),
+                Color.Black);
         }
     }
 }

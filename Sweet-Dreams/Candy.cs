@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    enum CandyType
+    public enum CandyType
     {
         SkullCandy,
         Peppermint,
         PinkCandy,
         GreenCandy
     }
-    internal class Candy : GameObject
+    public class Candy : GameObject
     {
         // FIELDS
         // the type of candy that will appear on screen
@@ -28,8 +28,8 @@ namespace Sweet_Dreams
 
 
         // CONSTRUCTORS
-        public Candy(Texture2D asset, Rectangle position)
-            : base(asset, position)
+        public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
+            : base(asset, position, screenWidth, screenHeight)
         {
             rng = new Random();
 
@@ -53,6 +53,10 @@ namespace Sweet_Dreams
         }
 
         // METHODS
+        public override bool IsOnScreen(Vector2 worldToScreen)
+        {
+            return false;
+        }
         public override void UpdateAnimation(GameTime gameTime)
         {
            
