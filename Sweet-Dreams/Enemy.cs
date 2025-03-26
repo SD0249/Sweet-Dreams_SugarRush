@@ -37,8 +37,8 @@ namespace Sweet_Dreams
         // the status of the Enemy
         private bool isAlive;
 
-        // candies the enemy will drop when it dies
-        private List<Candy> candyDrops;
+        // how many candies the enemy will drop when it dies
+        private int candyNum;
 
         // the amount of damage that the Enemy can deal to the player
         private int damage;
@@ -111,13 +111,17 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// When the enemy dies, a Candy will be drawn in at the enemy position
+        /// When the enemy dies, Candy will be drawn near the enemy position
         /// </summary>
-        public void DropCandy()
+        public void DropCandy(List<Candy> collectibles)
         {
             if (!isAlive)
             {
-
+                for (int i = 0; i < candyNum; i++)
+                {
+                    //// TODO: determine params for Candy(), remove isAlive check
+                    //collectibles.Add(new Candy());
+                }
             }
         }
 
@@ -126,26 +130,22 @@ namespace Sweet_Dreams
         {
             // This value will determine the type of Enemy
             Random rng = new Random();
-            eType = rng.Next(0, 4);
+            eType = (EnemyType)rng.Next(0, 4);
             switch (eType)
             {
-                case 0:
-                    eType = EnemyType.Imp;
+                case EnemyType.Imp:
                     damage = 1;
                     candyNum = 1;
                     break;
-                case 1:
-                    eType = EnemyType.MouthDemon;
+                case EnemyType.MouthDemon:
                     damage = 1;
                     candyNum = 1;
                     break;
-                case 2:
-                    eType = EnemyType.HornDemon;
+                case EnemyType.HornDemon:
                     damage = 1;
                     candyNum = 1;
                     break;
-                case 3:
-                    eType = EnemyType.Cloak;
+                case EnemyType.Cloak:
                     damage = 1;
                     candyNum = 1;
                     break;
