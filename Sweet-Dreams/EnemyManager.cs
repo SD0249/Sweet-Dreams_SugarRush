@@ -20,13 +20,15 @@ namespace Sweet_Dreams
         // Fields
         private Queue<Enemy> allEnemies;
         private List<Enemy> currentEnemies;
+        private List<Candy> collectibles;
 
         // Constructor
         /// <summary>
         /// Instantiates a manager for all enemies in a level.
         /// </summary>
         /// <param name="fileName">File containing all enemy data for the level.</param>
-        public EnemyManager(string fileName)
+        /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
+        public EnemyManager(string fileName, List<Candy> collectibles)
         {
             // Inits fields with empty data structures
             allEnemies = new Queue<Enemy>();
@@ -34,6 +36,9 @@ namespace Sweet_Dreams
 
             // Fills the queue with enemy data from the file
             this.ReadEnemyData(fileName);
+
+            // Gives a reference to the list of collectibles to be drawn
+            this.collectibles = collectibles;
         }
 
         // Public methods
