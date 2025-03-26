@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
  // Sweet Dreams - Sugar Rush
@@ -15,7 +16,8 @@ namespace Sweet_Dreams
         SkullCandy,
         Peppermint,
         PinkCandy,
-        GreenCandy
+        GreenCandy,
+        YellowCandy
     }
     public class Candy : GameObject
     {
@@ -25,7 +27,6 @@ namespace Sweet_Dreams
 
         // generates a number that determines the type of candy dropped
         Random rng;
-
 
         // CONSTRUCTORS
         public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
@@ -48,6 +49,9 @@ namespace Sweet_Dreams
                     break;
                 case 3:
                     cType = CandyType.GreenCandy;
+                    break;
+                case 4:
+                    cType = CandyType.YellowCandy;
                     break;
             }
         }
