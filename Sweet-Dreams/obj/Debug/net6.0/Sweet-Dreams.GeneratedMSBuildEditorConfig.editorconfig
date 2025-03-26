@@ -8,10 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Sweet-Dreams
-<<<<<<< HEAD
 build_property.ProjectDir = Z:\IGMProfile\Desktop\Sweet-Dreams_SugarRush\Sweet-Dreams\
-=======
-build_property.ProjectDir = C:\Users\ayvin\Desktop\Sweet-Dreams_SugarRush\Sweet-Dreams\
->>>>>>> db3399f36219e74cc25a5478e2eafdcf7352ee24
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

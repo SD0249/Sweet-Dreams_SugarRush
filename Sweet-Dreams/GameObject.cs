@@ -23,6 +23,10 @@ namespace Sweet_Dreams
         protected Rectangle position;
         protected int screenWidth;
         protected int screenHeight;
+        protected int currentFrame;
+        protected double timer;
+        protected double fps;
+        protected double spf;
 
         // --------------------------------------------------------------
         // Properties

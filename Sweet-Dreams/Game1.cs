@@ -29,11 +29,15 @@ namespace Sweet_Dreams
         private List<Candy> collectibles;
         private EnemyManager enemyManager;
         private GameState gameState;
+        private Player player;
         private int screenWidth;
         private int screenHeight;
         private int worldWidth;
         private int worldHeight;
         private Vector2 worldToScreen;
+        private Texture2D playerAnimation;
+        private Texture2D purpleDungeon;
+        private Texture2D darkDungeon;
 
         public Game1()
         {
@@ -44,11 +48,9 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
-            Console.WriteLine("This is the place where we add " +
-                              "the Initialization logic.");
+            screenHeight = _graphics.GraphicsDevice.Viewport.Height;
+            screenWidth = _graphics.GraphicsDevice.Viewport.Width;
 
-            // mmmjkadbjhsbfjsbv
-            Console.WriteLine("llll");
 
             base.Initialize();
         }
@@ -57,7 +59,14 @@ namespace Sweet_Dreams
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
+            purpleDungeon = Content.Load<Texture2D>("Full");
+            darkDungeon = Content.Load<Texture2D>("mainlevbuild");
+
+            player = new Player(playerAnimation, 
+                new Rectangle(screenWidth/2 - 25, screenHeight/2 - 45, 50, 90), 
+                screenHeight, 
+                screenHeight);
         }
 
         protected override void Update(GameTime gameTime)
@@ -73,9 +82,13 @@ namespace Sweet_Dreams
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            
+            
+            player.Draw(_spriteBatch);
 
-            // TODO: Add your drawing code here
 
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
