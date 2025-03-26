@@ -25,6 +25,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         private PlayerState playerState;
         private KeyboardState kbState;
+        private int health;
         private double stunTimer;
 
         // --------------------------------------------------------------
@@ -33,6 +34,11 @@ namespace Sweet_Dreams
         public PlayerState PlayerState
         {
             get { return playerState; }
+        }
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
         }
 
 
@@ -44,6 +50,7 @@ namespace Sweet_Dreams
         {
             this.asset = asset;
             this.position = position;
+            health = 6;
             stunTimer = 1;
         }
 
@@ -87,7 +94,6 @@ namespace Sweet_Dreams
             {
                 
                 case PlayerState.WalkLeft:
-                    if (kbState.IsKeyDown(Keys.Left)) { }
                     if (kbState.IsKeyUp(Keys.Left))
                     {
                         playerState = PlayerState.FaceLeft;
@@ -95,6 +101,10 @@ namespace Sweet_Dreams
                     if (kbState.IsKeyDown(Keys.Right))
                     {
                         playerState = PlayerState.WalkRight;
+                    }
+                    if (health <= 0)
+                    {
+                        playerState = PlayerState.Dead;
                     }
                     break;
 
@@ -107,7 +117,10 @@ namespace Sweet_Dreams
                     {
                         playerState = PlayerState.FaceRight;
                     }
-
+                    if (health <= 0)
+                    {
+                        playerState = PlayerState.Dead;
+                    }
                     break;
 
                 case PlayerState.FaceLeft:
@@ -118,6 +131,10 @@ namespace Sweet_Dreams
                     if (kbState.IsKeyDown(Keys.Right))
                     {
                         playerState = PlayerState.WalkRight;
+                    }
+                    if (health <= 0)
+                    {
+                        playerState = PlayerState.Dead;
                     }
                     break;
 
@@ -130,9 +147,17 @@ namespace Sweet_Dreams
                     {
                         playerState = PlayerState.WalkRight;
                     }
+                    if (health <= 0)
+                    {
+                        playerState = PlayerState.Dead;
+                    }
                     break;
 
                 case PlayerState.Hit:
+                    if (health <= 0)
+                    {
+                        playerState = PlayerState.Dead;
+                    }
                     break;
 
                 case PlayerState.Dead:
