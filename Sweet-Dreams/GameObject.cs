@@ -14,15 +14,15 @@ namespace Sweet_Dreams
     /* Nickolas Sailer
      * Purpose: A GameObject class will be the parent class for Bullet,
      * Player, and Enemies classes, since they all have similar fields and methods. */
-    abstract class GameObject
+    public abstract class GameObject
     {
         // --------------------------------------------------------------
         // Fields
         // --------------------------------------------------------------
         protected Texture2D asset;
         protected Rectangle position;
-        protected bool onScreen;
-
+        protected int screenWidth;
+        protected int screenHeight;
 
         // --------------------------------------------------------------
         // Properties
@@ -30,20 +30,18 @@ namespace Sweet_Dreams
         public Rectangle Position
         {
             get { return position; }
-        }
-        public bool OnScreen
-        {
-            get { return onScreen; } 
+            set { position = value; }
         }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle positon, bool onScreen)
+        public GameObject(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
         {
             this.asset = asset;
-            this.position = positon;
-            this.onScreen = onScreen;
+            this.position = position;
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
         }
 
 
@@ -51,6 +49,13 @@ namespace Sweet_Dreams
         // Methods
         // --------------------------------------------------------------
 
+        /// <summary>
+        /// Requires child classes to be able to determine if they're on-screen.
+        /// </summary>
+        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
+        /// <returns></returns>
+        public abstract bool IsOnScreen(Vector2 worldToScreen);
+        
         /// <summary>
         /// Requires child classes to update their animation
         /// </summary>

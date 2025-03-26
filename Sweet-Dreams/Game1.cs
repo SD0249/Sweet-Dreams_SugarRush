@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,10 +8,32 @@ using Microsoft.Xna.Framework.Input;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /// <summary>
+    /// Possible states of the game
+    /// </summary>
+    public enum GameState
+    {
+        Menu,
+        Game,
+        Win,
+        Lose
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        // Additional fields used for the game
+        private Random rng;
+        private List<Candy> collectibles;
+        private EnemyManager enemyManager;
+        private GameState gameState;
+        private int screenWidth;
+        private int screenHeight;
+        private int worldWidth;
+        private int worldHeight;
+        private Vector2 worldToScreen;
 
         public Game1()
         {

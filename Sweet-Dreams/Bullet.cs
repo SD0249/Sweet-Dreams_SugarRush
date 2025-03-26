@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    internal class Bullet : GameObject
+    public class Bullet : GameObject
     {
         // --------------------------------------------------------------
         // Fields
@@ -29,18 +29,22 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle position, bool onScreen)
-        :base(asset, position, onScreen)
+        public Bullet(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
+        :base(asset, position, screenWidth, screenHeight)
         {
             this.asset = asset;
             this.position = position;
-            this.onScreen = onScreen;
         }
 
 
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
+
+        public override bool IsOnScreen(Vector2 worldToScreen)
+        {
+            return false;
+        }
 
         /// <summary>
         /// 
