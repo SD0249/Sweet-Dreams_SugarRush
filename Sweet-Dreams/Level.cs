@@ -93,7 +93,7 @@ namespace Sweet_Dreams
             {
                 StreamReader reader = new StreamReader(filePath);
 
-                // String variables to temporarily store the information
+                // Variables to temporarily store the information
                 // read from the file
                 string line = "";
                 string[] splitData = null;
@@ -153,9 +153,18 @@ namespace Sweet_Dreams
         /// <param name="filePath">File Path to read the level information from.</param>
         public void LoadLevel(string filePath)
         {
-            // Read the level data from a text file and create the tileset that way
+            // Read the level data from a text file and
+            // give information for the tileset field.
             try
             {
+                // Open the reader
+                StreamReader reader = new StreamReader(filePath);
+
+                // Variables to temporarily store information read in from the file
+                string line = "";
+                string[] splitData = null;
+
+
 
             }
             // Throw an exception if there is an error in the process
