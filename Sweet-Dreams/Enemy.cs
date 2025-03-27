@@ -14,10 +14,6 @@ using System.Threading.Tasks;
 // -------------------------------
 // NOTE: all the damage and candyNum variables are at 1 as placeholder values
 // -------------------------------
-// -------------------------------
-// ANOTHER NOTE: candyNum should be replaced with candyDrops.Count
-//               Also maybe change switch(EnemyType) to be a helper method.
-// -------------------------------
 namespace Sweet_Dreams
 {
     public enum EnemyType
@@ -53,6 +49,9 @@ namespace Sweet_Dreams
         {
             isAlive = true;
 
+            eType = (EnemyType)rng.Next(0, 4);
+            CreateEnemy();
+
         }
         /// <summary>
         /// Generates chosen enemies
@@ -62,26 +61,8 @@ namespace Sweet_Dreams
             int screenHeight) : base(asset, position, screenWidth, screenHeight)
         {
             isAlive = true;
+            CreateEnemy();
 
-            switch (eType)
-            {
-                case EnemyType.Imp:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case EnemyType.MouthDemon:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case EnemyType.HornDemon:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case EnemyType.Cloak:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-            }
         }
 
         //METHODS
@@ -102,11 +83,12 @@ namespace Sweet_Dreams
 
         public override void Draw(SpriteBatch sb)
         {
-
+            //Draws an Enemy at a given position
         }
 
         public bool CollidesWith()
         {
+            // if the Enemy position intersects with the player position
             return true;
         }
 
@@ -126,11 +108,8 @@ namespace Sweet_Dreams
         }
 
         // HELPER METHOD
-        private void CreateEnemy(int number)
+        private void CreateEnemy()
         {
-            // This value will determine the type of Enemy
-            Random rng = new Random();
-            eType = (EnemyType)rng.Next(0, 4);
             switch (eType)
             {
                 case EnemyType.Imp:
@@ -139,15 +118,15 @@ namespace Sweet_Dreams
                     break;
                 case EnemyType.MouthDemon:
                     damage = 1;
-                    candyNum = 1;
+                    candyNum = 3;
                     break;
                 case EnemyType.HornDemon:
                     damage = 1;
-                    candyNum = 1;
+                    candyNum = 2;
                     break;
                 case EnemyType.Cloak:
                     damage = 1;
-                    candyNum = 1;
+                    candyNum = 2;
                     break;
             }
         }

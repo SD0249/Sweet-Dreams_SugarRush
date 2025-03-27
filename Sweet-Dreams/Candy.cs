@@ -28,13 +28,18 @@ namespace Sweet_Dreams
         // generates a number that determines the type of candy dropped
         Random rng;
 
+        // source Rectangle
+        Rectangle sourceRectangle;
+
         // CONSTRUCTORS
         public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
             : base(asset, position, screenWidth, screenHeight)
         {
+            
             rng = new Random();
 
             // this value will be determine the type of Candy
+            // SOURCE RECTANGLE
             int rngNum = rng.Next(0, 4);
             switch (rngNum)
             {
