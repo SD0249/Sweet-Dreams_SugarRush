@@ -43,6 +43,9 @@ namespace Sweet_Dreams
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
 
+        // Whether or not the game is currently in debug mode
+        public static bool debugMode;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);

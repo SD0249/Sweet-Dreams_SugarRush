@@ -4,11 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
-<<<<<<< HEAD
-using System.Security.Cryptography;
-=======
-using System.Runtime.CompilerServices;
->>>>>>> 489d2b8780a62efa4ad146d32822befb403d7e1f
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,6 +37,9 @@ namespace Sweet_Dreams
 
         // the amount of damage that the Enemy can deal to the player
         private int damage;
+
+        // enemy's speed and direction
+        Vector2 velocity;
 
         // CONSTRUCTORS
         /// <summary>

@@ -30,6 +30,7 @@ namespace Sweet_Dreams
         private double stunTimer;
         private int playerHealth;
         private bool isAlive;
+        private Vector2 velocity;
         
         // --------------------------------------------------------------
         // Properties
@@ -54,6 +55,7 @@ namespace Sweet_Dreams
             this.position = position;
             health = 6;
             stunTimer = 1;
+            velocity = new Vector2(0, 0);       // Placeholder velocity
         }
 
 
