@@ -1,0 +1,26 @@
+// Texture map information.
+// Uses the sprite sheet "Dungeon Tiles" by CardinalZebra
+// Sprite size: 32 x 32 (When drawn in the level, it will be 45 x 45)
+// Dictates the row and column in the sprite sheet where the chosen image tile can be found.
+//
+// File format:
+// Name of tile type, row, column
+---------------------------------------
+32,32
+---------------------------------------
+WALL-1,1,1
+WALL-2,2,1
+WALL-3,3,1
+WALL-4,4,1
+---------------------------------------
+PURPLEGROUND-1,1,2
+PURPLEGROUND-2,2,2
+PURPLEGROUND-3,3,2
+PURPLEGROUND-4,4,2
+PURPLEGROUND-5,1,3
+PURPLEGROUND-6,2,3
+PURPLEGROUND-7,3,3
+PURPLEGROUND-8,4,3
+---------------------------------------
+DOOR,6,3
+---------------------------------------

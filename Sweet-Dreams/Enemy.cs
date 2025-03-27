@@ -4,7 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+<<<<<<< HEAD
 using System.Security.Cryptography;
+=======
+using System.Runtime.CompilerServices;
+>>>>>>> 489d2b8780a62efa4ad146d32822befb403d7e1f
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +17,6 @@ using System.Threading.Tasks;
 
 // -------------------------------
 // NOTE: all the damage and candyNum variables are at 1 as placeholder values
-// -------------------------------
-// -------------------------------
-// ANOTHER NOTE: candyNum should be replaced with candyDrops.Count
-//               Also maybe change switch(EnemyType) to be a helper method.
 // -------------------------------
 namespace Sweet_Dreams
 {
@@ -37,10 +37,7 @@ namespace Sweet_Dreams
         // the status of the Enemy
         private bool isAlive;
 
-        // candies the enemy will drop when it dies
-        private List<Candy> candyDrops;
-
-        // the number of candies the Enemy will drop
+        // how many candies the enemy will drop when it dies
         private int candyNum;
 
         // the amount of damage that the Enemy can deal to the player
@@ -56,31 +53,9 @@ namespace Sweet_Dreams
         {
             isAlive = true;
 
-            // This value will determine the type of Enemy
-            int randomNum = rng.Next(0, 4);
-            switch (randomNum)
-            {
-                case 0:
-                    eType = EnemyType.Imp;
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case 1:
-                    eType = EnemyType.MouthDemon;
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case 2:
-                    eType = EnemyType.HornDemon;
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case 3:
-                    eType = EnemyType.Cloak;
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-            }
+            eType = (EnemyType)rng.Next(0, 4);
+            CreateEnemy();
+
         }
         /// <summary>
         /// Generates chosen enemies
@@ -90,26 +65,8 @@ namespace Sweet_Dreams
             int screenHeight) : base(asset, position, screenWidth, screenHeight)
         {
             isAlive = true;
+            CreateEnemy();
 
-            switch (eType)
-            {
-                case EnemyType.Imp:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case EnemyType.MouthDemon:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case EnemyType.HornDemon:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-                case EnemyType.Cloak:
-                    damage = 1;
-                    candyNum = 1;
-                    break;
-            }
         }
 
         //METHODS
@@ -130,22 +87,51 @@ namespace Sweet_Dreams
 
         public override void Draw(SpriteBatch sb)
         {
-
+            //Draws an Enemy at a given position
         }
 
         public bool CollidesWith()
         {
+            // if the Enemy position intersects with the player position
             return true;
         }
 
         /// <summary>
-        /// When the enemy dies, a Candy will be drawn in at the enemy position
+        /// When the enemy dies, Candy will be drawn near the enemy position
         /// </summary>
-        public void DropCandy()
+        public void DropCandy(List<Candy> collectibles)
         {
             if (!isAlive)
             {
+                for (int i = 0; i < candyNum; i++)
+                {
+                    //// TODO: determine params for Candy(), remove isAlive check
+                    //collectibles.Add(new Candy());
+                }
+            }
+        }
 
+        // HELPER METHOD
+        private void CreateEnemy()
+        {
+            switch (eType)
+            {
+                case EnemyType.Imp:
+                    damage = 1;
+                    candyNum = 1;
+                    break;
+                case EnemyType.MouthDemon:
+                    damage = 1;
+                    candyNum = 3;
+                    break;
+                case EnemyType.HornDemon:
+                    damage = 1;
+                    candyNum = 2;
+                    break;
+                case EnemyType.Cloak:
+                    damage = 1;
+                    candyNum = 2;
+                    break;
             }
         }
     }

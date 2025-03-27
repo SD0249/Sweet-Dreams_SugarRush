@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,19 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         private MouseState mouse;
-
+        private int speed;
+        private float rotation;
+        private Vector2 direction;
+        private Vector2 origin;
 
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-
+        public int Timer
+        {
+            // Only need a set to change the timer when a power-up is picked up
+            set { timer = value; }
+        }
 
         // --------------------------------------------------------------
         // Constructor
@@ -32,6 +40,13 @@ namespace Sweet_Dreams
         {
             this.asset = asset;
             this.position = position;
+            speed = 50;
+
+            // The origin of the bullets will always be the starting position
+            origin = new Vector2(position.X, position.Y);
+
+            // Since bullets won't have animation, timer is used for reloading
+            this.timer = 1;
         }
 
 
@@ -41,47 +56,59 @@ namespace Sweet_Dreams
 
         public override bool IsOnScreen(Vector2 worldToScreen)
         {
-            return false;
+            return true;
         }
 
         /// <summary>
-        /// 
-        // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
-        ///
+        /// Bullets won't have an animation for this project
+        /// The only animation they would have is exploding (not doing that)
         /// </summary>
         /// <param name="gameTime"></param>
         public override void UpdateAnimation(GameTime gameTime)
         {
-            // ElapsedGameTime is the duration of the last GAME frame
-            timer += gameTime.ElapsedGameTime.TotalSeconds;
-
-            // Has enough time passed to flip to the next frame?
-            if (timer >= spf)
-            {
-                // Change which frame is active, ensuring the frame is reset back to the first 
-                currentFrame++;
-                if (currentFrame >= 3)
-                {
-                    currentFrame = 0;
-                }
-
-                // Reset the time counter, keeping remaining elapsed time
-                timer -= spf;
-            }
+            
         }
 
         public override void Update(GameTime gameTime)
         {
             mouse = Mouse.GetState();
-            
-            position.X += position.X/10;
+
+            if (mouse.LeftButton == ButtonState.Pressed &&
+                timer <= 0)
+            {
+                // Add a new bullet to the public list of bullets
+
+                // Resets the timer for reloading the gun 
+                timer = 1;
+            }
+            // Has a 1 second timer between shooting a bullet
+            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Finding the rotation of the bullet based off the mouse
+            rotation = (float)Math.Atan2(mouse.Y, mouse.X);
+
+            // Finding the direction the bullet need to go based of the rotation
+            direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+
+            // Changing the bullets position
+            position.X += (int)direction.X * speed;
+            position.Y += (int)direction.Y * speed;
+
             // Use this youtube video to help with shooting bullets
             //https://www.youtube.com/watch?v=yESHtmwYgDY&t=513s
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            
+            sb.Draw(
+                asset,
+                position,
+                null,
+                Color.White,
+                rotation,
+                origin,
+                SpriteEffects.None,
+                0);
         }
     }
 }
