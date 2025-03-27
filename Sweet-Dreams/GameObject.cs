@@ -77,5 +77,7 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="sb"> The sprite batch needed to draw </param>
         public abstract void Draw(SpriteBatch sb);
+
+        
     }
 }

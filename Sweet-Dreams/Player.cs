@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
+using System.Net.Http;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
@@ -17,7 +18,7 @@ namespace Sweet_Dreams
         Dead,
         Hit
     }
-    
+
     internal class Player : GameObject
     {
         // --------------------------------------------------------------
@@ -26,7 +27,9 @@ namespace Sweet_Dreams
         private PlayerState playerState;
         private KeyboardState kbState;
         private double stunTimer;
-
+        private int playerHealth;
+        private bool isAlive;
+        
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
@@ -34,7 +37,6 @@ namespace Sweet_Dreams
         {
             get { return playerState; }
         }
-
 
         // --------------------------------------------------------------
         // Constructor
@@ -81,11 +83,11 @@ namespace Sweet_Dreams
         public override void Update(GameTime gameTime)
         {
             kbState = Keyboard.GetState();
-            
+
             //Player FSM (incomplete)
             switch (playerState)
             {
-                
+
                 case PlayerState.WalkLeft:
                     if (kbState.IsKeyDown(Keys.Left)) { }
                     if (kbState.IsKeyUp(Keys.Left))
@@ -95,6 +97,7 @@ namespace Sweet_Dreams
                     if (kbState.IsKeyDown(Keys.Right))
                     {
                         playerState = PlayerState.WalkRight;
+
                     }
                     break;
 
@@ -160,5 +163,6 @@ namespace Sweet_Dreams
         {
             return true;
         }
+
     }
 }

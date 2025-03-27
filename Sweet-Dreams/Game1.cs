@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -40,6 +41,7 @@ namespace Sweet_Dreams
         private Texture2D purpleDungeon;
         private Texture2D darkDungeon;
         private SpriteFont arial12;
+        private PlayerState currentPlayerState;
 
         public Game1()
         {
@@ -80,6 +82,64 @@ namespace Sweet_Dreams
 
             mouse = Mouse.GetState();
 
+            switch (gameState)
+            {
+                case GameState.Menu:
+
+                    // draw menu to console
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
+                        gameState = GameState.Game;
+                    }
+
+                    // if button is pressed?
+                    // need button class
+
+                    break;
+
+                case GameState.Game:
+
+                    // draw game to console
+
+                    // #ToBeDetermened
+                    /*if (all enemys are dead && the door is reached)
+                    {
+                    // game state changes to win
+                    }*/
+
+                    // if the player is dead the game state changes to lose
+                    if (currentPlayerState == PlayerState.Dead)
+                    {
+                        gameState = GameState.Lose;
+                    }
+
+                    break;
+
+                case GameState.Win:
+
+                    // draw win screen to console
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
+                        gameState = GameState.Menu;
+                    }
+
+                    break;
+
+                case GameState.Lose:
+
+                    // draw game over to console
+                    // press enter to continue back to home screen 
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
+                        gameState = GameState.Menu;
+                    }
+
+                    break;
+            }
+            
             //Update Methods for the player
             player.Update(gameTime);
             player.UpdateAnimation(gameTime);
@@ -89,11 +149,55 @@ namespace Sweet_Dreams
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             
-            //Draws the player
-            player.Draw(_spriteBatch);
+            switch (gameState)
+            {
+                case GameState.Menu:
+
+                    GraphicsDevice.Clear(Color.Black);
+
+                    _spriteBatch.DrawString(
+                        arial12,
+                        "         Sweet Dreams\n Press enter to start game",
+                        new Vector2(300, 200),
+                        Color.White);
+
+                    break;
+
+                case GameState.Game:
+
+                    GraphicsDevice.Clear(Color.Honeydew);
+
+                    //Draws the player
+                    player.Draw(_spriteBatch);
+
+                    break;
+
+                case GameState.Win:
+
+                    GraphicsDevice.Clear(Color.Honeydew);
+
+                    _spriteBatch.DrawString(
+                        arial12,
+                        "#YouWon",
+                        new Vector2(300, 200),
+                        Color.Black);
+
+                    break;
+
+                case GameState.Lose:
+
+                    GraphicsDevice.Clear(Color.Black);
+
+                    _spriteBatch.DrawString(
+                        arial12,
+                        "#YouGetNoSweetDreams",
+                        new Vector2(300, 200),
+                        Color.White);
+
+                    break;
+            }
 
             //Draws the Debug Information
             DebugInfo(_spriteBatch);
