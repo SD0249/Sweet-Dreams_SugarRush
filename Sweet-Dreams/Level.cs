@@ -153,7 +153,11 @@ namespace Sweet_Dreams
                 string line = "";
                 string[] splitData = null;
 
-                while((line = reader.ReadLine()!) != null)
+                // A local variable used to draw a tile asset
+                // to the appropriate location  
+                int rowCount = 0;
+
+                while ((line = reader.ReadLine()!) != null)
                 {
                     splitData = line.Split(',');
 
@@ -176,11 +180,29 @@ namespace Sweet_Dreams
                     // each individual tile's location in relation to the tileSet array
                     else
                     {
-                        // The column and row information for each tile to store them at the right 
+                        // The column and row information for each tile
+                        // to store them at the right tileSet location
+                        for(int c = 0; c < splitData.Length; c++)
+                        {
+                            // Before populating the tileSet,
+                            // calculate the x and y position on the window to place a tile
+                            int xPosition = c * intendedSize;
+                            int yPosition = rowCount;
+
+                            // Store each level tile object to the tileSet field.
+                            tileSet[c, rowCount] = new LevelTile(spriteSheet,
+                                                                 textureMap[splitData[c]], 
+                                                                 new Rectangle
+                                                                 (xPosition, yPosition, intendedSize, intendedSize));
+                        }
+
+                        // Increment the RowCount variable for the next background line to use
+                        rowCount++;
                     }
                 }
 
-
+                // Close the stream to ensure the level loading is complete
+                reader.Close();
             }
             // Throw an exception if there is an error in the process
             catch(Exception error)
