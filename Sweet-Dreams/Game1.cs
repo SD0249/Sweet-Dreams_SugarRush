@@ -28,6 +28,7 @@ namespace Sweet_Dreams
         // Additional fields used for the game
         private Random rng;
         private List<Candy> collectibles;
+        private List<Bullet> bullets;
         private EnemyManager enemyManager;
         private GameState gameState;
         private MouseState mouse;
@@ -152,6 +153,46 @@ namespace Sweet_Dreams
 
         protected override void Draw(GameTime gameTime)
         {
+            // If in Game mode, the following is drawn translated with respect to
+            // the player's world position
+            if (gameState == GameState.Game)
+            {
+            // Draws everything whose position needs to be translated
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
+                Matrix.CreateTranslation(player.Position.X, player.Position.Y, 0));
+
+                // TODO: Uncomment the following once all fields are initialized
+                /*
+                // Draws all enemies that are on screen
+                enemyManager.DrawAll(_spriteBatch, worldToScreen);
+
+                // Draws all candies that are on screen
+                for (int i = 0; i < collectibles.Count; i++)
+                {
+                    if (collectibles[i].IsOnScreen(worldToScreen))
+                    {
+                        collectibles[i].Draw(_spriteBatch);
+                    }
+                }
+
+                // Draws all bullets that are on screen
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if (bullets[i].IsOnScreen(worldToScreen))
+                    {
+                        bullets[i].Draw(_spriteBatch);
+                    }
+                }
+
+                // TODO: Call Level.DisplayTiles
+
+                // NOTE: We *should* be able to condense bullets and candies into one list "items"
+                */
+
+                _spriteBatch.End();
+            }
+            
+            // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
             
             switch (gameState)
