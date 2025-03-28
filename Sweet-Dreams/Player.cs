@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
+using System.Net.Http;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
@@ -17,7 +18,7 @@ namespace Sweet_Dreams
         Dead,
         Hit
     }
-    
+
     internal class Player : GameObject
     {
         // --------------------------------------------------------------
@@ -27,7 +28,10 @@ namespace Sweet_Dreams
         private KeyboardState kbState;
         private int health;
         private double stunTimer;
-
+        private int playerHealth;
+        private bool isAlive;
+        private Vector2 velocity;
+        
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
@@ -41,7 +45,6 @@ namespace Sweet_Dreams
             set { health = value; }
         }
 
-
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
@@ -52,6 +55,7 @@ namespace Sweet_Dreams
             this.position = position;
             health = 6;
             stunTimer = 1;
+            velocity = new Vector2(0, 0);       // Placeholder velocity
         }
 
 
@@ -88,11 +92,11 @@ namespace Sweet_Dreams
         public override void Update(GameTime gameTime)
         {
             kbState = Keyboard.GetState();
-            
+
             //Player FSM (incomplete)
             switch (playerState)
             {
-                
+
                 case PlayerState.WalkLeft:
                     if (kbState.IsKeyUp(Keys.Left))
                     {
@@ -101,6 +105,7 @@ namespace Sweet_Dreams
                     if (kbState.IsKeyDown(Keys.Right))
                     {
                         playerState = PlayerState.WalkRight;
+
                     }
                     if (health <= 0)
                     {
@@ -185,5 +190,6 @@ namespace Sweet_Dreams
         {
             return true;
         }
+
     }
 }
