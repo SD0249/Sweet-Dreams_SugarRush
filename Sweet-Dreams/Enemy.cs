@@ -61,6 +61,8 @@ namespace Sweet_Dreams
             int screenHeight) : base(asset, position, screenWidth, screenHeight)
         {
             isAlive = true;
+
+            this.eType = eType;
             CreateEnemy();
 
         }
