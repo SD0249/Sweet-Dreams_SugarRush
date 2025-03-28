@@ -1,42 +1,46 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\",
+  "WorkspaceRootPath": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\debuglib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:debuglib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\level.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:level.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\lucyg\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\ayvin\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\leveltile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:leveltile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,122 +50,129 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DebugLib.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\DebugLib.cs",
-              "RelativeDocumentMoniker": "DebugLib.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\DebugLib.cs",
-              "RelativeToolTip": "DebugLib.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-28T16:20:00.03Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Bullet.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
-              "RelativeDocumentMoniker": "Bullet.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
-              "RelativeToolTip": "Bullet.cs",
+              "Title": "Button.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
+              "RelativeDocumentMoniker": "Button.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
+              "RelativeToolTip": "Button.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-28T16:19:10.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Button.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
-              "RelativeDocumentMoniker": "Button.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
-              "RelativeToolTip": "Button.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-28T16:18:57.981Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-26T23:47:43.277Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Candy.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
-              "RelativeDocumentMoniker": "Candy.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
-              "RelativeToolTip": "Candy.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAD4v0YAAAALAAAAAAAAAA==",
+              "Title": "Level.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Level.cs",
+              "RelativeDocumentMoniker": "Level.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Level.cs",
+              "RelativeToolTip": "Level.cs",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAswKoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T22:19:40.272Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-21T20:46:38.24Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EnemyManager.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
-              "RelativeDocumentMoniker": "EnemyManager.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
-              "RelativeToolTip": "EnemyManager.cs",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAgwBcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "LevelTile.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\LevelTile.cs",
+              "RelativeDocumentMoniker": "LevelTile.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\LevelTile.cs",
+              "RelativeToolTip": "LevelTile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T22:12:33.523Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-21T20:46:00.95Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Enemy.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
-              "RelativeDocumentMoniker": "Enemy.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
-              "RelativeToolTip": "Enemy.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAIwFkAAAAwAAAAAAAAAA==",
+              "Title": "Bullet.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
+              "RelativeDocumentMoniker": "Bullet.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
+              "RelativeToolTip": "Bullet.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAiwBYAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T22:10:49.868Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T22:26:57.652Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
-              "RelativeDocumentMoniker": "Player.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
-              "RelativeToolTip": "Player.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAQwCcAAAAJAAAAAAAAAA==",
+              "Title": "Candy.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
+              "RelativeDocumentMoniker": "Candy.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
+              "RelativeToolTip": "Candy.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAQwCgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T16:07:35.383Z"
+              "WhenOpened": "2025-03-19T22:26:55.698Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GameObject.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
-              "RelativeDocumentMoniker": "GameObject.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
-              "RelativeToolTip": "GameObject.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAiwDgAAABQAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Enemy.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
+              "RelativeDocumentMoniker": "Enemy.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
+              "RelativeToolTip": "Enemy.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAG8AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T16:08:10.727Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T22:26:53.275Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnemyManager.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
+              "RelativeDocumentMoniker": "EnemyManager.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
+              "RelativeToolTip": "EnemyManager.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAQwB0AAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T22:34:33.265Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Game1.cs",
-              "DocumentMoniker": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
               "RelativeDocumentMoniker": "Game1.cs",
-              "ToolTip": "C:\\Users\\lucyg\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs*",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs*",
               "RelativeToolTip": "Game1.cs*",
-              "ViewState": "AgIAAF0AAAAAAAAAAAApwG8AAABMAAAAAAAAAA==",
+              "ViewState": "AgIAALMAAAAAAAAAAAAuwJ0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-17T17:08:26.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GameObject.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
+              "RelativeDocumentMoniker": "GameObject.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
+              "RelativeToolTip": "GameObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T22:26:59.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
+              "RelativeDocumentMoniker": "Player.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
+              "RelativeToolTip": "Player.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK8AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T22:27:04.413Z",
               "EditorCaption": ""
             }
           ]
