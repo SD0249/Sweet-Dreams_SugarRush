@@ -77,7 +77,18 @@ namespace Sweet_Dreams
 
         public override void UpdateAnimation(GameTime gameTime)
         {
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (timer >= spf)
+            {
+                currentFrame++;
+                if (currentFrame >= 3)
+                {
+                    currentFrame = 0;
+                }
+
+                timer -= spf;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -88,6 +99,36 @@ namespace Sweet_Dreams
         public override void Draw(SpriteBatch sb)
         {
             //Draws an Enemy at a given position
+            // CLOAK
+            sb.Draw(
+                asset,
+                position,
+                new Rectangle(2, 7, 12, 15), // x, y, width, height
+                Color.White);
+
+            /* IMP
+             * sb.Draw(
+             * asset,
+             * positon
+             * new Rectangle(5, 5, 9, 13),
+             * Color.White)
+             */
+
+            /* MOUTH DEMON
+             * sb.Draw(
+             * asset,
+             * positon
+             * new Rectangle(5, 7, 20, 35),
+             * Color.White)
+             */
+
+            /* HORN DEMON
+             * sb.Draw(
+             * asset,
+             * positon
+             * new Rectangle(4, 6, 11, 23),
+             * Color.White)
+             */
         }
 
         public bool CollidesWith()
