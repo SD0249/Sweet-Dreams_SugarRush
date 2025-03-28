@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Transactions;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -42,6 +43,8 @@ namespace Sweet_Dreams
         private Texture2D darkDungeon;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
+        private List<Enemy> currentEnemyList =  new List<Enemy>();
+
 
         // Whether or not the game is currently in debug mode
         public static bool debugMode;
@@ -106,9 +109,12 @@ namespace Sweet_Dreams
                     // draw game to console
 
                     // #ToBeDetermened
-                    /*if (all enemys are dead && the door is reached)
+                    // READ THIS!!!!
+                    // ememy manager is currentluy NULL!!! this code will not run untill the file
+                    // for enemy manager is made and added to the game!!!
+                    /*if (enemyManager.CheckEnemys(currentEnemyList) == false && door is reached)
                     {
-                    // game state changes to win
+                        gameState = GameState.Win;
                     }*/
 
                     // if the player is dead the game state changes to lose
