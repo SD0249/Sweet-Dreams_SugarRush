@@ -229,6 +229,7 @@ namespace Sweet_Dreams
                     {
                         tileSet[r, c].Draw(sb);
                     }
+                    tileSet[r, c].Draw(sb);
                 }
             }
         }
