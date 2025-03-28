@@ -44,8 +44,8 @@ namespace Sweet_Dreams
         private Texture2D darkDungeon;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
-        private List<Enemy> currentEnemyList =  new List<Enemy>();
-
+        private Level level;
+        private bool doorIsReached;
 
         // Whether or not the game is currently in debug mode
         public static bool debugMode;
@@ -109,14 +109,11 @@ namespace Sweet_Dreams
 
                     // draw game to console
 
-                    // #ToBeDetermened
-                    // READ THIS!!!!
-                    // ememy manager is currentluy NULL!!! this code will not run untill the file
-                    // for enemy manager is made and added to the game!!!
-                    /*if (enemyManager.CheckEnemys(currentEnemyList) == false && door is reached)
+                    // Victory when all enemies are gone and the player is touching the door
+                    if (enemyManager.IsLevelCleared() && doorIsReached)
                     {
                         gameState = GameState.Win;
-                    }*/
+                    }
 
                     // if the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
@@ -167,10 +164,8 @@ namespace Sweet_Dreams
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
                 Matrix.CreateTranslation(player.Position.X, player.Position.Y, 0));
 
-                // TODO: Uncomment the following once all fields are initialized
-                /*
-                // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch, worldToScreen);
+                // Draws the level itself
+                level.DisplayTiles(_spriteBatch, worldToScreen);
 
                 // Draws all candies that are on screen
                 for (int i = 0; i < collectibles.Count; i++)
@@ -181,6 +176,9 @@ namespace Sweet_Dreams
                     }
                 }
 
+                // Draws all enemies that are on screen
+                enemyManager.DrawAll(_spriteBatch, worldToScreen);
+
                 // Draws all bullets that are on screen
                 for (int i = 0; i < bullets.Count; i++)
                 {
@@ -188,12 +186,7 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Draw(_spriteBatch);
                     }
-                }
-
-                // TODO: Call Level.DisplayTiles
-
-                // NOTE: We *should* be able to condense bullets and candies into one list "items"
-                */
+                }                
 
                 _spriteBatch.End();
             }
@@ -249,8 +242,11 @@ namespace Sweet_Dreams
                     break;
             }
 
-            //Draws the Debug Information
-            DebugInfo(_spriteBatch);
+            //Draws the Debug Information if debug mode is on
+            if (debugMode)
+            {
+                DrawDebugInfo(_spriteBatch);
+            }
 
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -260,7 +256,7 @@ namespace Sweet_Dreams
         /// Draws the needing Debuging info to the game screen
         /// </summary>
         /// <param name="sb">The sprite batch needed to draw</param>
-        private void DebugInfo(SpriteBatch sb)
+        private void DrawDebugInfo(SpriteBatch sb)
         {
             //Draws the Mouses's X and Y position
             sb.DrawString(

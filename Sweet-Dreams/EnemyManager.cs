@@ -82,26 +82,13 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Can't nessisarily check untill enemy manager is given a file while the game runs
-        /// Checks if there are any enemys in the enemy list and returns a true and false
+        /// Whether or not all enemies are gone.
         /// </summary>
-        /// <param name="EnemyList"> list of enemys </param>
-        /// <returns> a true or false depending on if the list is null </returns>
-        public bool CheckEnemys(List<Enemy> EnemyList)
+        /// <returns>True if no more enemies exist or will be generated
+        /// in the level, false otherwise.</returns>
+        public bool IsLevelCleared()
         {
-            for (int i = 0; i >= EnemyList.Count; i++)
-            {
-                if (EnemyList[i] == null)
-                {
-                    return false;
-                }
-                else if (EnemyList[i] != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return currentEnemies.Count == 0 && allEnemies.Count == 0;
         }
     }
 }

@@ -176,15 +176,21 @@ namespace Sweet_Dreams
 
 
         /// <summary>
-        /// Draws all the level tile to the console window
+        /// Draws all level tiles to the console window
         /// </summary>
-        public void DisplayTiles(SpriteBatch sb)
+        /// <param name="sb">SpriteBatch to draw with.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        public void DisplayTiles(SpriteBatch sb, Vector2 worldToScreen)
         {
             for(int r = 0; r < tileSet.GetLength(0); r++)
             {
                 for(int c = 0; c < tileSet.GetLength(1); c++)
                 {
-                    tileSet[r, c].Draw(sb);
+                    // Draws all tiles that would be at all visible on the screen
+                    if (tileSet[r, c].IsOnScreen(worldToScreen))
+                    {
+                        tileSet[r, c].Draw(sb);
+                    }
                 }
             }
         }
