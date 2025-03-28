@@ -41,10 +41,10 @@ namespace Sweet_Dreams
         private Vector2 worldToScreen;
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
-        private Texture2D darkDungeon;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
         private List<Enemy> currentEnemyList =  new List<Enemy>();
+        private Level level1;
 
 
         // Whether or not the game is currently in debug mode
@@ -73,8 +73,11 @@ namespace Sweet_Dreams
 
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
-            darkDungeon = Content.Load<Texture2D>("mainlevbuild");
             arial12 = Content.Load<SpriteFont>("arial12");
+
+            // Load the Level
+            level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
+            level1.LoadLevel("../../../Content/Level1.txt");
 
             player = new Player(playerAnimation, 
                 new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
@@ -218,6 +221,9 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     GraphicsDevice.Clear(Color.Honeydew);
+
+                    // Draws Background
+                    level1.DisplayTiles(_spriteBatch);
 
                     //Draws the player
                     player.Draw(_spriteBatch);
