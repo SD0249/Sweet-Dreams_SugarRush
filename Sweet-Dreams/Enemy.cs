@@ -77,7 +77,18 @@ namespace Sweet_Dreams
 
         public override void UpdateAnimation(GameTime gameTime)
         {
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (timer >= spf)
+            {
+                currentFrame++;
+                if (currentFrame >= 3)
+                {
+                    currentFrame = 0;
+                }
+
+                timer -= spf;
+            }
         }
 
         public override void Update(GameTime gameTime)
