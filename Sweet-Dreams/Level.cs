@@ -222,7 +222,7 @@ namespace Sweet_Dreams
             {
                 for(int c = 0; c < column; c++)
                 {
-                    tileSet[c, r].Draw(sb);
+                    tileSet[r, c].Draw(sb);
                 }
             }
         }
