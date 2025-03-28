@@ -41,11 +41,10 @@ namespace Sweet_Dreams
         private Vector2 worldToScreen;
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
-        private Texture2D darkDungeon;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
-        private Level level;
         private bool doorIsReached;
+        private Level level1;
 
         // Whether or not the game is currently in debug mode
         public static bool debugMode;
@@ -73,8 +72,11 @@ namespace Sweet_Dreams
 
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
-            darkDungeon = Content.Load<Texture2D>("mainlevbuild");
             arial12 = Content.Load<SpriteFont>("arial12");
+
+            // Load the Level
+            level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
+            level1.LoadLevel("../../../Content/Level1.txt");
 
             player = new Player(playerAnimation, 
                 new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
@@ -165,7 +167,7 @@ namespace Sweet_Dreams
                 Matrix.CreateTranslation(player.Position.X, player.Position.Y, 0));
 
                 // Draws the level itself
-                level.DisplayTiles(_spriteBatch, worldToScreen);
+                level1.DisplayTiles(_spriteBatch, worldToScreen);
 
                 // Draws all candies that are on screen
                 for (int i = 0; i < collectibles.Count; i++)
