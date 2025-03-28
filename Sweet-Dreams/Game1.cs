@@ -111,11 +111,14 @@ namespace Sweet_Dreams
 
                     // draw game to console
 
+                    // TODO: Initialize fields before uncommenting
+                    /*
                     // Victory when all enemies are gone and the player is touching the door
                     if (enemyManager.IsLevelCleared() && doorIsReached)
                     {
                         gameState = GameState.Win;
                     }
+                    */
 
                     // if the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
@@ -169,6 +172,8 @@ namespace Sweet_Dreams
                 // Draws the level itself
                 level1.DisplayTiles(_spriteBatch, worldToScreen);
 
+                // TODO: Uncomment the following once fields are initialized
+                /*
                 // Draws all candies that are on screen
                 for (int i = 0; i < collectibles.Count; i++)
                 {
@@ -189,6 +194,7 @@ namespace Sweet_Dreams
                         bullets[i].Draw(_spriteBatch);
                     }
                 }                
+                */
 
                 _spriteBatch.End();
             }
