@@ -80,5 +80,28 @@ namespace Sweet_Dreams
         {
 
         }
+
+        /// <summary>
+        /// Can't nessisarily check untill enemy manager is given a file while the game runs
+        /// Checks if there are any enemys in the enemy list and returns a true and false
+        /// </summary>
+        /// <param name="EnemyList"> list of enemys </param>
+        /// <returns> a true or false depending on if the list is null </returns>
+        public bool CheckEnemys(List<Enemy> EnemyList)
+        {
+            for (int i = 0; i >= EnemyList.Count; i++)
+            {
+                if (EnemyList[i] == null)
+                {
+                    return false;
+                }
+                else if (EnemyList[i] != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
