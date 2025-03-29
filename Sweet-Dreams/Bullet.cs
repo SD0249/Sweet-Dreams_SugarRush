@@ -22,6 +22,7 @@ namespace Sweet_Dreams
         private float rotation;
         private Vector2 direction;
         private Vector2 origin;
+        private double reloadTimer;     // This should probably be in Player or Game1
 
         // --------------------------------------------------------------
         // Properties
@@ -29,7 +30,7 @@ namespace Sweet_Dreams
         public int Timer
         {
             // Only need a set to change the timer when a power-up is picked up
-            set { timer = value; }
+            set { reloadTimer = value; }
         }
 
         // --------------------------------------------------------------
@@ -46,7 +47,7 @@ namespace Sweet_Dreams
             origin = new Vector2(position.X, position.Y);
 
             // Since bullets won't have animation, timer is used for reloading
-            this.timer = 1;
+            reloadTimer = 1;
         }
 
 
@@ -71,18 +72,20 @@ namespace Sweet_Dreams
 
         public override void Update(GameTime gameTime)
         {
+            // TODO: Put this stuff in Player or Game1 instead
+            
             mouse = Mouse.GetState();
 
             if (mouse.LeftButton == ButtonState.Pressed &&
-                timer <= 0)
+                reloadTimer <= 0)
             {
                 // Add a new bullet to the public list of bullets
 
                 // Resets the timer for reloading the gun 
-                timer = 1;
+                reloadTimer = 1;
             }
             // Has a 1 second timer between shooting a bullet
-            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 
             // Finding the rotation of the bullet based off the mouse
             rotation = (float)Math.Atan2(mouse.Y, mouse.X);

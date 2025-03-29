@@ -24,9 +24,6 @@ namespace Sweet_Dreams
         protected int screenWidth;
         protected int screenHeight;
         protected int currentFrame;
-        protected double timer;
-        protected double fps;
-        protected double spf;
 
         // --------------------------------------------------------------
         // Properties
@@ -47,7 +44,6 @@ namespace Sweet_Dreams
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
         }
-
 
         // --------------------------------------------------------------
         // Methods

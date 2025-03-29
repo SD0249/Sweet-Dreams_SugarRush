@@ -40,7 +40,7 @@ namespace Sweet_Dreams
 
             // this value will be determine the type of Candy
             // SOURCE RECTANGLE
-            int rngNum = rng.Next(0, 4);
+            int rngNum = rng.Next(5);
             switch (rngNum)
             {
                 case 0:
@@ -64,7 +64,7 @@ namespace Sweet_Dreams
         // METHODS
         public override bool IsOnScreen(Vector2 worldToScreen)
         {
-            return false;
+            return true;
         }
         public override void UpdateAnimation(GameTime gameTime)
         {

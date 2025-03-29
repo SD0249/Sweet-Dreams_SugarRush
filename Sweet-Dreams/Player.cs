@@ -31,7 +31,10 @@ namespace Sweet_Dreams
         private int playerHealth;
         private bool isAlive;
         private Vector2 velocity;
-        
+        private double timer;
+        private double fps;
+        private double spf;
+
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
@@ -56,6 +59,9 @@ namespace Sweet_Dreams
             health = 6;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
+            timer = 0.0;                        // Change these values
+            spf = 0.0;
+            fps = 0.0;
         }
 
 

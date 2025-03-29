@@ -38,8 +38,13 @@ namespace Sweet_Dreams
         // the amount of damage that the Enemy can deal to the player
         private int damage;
 
-        // enemy's speed and direction
-        Vector2 velocity;
+        // the enemy's speed and direction
+        private Vector2 velocity;
+
+        // values needed for the enemy's animation
+        private double timer;
+        private double fps;
+        private double spf;
 
         // CONSTRUCTORS
         /// <summary>
@@ -54,6 +59,11 @@ namespace Sweet_Dreams
             eType = (EnemyType)rng.Next(0, 4);
             CreateEnemy();
 
+            // TODO: Change these values
+            timer = 0.0;
+            spf = 0.0;
+            fps = 0.0;
+
         }
         /// <summary>
         /// Generates chosen enemies
@@ -67,12 +77,16 @@ namespace Sweet_Dreams
             this.eType = eType;
             CreateEnemy();
 
+            // TODO: Change these values
+            timer = 0.0;
+            spf = 0.0;
+            fps = 0.0;
         }
 
         //METHODS
         public override bool IsOnScreen(Vector2 worldToScreen)
         {
-            return false;
+            return true;
         }
 
         public override void UpdateAnimation(GameTime gameTime)
