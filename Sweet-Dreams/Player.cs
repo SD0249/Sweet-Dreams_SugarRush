@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using System.Net.Http;
+//using System.Numerics;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
@@ -34,6 +35,8 @@ namespace Sweet_Dreams
         private double timer;
         private double fps;
         private double spf;
+        private double reloadTimer;
+
 
         // --------------------------------------------------------------
         // Properties
@@ -46,6 +49,11 @@ namespace Sweet_Dreams
         {
             get { return health; }
             set { health = value; }
+        }
+        public double ReloadTimer
+        {
+            get { return reloadTimer; }
+            set { reloadTimer = value; }
         }
 
         // --------------------------------------------------------------
@@ -99,7 +107,7 @@ namespace Sweet_Dreams
         {
             kbState = Keyboard.GetState();
 
-            //Player FSM (incomplete)
+            // Player FSM (incomplete)
             switch (playerState)
             {
 
