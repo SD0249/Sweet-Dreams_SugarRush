@@ -34,15 +34,16 @@ namespace Sweet_Dreams
         private GameState gameState;
         private MouseState mouse;
         private Player player;
+        private Vector2 playerScreenPosition;
         private int screenWidth;
         private int screenHeight;
-        private int worldWidth;
-        private int worldHeight;
         private Vector2 worldToScreen;
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
+        private KeyboardState currentKbState;
+        private KeyboardState previousKbState;
         private bool doorIsReached;
         private Level level1;
 
@@ -81,10 +82,15 @@ namespace Sweet_Dreams
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
             level1.LoadLevel("../../../Content/Level1.txt");
 
+            // Creates the player at its starting world position
             player = new Player(playerAnimation, 
                 new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
-                screenHeight, 
+                screenWidth, 
                 screenHeight);
+
+            // Sets the player's screen position equal to its starting world position.
+            // Its screen position stays constant throughout the game.
+            playerScreenPosition = new Vector2(player.Position.X, player.Position.Y);
         }
 
         protected override void Update(GameTime gameTime)
@@ -122,6 +128,30 @@ namespace Sweet_Dreams
                         gameState = GameState.Win;
                     }
                     */
+
+                    // For testing: Moves the player with arrows
+                    // TODO: Remove this and have the player move inside player.Update()
+                    currentKbState = Keyboard.GetState();
+                    if (currentKbState.IsKeyDown(Keys.Right))
+                    {
+                        player.X += 5;
+                    }
+                    if (currentKbState.IsKeyDown(Keys.Left))
+                    {
+                        player.X -= 5;
+                    }
+                    if (currentKbState.IsKeyDown(Keys.Up))
+                    {
+                        player.Y -= 5;
+                    }
+                    if (currentKbState.IsKeyDown(Keys.Down))
+                    {
+                        player.Y += 5;
+                    }
+
+                    // Updates world to screen offset vector
+                    worldToScreen = new Vector2(playerScreenPosition.X - player.Position.X,
+                        playerScreenPosition.Y - player.Position.X);
 
                     // if the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)

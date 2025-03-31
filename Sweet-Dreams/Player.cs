@@ -48,6 +48,18 @@ namespace Sweet_Dreams
             set { health = value; }
         }
 
+        // TODO: Remove these after testing
+        public int X
+        {
+            get { return position.X; }
+            set { position.X = value; }
+        }
+        public int Y
+        {
+            get { return position.Y; }
+            set { position.Y = value; }
+        }
+
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
@@ -196,6 +208,5 @@ namespace Sweet_Dreams
         {
             return true;
         }
-
     }
 }
