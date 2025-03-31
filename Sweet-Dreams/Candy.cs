@@ -71,9 +71,9 @@ namespace Sweet_Dreams
         {
             // Returns false if any of the following out of bounds conditions are true
             return !(position.X + position.Width < worldToScreen.X      // Too far left
-                || position.X > screenWidth - worldToScreen.X           // Too far right
+                || position.X > screenWidth + worldToScreen.X           // Too far right
                 || position.Y + position.Height < worldToScreen.Y       // Too far up
-                || position.Y > screenHeight - worldToScreen.Y);        // Too far down
+                || position.Y > screenHeight + worldToScreen.Y);        // Too far down
         }
         public override void UpdateAnimation(GameTime gameTime)
         {
