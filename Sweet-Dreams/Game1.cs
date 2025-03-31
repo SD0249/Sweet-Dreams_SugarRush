@@ -40,6 +40,7 @@ namespace Sweet_Dreams
         private Vector2 worldToScreen;
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
+        private Texture2D candySprites;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
         private KeyboardState currentKbState;
@@ -61,6 +62,8 @@ namespace Sweet_Dreams
         {
             screenHeight = _graphics.GraphicsDevice.Viewport.Height;
             screenWidth = _graphics.GraphicsDevice.Viewport.Width;
+            bullets = new List<Bullet>();
+            debugMode = true;
 
             // WorldToScreen initialized for testing
             worldToScreen = new Vector2(0, 0);
@@ -77,6 +80,7 @@ namespace Sweet_Dreams
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
+            candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
 
             // Load the Level
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
@@ -104,26 +108,26 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
-                    // draw menu to console
+                    // Draw menu to console
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
                         gameState = GameState.Game;
                     }
 
-                    // if button is pressed?
-                    // need button class
+                    // If button is pressed?
+                    // Need button class
 
                     break;
 
                 case GameState.Game:
 
-                    // draw game to console
+                    // Draw game to console
 
                     // TODO: Initialize fields before uncommenting
                     /*
                     // Victory when all enemies are gone and the player is touching the door
-                    if (enemyManager.IsLevelCleared() && doorIsReached)
+                    // if (enemyManager.IsLevelCleared() && doorIsReached)
                     {
                         gameState = GameState.Win;
                     }
@@ -153,7 +157,26 @@ namespace Sweet_Dreams
                     worldToScreen = new Vector2(playerScreenPosition.X - player.Position.X,
                         playerScreenPosition.Y - player.Position.X);
 
-                    // if the player is dead the game state changes to lose
+                    // Checks for a left click and bullet timer to shoot
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        player.ReloadTimer <= 0)
+                    {
+                        // Makes a new bullet every time you shoot
+                        bullets.Add(new Bullet(candySprites, player.Position, screenWidth, screenHeight));
+
+                        // Resets the timer for reloading the gun 
+                        player.ReloadTimer = 1;
+                    }
+                    // Has a 1 second timer between shooting a bullet
+                    player.ReloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                    // Updates all bullets
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        bullets[i].Update(gameTime);
+                    }
+
+                    // If the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
                     {
                         gameState = GameState.Lose;
@@ -163,7 +186,7 @@ namespace Sweet_Dreams
 
                 case GameState.Win:
 
-                    // draw win screen to console
+                    // Draw win screen to console
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
@@ -174,8 +197,8 @@ namespace Sweet_Dreams
 
                 case GameState.Lose:
 
-                    // draw game over to console
-                    // press enter to continue back to home screen 
+                    // Draw game over to console
+                    // Press enter to continue back to home screen 
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
@@ -185,7 +208,7 @@ namespace Sweet_Dreams
                     break;
             }
             
-            //Update Methods for the player
+            // Update Methods for the player
             player.Update(gameTime);
             player.UpdateAnimation(gameTime);
 
@@ -218,6 +241,7 @@ namespace Sweet_Dreams
 
                 // Draws all enemies that are on screen
                 enemyManager.DrawAll(_spriteBatch, worldToScreen);
+                */
 
                 // Draws all bullets that are on screen
                 for (int i = 0; i < bullets.Count; i++)
@@ -227,7 +251,7 @@ namespace Sweet_Dreams
                         bullets[i].Draw(_spriteBatch);
                     }
                 }                
-                */
+                
 
                 _spriteBatch.End();
             }

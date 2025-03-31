@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /* Nick Sailor, Ayvin Krug
+     * Purpose: */
     public class Bullet : GameObject
     {
         // --------------------------------------------------------------
@@ -23,16 +25,11 @@ namespace Sweet_Dreams
         private float rotation;
         private Vector2 direction;
         private Vector2 origin;
-        private double reloadTimer;     // This should probably be in Player or Game1
 
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        public int Timer
-        {
-            // Only need a set to change the timer when a power-up is picked up
-            set { reloadTimer = value; }
-        }
+        
 
         // --------------------------------------------------------------
         // Constructor
@@ -43,12 +40,14 @@ namespace Sweet_Dreams
             this.asset = asset;
             this.position = position;
             speed = 50;
+            mouse = Mouse.GetState();
+
 
             // The origin of the bullets will always be the starting position
             origin = new Vector2(position.X, position.Y);
 
-            // Since bullets won't have animation, timer is used for reloading
-            reloadTimer = 1;
+            
+
         }
 
 
@@ -82,46 +81,33 @@ namespace Sweet_Dreams
 
         public override void Update(GameTime gameTime)
         {
-            // TODO: Put this stuff in Player or Game1 instead
-            
             mouse = Mouse.GetState();
-
-            if (mouse.LeftButton == ButtonState.Pressed &&
-                reloadTimer <= 0)
-            {
-                // Add a new bullet to the public list of bullets
-
-                // Resets the timer for reloading the gun 
-                reloadTimer = 1;
-            }
-            // Has a 1 second timer between shooting a bullet
-            reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-
+            
             // Finding the rotation of the bullet based off the mouse
             rotation = (float)Math.Atan2(mouse.Y, mouse.X);
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 
+
             // Changing the bullets position
             position.X += (int)direction.X * speed;
             position.Y += (int)direction.Y * speed;
 
-            // Use this youtube video to help with shooting bullets
-            //https://www.youtube.com/watch?v=yESHtmwYgDY&t=513s
         }
 
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(
                 asset,
-                position,
-                null,
+                new Rectangle(position.X, position.Y, 64, 64),
+                new Rectangle(0, 0, 16, 16),
                 Color.White,
                 rotation,
                 origin,
                 SpriteEffects.None,
                 0);
+
         }
     }
 }

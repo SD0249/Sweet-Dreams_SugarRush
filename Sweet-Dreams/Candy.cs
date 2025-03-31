@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /* Brooke Maciejewski, Ayvin Krug
+     * Purpose: A Level class that uses the LevelTile objects as 
+     *          the basic building blocks of a level background. 
+     *          Loads information from the file and constructs the level accordingly. */
     public enum CandyType
     {
         SkullCandy,
