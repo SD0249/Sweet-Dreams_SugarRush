@@ -61,6 +61,9 @@ namespace Sweet_Dreams
             screenHeight = _graphics.GraphicsDevice.Viewport.Height;
             screenWidth = _graphics.GraphicsDevice.Viewport.Width;
 
+            // WorldToScreen initialized for testing
+            worldToScreen = new Vector2(0, 0);
+
             mouse = Mouse.GetState();
 
             base.Initialize();
@@ -220,7 +223,7 @@ namespace Sweet_Dreams
 
                     GraphicsDevice.Clear(Color.Black);
 
-                    level1.DisplayTiles(_spriteBatch);
+                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
 
                     //Draws the player
                     player.Draw(_spriteBatch);
