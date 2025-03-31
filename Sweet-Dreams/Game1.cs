@@ -175,6 +175,9 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Update(gameTime);
                     }
+                    // Update Methods for the player
+                    player.Update(gameTime);
+                    player.UpdateAnimation(gameTime);
 
                     // If the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
@@ -208,9 +211,6 @@ namespace Sweet_Dreams
                     break;
             }
             
-            // Update Methods for the player
-            player.Update(gameTime);
-            player.UpdateAnimation(gameTime);
 
             base.Update(gameTime);
         }
@@ -244,13 +244,7 @@ namespace Sweet_Dreams
                 */
 
                 // Draws all bullets that are on screen
-                for (int i = 0; i < bullets.Count; i++)
-                {
-                    if (bullets[i].IsOnScreen(worldToScreen))
-                    {
-                        bullets[i].Draw(_spriteBatch);
-                    }
-                }                
+                             
                 
 
                 _spriteBatch.End();
@@ -281,6 +275,14 @@ namespace Sweet_Dreams
 
                     //Draws the player
                     player.Draw(_spriteBatch);
+
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        if (bullets[i].IsOnScreen(worldToScreen))
+                        {
+                            bullets[i].Draw(_spriteBatch);
+                        }
+                    }
 
                     break;
 
@@ -342,8 +344,15 @@ namespace Sweet_Dreams
             //Draws the current state of the player
             sb.DrawString(
                 arial12,
-                $"Game's State: {player.PlayerState}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 74),
+                $"Player's State: {player.PlayerState}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 72),
+                Color.Black);
+
+            //Draws the current number of bullets
+            sb.DrawString(
+                arial12,
+                $"Bullet Count: {bullets.Count}",
+                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 98),
                 Color.Black);
         }
     }

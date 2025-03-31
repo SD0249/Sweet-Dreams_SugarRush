@@ -41,6 +41,11 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
+        public Rectangle Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
         public PlayerState PlayerState
         {
             get { return playerState; }

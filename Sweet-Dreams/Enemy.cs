@@ -24,8 +24,9 @@ namespace Sweet_Dreams
     }
     public class Enemy : GameObject
     {
-        // FIELDS
-
+        // --------------------------------------------------------------
+        // Fields
+        // --------------------------------------------------------------
         // the type of Enemy
         private EnemyType eType;
 
@@ -46,7 +47,14 @@ namespace Sweet_Dreams
         private double fps;
         private double spf;
 
-        // CONSTRUCTORS
+        // --------------------------------------------------------------
+        // Properties
+        // --------------------------------------------------------------
+        
+
+        // --------------------------------------------------------------
+        // Constructors
+        // --------------------------------------------------------------
         /// <summary>
         /// Randomly generates an Enemy
         /// </summary>
@@ -83,7 +91,9 @@ namespace Sweet_Dreams
             fps = 0.0;
         }
 
-        //METHODS
+        // --------------------------------------------------------------
+        // Methods
+        // --------------------------------------------------------------
         /// <summary>
         /// Determines whether an object is at all visible on screen.
         /// </summary>
