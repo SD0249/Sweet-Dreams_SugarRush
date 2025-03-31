@@ -170,7 +170,7 @@ namespace Sweet_Dreams
                 Matrix.CreateTranslation(player.Position.X, player.Position.Y, 0));
 
                 // Draws the level itself
-                level1.DisplayTiles(_spriteBatch, worldToScreen);
+                // level1.DisplayTiles(_spriteBatch);
 
                 // TODO: Uncomment the following once fields are initialized
                 /*
@@ -218,7 +218,9 @@ namespace Sweet_Dreams
 
                 case GameState.Game:
 
-                    GraphicsDevice.Clear(Color.Honeydew);
+                    GraphicsDevice.Clear(Color.Black);
+
+                    level1.DisplayTiles(_spriteBatch);
 
                     //Draws the player
                     player.Draw(_spriteBatch);
