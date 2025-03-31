@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    /* Amy Lee
+    /* Amy Lee, Ayvin Krug
      * Purpose: A Level class that uses the LevelTile objects as 
      *          the basic building blocks of a level background. 
      *          Loads information from the file and constructs the level accordingly. */

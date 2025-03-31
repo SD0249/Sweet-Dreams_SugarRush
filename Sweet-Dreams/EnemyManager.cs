@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace Sweet_Dreams
 {
     /// <summary>
+    /// Ayvin Krug
     /// Draws and updates all enemies in a level.
     /// </summary>
     public class EnemyManager

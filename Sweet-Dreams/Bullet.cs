@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /* Nick Sailor, Ayvin Krug
+     * Purpose: */
     public class Bullet : GameObject
     {
         // --------------------------------------------------------------
