@@ -64,7 +64,7 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="worldToScreen">World to screen offset vector.</param>
         /// <returns>Whether or not the tile is at all visible on the screen.</returns>
-        public bool IsOnScreen(Vector2 worldToScreen)
+        public bool IsOnScreen(Vector2 worldToScreen, int screenWidth, int screenHeight)
         {
             // TODO: Using tile size and worldToScreen, determine whether
             // or not any pixil of the tile is on screen
