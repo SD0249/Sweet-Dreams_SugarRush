@@ -68,7 +68,10 @@ namespace Sweet_Dreams
         {
             // TODO: Using tile size and worldToScreen, determine whether
             // or not any pixil of the tile is on screen
-            return true;
+            return !(drawnRectangle.X + drawnRectangle.Width < worldToScreen.X      // Too far left
+                || drawnRectangle.X > screenWidth - worldToScreen.X                 // Too far right
+                || drawnRectangle.Y + drawnRectangle.Height < worldToScreen.Y       // Too far up
+                || drawnRectangle.Y > screenHeight - worldToScreen.Y);              // Too far down
         }
     }
 }
