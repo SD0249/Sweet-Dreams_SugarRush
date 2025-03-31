@@ -188,10 +188,10 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Player is always on screen, this method is mostly for Bullet & Enemy
+        /// Player is always on screen. This method is mostly for Bullet, Enemy, and Candy
         /// </summary>
         /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
-        /// <returns></returns>
+        /// <returns>Always true.</returns>
         public override bool IsOnScreen(Vector2 worldToScreen)
         {
             return true;
