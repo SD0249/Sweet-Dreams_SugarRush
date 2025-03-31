@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /* Nick Sailor, Ayvin Krug
+     * Purpose: */
     public class Bullet : GameObject
     {
         // --------------------------------------------------------------
@@ -52,9 +55,18 @@ namespace Sweet_Dreams
         // Methods
         // --------------------------------------------------------------
 
+        /// <summary>
+        /// Determines whether an object is at all visible on screen.
+        /// </summary>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        /// <returns>True if any part of the object is on screen.</returns>
         public override bool IsOnScreen(Vector2 worldToScreen)
         {
-            return true;
+            // Returns false if any of the following out of bounds conditions are true
+            return !(position.X + position.Width < worldToScreen.X      // Too far left
+                || position.X > screenWidth + worldToScreen.X           // Too far right
+                || position.Y + position.Height < worldToScreen.Y       // Too far up
+                || position.Y > screenHeight + worldToScreen.Y);        // Too far down
         }
 
         /// <summary>

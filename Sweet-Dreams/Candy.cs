@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /* Brooke Maciejewski, Ayvin Krug
+     * Purpose: A Level class that uses the LevelTile objects as 
+     *          the basic building blocks of a level background. 
+     *          Loads information from the file and constructs the level accordingly. */
     public enum CandyType
     {
         SkullCandy,
@@ -62,9 +66,18 @@ namespace Sweet_Dreams
         }
 
         // METHODS
+        /// <summary>
+        /// Determines whether an object is at all visible on screen.
+        /// </summary>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        /// <returns>True if any part of the object is on screen.</returns>
         public override bool IsOnScreen(Vector2 worldToScreen)
         {
-            return true;
+            // Returns false if any of the following out of bounds conditions are true
+            return !(position.X + position.Width < worldToScreen.X      // Too far left
+                || position.X > screenWidth + worldToScreen.X           // Too far right
+                || position.Y + position.Height < worldToScreen.Y       // Too far up
+                || position.Y > screenHeight + worldToScreen.Y);        // Too far down
         }
         public override void UpdateAnimation(GameTime gameTime)
         {

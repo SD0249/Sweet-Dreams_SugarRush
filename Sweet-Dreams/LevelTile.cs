@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    /* Amy Lee
+    /* Amy Lee, Ayvin Krug
      * Purpose: A LevelTile class to represent a single tile that 
      *          will be used to form a level from the level class. */
     public class LevelTile
@@ -64,11 +64,14 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="worldToScreen">World to screen offset vector.</param>
         /// <returns>Whether or not the tile is at all visible on the screen.</returns>
-        public bool IsOnScreen(Vector2 worldToScreen)
+        public bool IsOnScreen(Vector2 worldToScreen, int screenWidth, int screenHeight)
         {
             // TODO: Using tile size and worldToScreen, determine whether
             // or not any pixil of the tile is on screen
-            return true;
+            return !(drawnRectangle.X + drawnRectangle.Width < worldToScreen.X      // Too far left
+                || drawnRectangle.X > screenWidth - worldToScreen.X                 // Too far right
+                || drawnRectangle.Y + drawnRectangle.Height < worldToScreen.Y       // Too far up
+                || drawnRectangle.Y > screenHeight - worldToScreen.Y);              // Too far down
         }
     }
 }

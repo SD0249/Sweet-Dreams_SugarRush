@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    /* Amy Lee
+    /* Amy Lee, Ayvin Krug
      * Purpose: A Level class that uses the LevelTile objects as 
      *          the basic building blocks of a level background. 
      *          Loads information from the file and constructs the level accordingly. */
@@ -187,7 +187,7 @@ namespace Sweet_Dreams
                             // Before populating the tileSet,
                             // calculate the x and y position on the window to place a tile
                             int xPosition = c * intendedSize;
-                            int yPosition = rowCount;
+                            int yPosition = rowCount * intendedSize;
 
                             // Store each level tile object to the tileSet field.
                             tileSet[c, rowCount] = new LevelTile(spriteSheet,
@@ -218,14 +218,14 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="sb">SpriteBatch to draw with.</param>
         /// <param name="worldToScreen">World to screen offset vector.</param>
-        public void DisplayTiles(SpriteBatch sb, Vector2 worldToScreen)
+        public void DisplayTiles(SpriteBatch sb, Vector2 worldToScreen, int screenWidth, int screenHeight)
         {
             for(int r = 0; r < row; r++)
             {
                 for(int c = 0; c < column; c++)
                 {
                     // Draws all tiles that would be at all visible on the screen
-                    if (tileSet[r, c].IsOnScreen(worldToScreen))
+                    if (tileSet[r, c].IsOnScreen(worldToScreen, screenWidth, screenHeight))
                     {
                         tileSet[r, c].Draw(sb);
                     }
