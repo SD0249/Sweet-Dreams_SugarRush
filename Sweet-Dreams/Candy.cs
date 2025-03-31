@@ -25,7 +25,9 @@ namespace Sweet_Dreams
     }
     public class Candy : GameObject
     {
-        // FIELDS
+        // --------------------------------------------------------------
+        // Fields
+        // --------------------------------------------------------------
         // the type of candy that will appear on screen
         CandyType cType;
 
@@ -35,7 +37,14 @@ namespace Sweet_Dreams
         // source Rectangle
         Rectangle sourceRectangle;
 
-        // CONSTRUCTORS
+        // --------------------------------------------------------------
+        // Properties
+        // --------------------------------------------------------------
+
+
+        // --------------------------------------------------------------
+        // Constructor
+        // --------------------------------------------------------------
         public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
             : base(asset, position, screenWidth, screenHeight)
         {
@@ -65,7 +74,9 @@ namespace Sweet_Dreams
             }
         }
 
-        // METHODS
+        // --------------------------------------------------------------
+        // Methods
+        // --------------------------------------------------------------
         /// <summary>
         /// Determines whether an object is at all visible on screen.
         /// </summary>
