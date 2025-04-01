@@ -175,10 +175,11 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Update(gameTime);
                     }
+
                     // Update Methods for the player
                     player.Update(gameTime);
                     player.UpdateAnimation(gameTime);
-
+                    
                     // If the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
                     {
@@ -217,16 +218,18 @@ namespace Sweet_Dreams
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Black);
+
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
             if (gameState == GameState.Game)
             {
             // Draws everything whose position needs to be translated
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
-                Matrix.CreateTranslation(player.Position.X, player.Position.Y, 0));
+                Matrix.CreateTranslation(-player.Position.X, -player.Position.Y, 0));
 
                 // Draws the level itself
-                // level1.DisplayTiles(_spriteBatch);
+                level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
 
                 // TODO: Uncomment the following once fields are initialized
                 /*
@@ -243,9 +246,17 @@ namespace Sweet_Dreams
                 enemyManager.DrawAll(_spriteBatch, worldToScreen);
                 */
 
-                // Draws all bullets that are on screen
-                             
-                
+                // Draws all bullets
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if (bullets[i].IsOnScreen(worldToScreen))
+                    {
+                        bullets[i].Draw(_spriteBatch);
+                    }
+                }
+
+                // Draws the player
+                player.Draw(_spriteBatch);
 
                 _spriteBatch.End();
             }
@@ -257,8 +268,6 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
-                    GraphicsDevice.Clear(Color.Black);
-
                     _spriteBatch.DrawString(
                         arial12,
                         "         Sweet Dreams\n Press enter to start game",
@@ -269,38 +278,21 @@ namespace Sweet_Dreams
 
                 case GameState.Game:
 
-                    GraphicsDevice.Clear(Color.Black);
-
-                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
-
-                    //Draws the player
-                    player.Draw(_spriteBatch);
-
-                    for (int i = 0; i < bullets.Count; i++)
-                    {
-                        if (bullets[i].IsOnScreen(worldToScreen))
-                        {
-                            bullets[i].Draw(_spriteBatch);
-                        }
-                    }
-
                     break;
 
                 case GameState.Win:
 
-                    GraphicsDevice.Clear(Color.Honeydew);
+                    // GraphicsDevice.Clear(Color.Honeydew);
 
                     _spriteBatch.DrawString(
                         arial12,
                         "#YouWon",
                         new Vector2(300, 200),
-                        Color.Black);
+                        Color.White);
 
                     break;
 
                 case GameState.Lose:
-
-                    GraphicsDevice.Clear(Color.Black);
 
                     _spriteBatch.DrawString(
                         arial12,
@@ -311,7 +303,7 @@ namespace Sweet_Dreams
                     break;
             }
 
-            //Draws the Debug Information if debug mode is on
+            // Draws the Debug Information if debug mode is on
             if (debugMode)
             {
                 DrawDebugInfo(_spriteBatch);
@@ -331,29 +323,43 @@ namespace Sweet_Dreams
             sb.DrawString(
                 arial12,
                 $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 24),
-                Color.Black);
+                new Vector2(10, screenHeight - 24),
+                Color.White);
 
             //Draws the current state of the game
             sb.DrawString(
                 arial12,
                 $"Game's State: {gameState}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 48),
-                Color.Black);
+                new Vector2(10, screenHeight - 48),
+                Color.White);
 
             //Draws the current state of the player
             sb.DrawString(
                 arial12,
                 $"Player's State: {player.PlayerState}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 72),
-                Color.Black);
+                new Vector2(10, screenHeight - 72),
+                Color.White);
 
             //Draws the current number of bullets
             sb.DrawString(
                 arial12,
                 $"Bullet Count: {bullets.Count}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 98),
-                Color.Black);
+                new Vector2(10, screenHeight - 98),
+                Color.White);
+
+            //Draws the player's screen position
+            sb.DrawString(
+                arial12,
+                $"Player Screen Position: {playerScreenPosition.X}, {playerScreenPosition.Y}",
+                new Vector2(10,screenHeight - 124),
+                Color.White);
+
+            //Draws the player's world position
+            sb.DrawString(
+                arial12,
+                $"Player World Position: {player.Position.X}, {player.Position.Y}",
+                new Vector2(10, screenHeight - 150),
+                Color.White);
         }
     }
 }

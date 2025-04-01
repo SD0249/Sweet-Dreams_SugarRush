@@ -61,7 +61,7 @@ namespace Sweet_Dreams
             set { reloadTimer = value; }
         }
 
-        // TODO: Remove these after testing
+        // TODO: Remove these movement control properties after testing
         public int X
         {
             get { return position.X; }
