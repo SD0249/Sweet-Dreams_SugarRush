@@ -40,6 +40,10 @@ namespace Sweet_Dreams
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
         private Texture2D candySprites;
+        private Texture2D cloakSprite;
+        private Texture2D impSprite;
+        private Texture2D mouthDemonSprite;
+        private Texture2D hornDemonSprite;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
         private KeyboardState currentKbState;
@@ -84,6 +88,10 @@ namespace Sweet_Dreams
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
+            cloakSprite = Content.Load<Texture2D>("Necromancer_Animation");
+            impSprite = Content.Load<Texture2D>("ImpSpriteSheet");
+            mouthDemonSprite = Content.Load<Texture2D>("MouthDemonSpriteSheet");
+            hornDemonSprite = Content.Load<Texture2D>("HornDemon_SpriteSheet");
 
             // Load the Level
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
