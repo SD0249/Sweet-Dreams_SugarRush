@@ -174,6 +174,7 @@ namespace Sweet_Dreams
                     for (int i = 0; i < bullets.Count; i++)
                     {
                         bullets[i].Update(gameTime, worldToScreen);
+
                     }
                     
                     // If the player is dead the game state changes to lose
