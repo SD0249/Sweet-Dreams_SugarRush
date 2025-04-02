@@ -42,18 +42,18 @@ namespace Sweet_Dreams
         {
             get
             {
-                return screenPosition.X + screenPosition.Width < 0
-                    || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight;
+                return !(screenPosition.X - screenPosition.Width/2 > screenPosition.X
+                    || screenPosition.X < screenPosition.Height
+                    || screenPosition.Y - screenPosition.Height/2 > screenPosition.Y
+                    || screenPosition.Y < screenPosition.Height);
             }
         }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
-        :base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+        public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, int screenWidth, int screenHeight)
+        :base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
             speed = 10;
@@ -92,8 +92,8 @@ namespace Sweet_Dreams
 
             // Updates screen position
             screenPosition = new Rectangle(
-                worldPosition.X - (int)worldToScreen.X,
-                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.X + (int)worldToScreen.X,
+                worldPosition.Y + (int)worldToScreen.Y,
                 worldPosition.Width,
                 worldPosition.Height);
         }
@@ -102,13 +102,15 @@ namespace Sweet_Dreams
         {
             sb.Draw(
                 asset,
-                new Rectangle(worldPosition.X + 15, worldPosition.Y + 10, 16, 16),
+                new Rectangle(screenPosition.X + 15, screenPosition.Y + 10, 16, 16),
                 new Rectangle(0, 0, 16, 16),
                 Color.White,
                 rotation - 0.78f,
                 origin,
                 SpriteEffects.None,
                 1);
+
+            DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
         }
     }
 }
