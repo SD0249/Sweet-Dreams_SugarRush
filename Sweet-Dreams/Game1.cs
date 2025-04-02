@@ -34,7 +34,6 @@ namespace Sweet_Dreams
         private GameState gameState;
         private MouseState mouse;
         private Player player;
-        private Vector2 playerScreenPosition;
         private int screenWidth;
         private int screenHeight;
         private Vector2 worldToScreen;
@@ -86,15 +85,12 @@ namespace Sweet_Dreams
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
             level1.LoadLevel("../../../Content/Level1.txt");
 
-            // Creates the player at its starting world position
+            // Creates the player at its starting world and screen positions
             player = new Player(playerAnimation, 
-                new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
+                new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54),
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
                 screenWidth, 
                 screenHeight);
-
-            // Sets the player's screen position equal to its starting world position.
-            // Its screen position stays constant throughout the game.
-            playerScreenPosition = new Vector2(player.Position.X, player.Position.Y);
         }
 
         protected override void Update(GameTime gameTime)
@@ -175,11 +171,11 @@ namespace Sweet_Dreams
                     // Updates all bullets
                     for (int i = 0; i < bullets.Count; i++)
                     {
-                        bullets[i].Update(gameTime);
+                        bullets[i].Update(gameTime, worldToScreen);
                     }
 
                     // Update Methods for the player
-                    player.Update(gameTime);
+                    player.Update(gameTime, worldToScreen);
                     player.UpdateAnimation(gameTime);
                     
                     // If the player is dead the game state changes to lose
@@ -274,7 +270,7 @@ namespace Sweet_Dreams
                     // Draws all bullets
                     for (int i = 0; i < bullets.Count; i++)
                     {
-                        if (bullets[i].IsOnScreen(worldToScreen))
+                        if (bullets[i].IsOnScreen)
                         {
                             bullets[i].Draw(_spriteBatch);
                         }
@@ -352,6 +348,7 @@ namespace Sweet_Dreams
                 new Vector2(10, screenHeight - 98),
                 Color.White);
 
+            /*
             //Draws the player's screen position
             sb.DrawString(
                 arial12,
@@ -365,6 +362,7 @@ namespace Sweet_Dreams
                 $"Player World Position: {player.Position.X}, {player.Position.Y}",
                 new Vector2(10, screenHeight - 150),
                 Color.White);
+            */
         }
     }
 }
