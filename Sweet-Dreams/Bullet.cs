@@ -105,7 +105,7 @@ namespace Sweet_Dreams
                 new Rectangle(worldPosition.X + 15, worldPosition.Y + 10, 16, 16),
                 new Rectangle(0, 0, 16, 16),
                 Color.White,
-                (rotation - 0.78f),
+                rotation - 0.78f,
                 origin,
                 SpriteEffects.None,
                 1);

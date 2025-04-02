@@ -59,13 +59,16 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
+            // Screen dimensions
             screenHeight = _graphics.GraphicsDevice.Viewport.Height;
             screenWidth = _graphics.GraphicsDevice.Viewport.Width;
-            bullets = new List<Bullet>();
-            debugMode = true;
 
-            // WorldToScreen initialized for testing
-            worldToScreen = new Vector2(0, 0);
+            // Lists to hold all candies and bullets currently in the world
+            bullets = new List<Bullet>();
+            collectibles = new List<Candy>();
+
+            // Debug mode is on for testing
+            debugMode = true;
 
             mouse = Mouse.GetState();
 
@@ -76,6 +79,7 @@ namespace Sweet_Dreams
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Loads assets
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
@@ -87,10 +91,14 @@ namespace Sweet_Dreams
 
             // Creates the player at its starting world and screen positions
             player = new Player(playerAnimation, 
-                new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54),
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
                 new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
                 screenWidth, 
                 screenHeight);
+
+            // Determines world to screen offset vector
+            worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
+                      player.ScreenPosition.Y - player.WorldPosition.Y);
         }
 
         protected override void Update(GameTime gameTime)
@@ -100,13 +108,17 @@ namespace Sweet_Dreams
 
             mouse = Mouse.GetState();
 
+            // Updates current and previous keyboard states
+            previousKbState = currentKbState;
+            currentKbState = Keyboard.GetState();
+
             switch (gameState)
             {
                 case GameState.Menu:
 
                     // Draw menu to console
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    if (currentKbState.IsKeyDown(Keys.Enter))
                     {
                         gameState = GameState.Game;
                     }
@@ -129,38 +141,20 @@ namespace Sweet_Dreams
                     }
                     */
 
-                    // For testing: Moves the player with arrows
-                    // TODO: Remove this and have the player move inside player.Update()
-                    currentKbState = Keyboard.GetState();
-                    if (currentKbState.IsKeyDown(Keys.Right))
-                    {
-                        player.X += 5;
-                    }
-                    if (currentKbState.IsKeyDown(Keys.Left))
-                    {
-                        player.X -= 5;
-                    }
-                    if (currentKbState.IsKeyDown(Keys.Up))
-                    {
-                        player.Y -= 5;
-                    }
-                    if (currentKbState.IsKeyDown(Keys.Down))
-                    {
-                        player.Y += 5;
-                    }
+                    // Updates the player
+                    player.Update(gameTime, worldToScreen);
+                    player.UpdateAnimation(gameTime);
 
                     // Updates world to screen offset vector
-                    //worldToScreen = new Vector2(playerScreenPosition.X - player.Position.X,
-                    //  playerScreenPosition.Y - player.Position.X);
-                    // TODO: Uncomment this once player position works properly
-                    worldToScreen = new Vector2(0, 0);
+                    worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
+                      player.ScreenPosition.Y - player.WorldPosition.Y);
 
                     // Checks for a left click and bullet timer to shoot
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         player.ReloadTimer <= 0)
                     {
                         // Makes a new bullet every time you shoot
-                        bullets.Add(new Bullet(candySprites, player.Position, screenWidth, screenHeight));
+                        bullets.Add(new Bullet(candySprites, player.WorldPosition, screenWidth, screenHeight));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -173,10 +167,6 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Update(gameTime, worldToScreen);
                     }
-
-                    // Update Methods for the player
-                    player.Update(gameTime, worldToScreen);
-                    player.UpdateAnimation(gameTime);
                     
                     // If the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
@@ -347,22 +337,27 @@ namespace Sweet_Dreams
                 $"Bullet Count: {bullets.Count}",
                 new Vector2(10, screenHeight - 98),
                 Color.White);
-
-            /*
+            
             //Draws the player's screen position
             sb.DrawString(
                 arial12,
-                $"Player Screen Position: {playerScreenPosition.X}, {playerScreenPosition.Y}",
+                $"Player Screen Position: {player.ScreenPosition.X}, {player.ScreenPosition.Y}",
                 new Vector2(10,screenHeight - 124),
                 Color.White);
 
             //Draws the player's world position
             sb.DrawString(
                 arial12,
-                $"Player World Position: {player.Position.X}, {player.Position.Y}",
+                $"Player World Position: {player.WorldPosition.X}, {player.WorldPosition.Y}",
                 new Vector2(10, screenHeight - 150),
                 Color.White);
-            */
+
+            //Draws worldToScreen vector components
+            sb.DrawString(
+                arial12,
+                $"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
+                new Vector2(10, screenHeight - 176),
+                Color.White);
         }
     }
 }

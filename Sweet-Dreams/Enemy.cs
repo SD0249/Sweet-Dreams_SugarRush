@@ -142,7 +142,7 @@ namespace Sweet_Dreams
             // CLOAK
             sb.Draw(
                 asset,
-                screenPosition,
+                worldPosition,
                 new Rectangle(2, 7, 12, 15), // x, y, width, height
                 Color.White);
 

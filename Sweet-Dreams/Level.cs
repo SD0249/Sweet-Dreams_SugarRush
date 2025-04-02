@@ -224,11 +224,14 @@ namespace Sweet_Dreams
             {
                 for(int c = 0; c < column; c++)
                 {
-                    // Draws all tiles that would be at all visible on the screen
-                    if (tileSet[r, c].IsOnScreen(worldToScreen, screenWidth, screenHeight))
-                    {
-                        tileSet[r, c].Draw(sb);
-                    }
+                    //// Draws all tiles that would be at all visible on the screen
+                    //if (tileSet[r, c].IsOnScreen(worldToScreen, screenWidth, screenHeight))
+                    //{
+                    //    tileSet[r, c].Draw(sb);
+                    //}
+
+                    // For testing, draws all tiles even if they're off screen
+                    tileSet[r, c].Draw(sb, worldToScreen);
                 }
             }
         }

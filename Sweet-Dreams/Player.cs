@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using System.Net.Http;
-//using System.Numerics;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
@@ -26,7 +25,6 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         private PlayerState playerState;
-        private KeyboardState kbState;
         private int health;
         private double stunTimer;
         private int playerHealth;
@@ -40,10 +38,14 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        public Rectangle Position
+        
+        public Rectangle WorldPosition
         {
             get { return worldPosition; }
-            set { worldPosition = value; }
+        }
+        public Rectangle ScreenPosition
+        {
+            get { return screenPosition; }
         }
         public PlayerState PlayerState
         {
@@ -60,20 +62,8 @@ namespace Sweet_Dreams
             set { reloadTimer = value; }
         }
 
-        // TODO: Remove these movement control properties after testing
-        public int X
-        {
-            get { return worldPosition.X; }
-            set { worldPosition.X = value; }
-        }
-        public int Y
-        {
-            get { return worldPosition.Y; }
-            set { worldPosition.Y = value; }
-        }
-
         /// <summary>
-        /// Whether or not any part of the object is visible on the screen.
+        /// Whether or not the object is visible. Always true for the player.
         /// </summary>
         public bool IsOnScreen
         {
@@ -94,7 +84,6 @@ namespace Sweet_Dreams
             spf = 0.0;
             fps = 0.0;
         }
-
 
         // --------------------------------------------------------------
         // Methods
@@ -129,10 +118,25 @@ namespace Sweet_Dreams
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             // Updates world position based on keyboard input
-            
-            // Screen position does not need to be updated
+            KeyboardState kbState = Keyboard.GetState();
 
-            kbState = Keyboard.GetState();
+            // TODO: Remove this test movement and use velocity inside of FSM instead
+            if (kbState.IsKeyDown(Keys.Right))
+            {
+                worldPosition.X += 5;
+            }
+            if (kbState.IsKeyDown(Keys.Left))
+            {
+                worldPosition.X -= 5;
+            }
+            if (kbState.IsKeyDown(Keys.Up))
+            {
+                worldPosition.Y -= 5;
+            }
+            if (kbState.IsKeyDown(Keys.Down))
+            {
+                worldPosition.Y += 5;
+            }
 
             // Player FSM (incomplete)
             switch (playerState)
