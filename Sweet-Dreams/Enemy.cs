@@ -184,7 +184,7 @@ namespace Sweet_Dreams
         public bool CollidesWith()
         {
             // if the Enemy position intersects with the player position
-            if (worldPosition.Intersects())
+            //if (worldPosition.Intersects())
             return false;
         }
 
