@@ -47,10 +47,10 @@ namespace Sweet_Dreams
         {
             get
             {
-                return screenPosition.X + screenPosition.Width < 0
+                return !(screenPosition.X + screenPosition.Width < 0
                     || screenPosition.X > screenWidth
                     || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight;
+                    || screenPosition.Y > screenHeight);
             }
         }
 
