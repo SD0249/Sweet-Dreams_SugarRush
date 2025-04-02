@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /* Brooke Maciejewski, Ayvin Krug
+     * Purpose: A Level class that uses the LevelTile objects as 
+     *          the basic building blocks of a level background. 
+     *          Loads information from the file and constructs the level accordingly. */
     public enum CandyType
     {
         SkullCandy,
@@ -21,7 +25,9 @@ namespace Sweet_Dreams
     }
     public class Candy : GameObject
     {
-        // FIELDS
+        // --------------------------------------------------------------
+        // Fields
+        // --------------------------------------------------------------
         // the type of candy that will appear on screen
         CandyType cType;
 
@@ -31,16 +37,36 @@ namespace Sweet_Dreams
         // source Rectangle
         Rectangle sourceRectangle;
 
-        // CONSTRUCTORS
-        public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
-            : base(asset, position, screenWidth, screenHeight)
+        // --------------------------------------------------------------
+        // Properties
+        // --------------------------------------------------------------
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
         {
-            
+            get
+            {
+                return screenPosition.X + screenPosition.Width < 0
+                    || screenPosition.X > screenWidth
+                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y > screenHeight;
+            }
+        }
+
+        // --------------------------------------------------------------
+        // Constructor
+        // --------------------------------------------------------------
+        public Candy(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
+            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+        {
+            // Only used here in the constructor
+            // TODO: Maybe use a reference one generator instead of a new one for each object?
             rng = new Random();
 
             // this value will be determine the type of Candy
             // SOURCE RECTANGLE
-            int rngNum = rng.Next(0, 4);
+            int rngNum = rng.Next(5);
             switch (rngNum)
             {
                 case 0:
@@ -61,18 +87,24 @@ namespace Sweet_Dreams
             }
         }
 
-        // METHODS
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            return false;
-        }
+        // --------------------------------------------------------------
+        // Methods
+        // --------------------------------------------------------------
+
         public override void UpdateAnimation(GameTime gameTime)
         {
            
         }
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
+            // Updates world position by moving toward the player
 
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X - (int)worldToScreen.X,
+                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.Width,
+                worldPosition.Height);
         }
         public override void Draw(SpriteBatch sb)
         {
