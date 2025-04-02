@@ -231,6 +231,7 @@ namespace Sweet_Dreams
                     //}
 
                     // For testing, draws all tiles even if they're off screen
+                    // Could change after developing 2D camera system
                     tileSet[r, c].Draw(sb, worldToScreen);
                 }
             }
