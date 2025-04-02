@@ -140,35 +140,45 @@ namespace Sweet_Dreams
         {
             //Draws an Enemy at a given position
             // CLOAK
-            sb.Draw(
+            if (eType == EnemyType.Cloak)
+            {
+                sb.Draw(
                 asset,
                 worldPosition,
                 new Rectangle(2, 7, 12, 15), // x, y, width, height
                 Color.White);
+            }
 
-            /* IMP
-             * sb.Draw(
-             * asset,
-             * positon
-             * new Rectangle(5, 5, 9, 13),
-             * Color.White)
-             */
+            //IMP
+            if (eType == EnemyType.Imp)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(5, 5, 9, 13),
+                Color.White);
+            }
+             
 
-            /* MOUTH DEMON
-             * sb.Draw(
-             * asset,
-             * positon
-             * new Rectangle(5, 7, 20, 35),
-             * Color.White)
-             */
+            //MOUTH DEMON
+            if (eType == EnemyType.MouthDemon)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(5, 7, 20, 35),
+                Color.White);
+            }
 
-            /* HORN DEMON
-             * sb.Draw(
-             * asset,
-             * positon
-             * new Rectangle(4, 6, 11, 23),
-             * Color.White)
-             */
+            // HORN DEMON
+            if (eType == EnemyType.HornDemon)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(4, 6, 11, 23),
+                Color.White);
+            }
         }
 
         public bool CollidesWith()
