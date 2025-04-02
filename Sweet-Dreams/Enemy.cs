@@ -50,7 +50,19 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
+        {
+            get
+            {
+                return screenPosition.X + screenPosition.Width < 0
+                    || screenPosition.X > screenWidth
+                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y > screenHeight;
+            }
+        }
 
         // --------------------------------------------------------------
         // Constructors
@@ -58,11 +70,12 @@ namespace Sweet_Dreams
         /// <summary>
         /// Randomly generates an Enemy
         /// </summary>
-        public Enemy(Random rng, Texture2D asset, Rectangle position, int screenWidth, 
-            int screenHeight)
-            :base(asset, position, screenWidth, screenHeight)
+        public Enemy(Random rng, Texture2D asset, Rectangle worldPosition,
+            int screenWidth, int screenHeight)
+            :base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
         {
             isAlive = true;
+            screenPosition = worldPosition;
 
             eType = (EnemyType)rng.Next(0, 4);
             CreateEnemy();
@@ -77,8 +90,9 @@ namespace Sweet_Dreams
         /// Generates chosen enemies
         /// </summary>
         /// <param name="eType">the type of enemy chosen</param>
-        public Enemy(EnemyType eType, Texture2D asset, Rectangle position, int screenWidth, 
-            int screenHeight) : base(asset, position, screenWidth, screenHeight)
+        public Enemy(EnemyType eType, Texture2D asset, Rectangle worldPosition, 
+            int screenWidth, int screenHeight) 
+            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
         {
             isAlive = true;
 
@@ -94,20 +108,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
-        /// <summary>
-        /// Determines whether an object is at all visible on screen.
-        /// </summary>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
-        /// <returns>True if any part of the object is on screen.</returns>
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            // Returns false if any of the following out of bounds conditions are true
-            return !(position.X + position.Width < worldToScreen.X      // Too far left
-                || position.X > screenWidth + worldToScreen.X           // Too far right
-                || position.Y + position.Height < worldToScreen.Y       // Too far up
-                || position.Y > screenHeight + worldToScreen.Y);        // Too far down
-        }
-
         public override void UpdateAnimation(GameTime gameTime)
         {
             timer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -124,9 +124,16 @@ namespace Sweet_Dreams
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-
+            // Updates world position by moving toward the player
+            
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X - (int)worldToScreen.X,
+                worldPosition.Y - (int)worldToScreen.Y, 
+                worldPosition.Width, 
+                worldPosition.Height);
         }
 
         public override void Draw(SpriteBatch sb)
@@ -135,7 +142,7 @@ namespace Sweet_Dreams
             // CLOAK
             sb.Draw(
                 asset,
-                position,
+                screenPosition,
                 new Rectangle(2, 7, 12, 15), // x, y, width, height
                 Color.White);
 
@@ -167,7 +174,7 @@ namespace Sweet_Dreams
         public bool CollidesWith()
         {
             // if the Enemy position intersects with the player position
-            return true;
+            return false;
         }
 
         /// <summary>

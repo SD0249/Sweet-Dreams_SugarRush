@@ -154,8 +154,10 @@ namespace Sweet_Dreams
                     }
 
                     // Updates world to screen offset vector
-                    worldToScreen = new Vector2(playerScreenPosition.X - player.Position.X,
-                        playerScreenPosition.Y - player.Position.X);
+                    //worldToScreen = new Vector2(playerScreenPosition.X - player.Position.X,
+                    //  playerScreenPosition.Y - player.Position.X);
+                    // TODO: Uncomment this once player position works properly
+                    worldToScreen = new Vector2(0, 0);
 
                     // Checks for a left click and bullet timer to shoot
                     if (mouse.LeftButton == ButtonState.Pressed &&
@@ -220,6 +222,8 @@ namespace Sweet_Dreams
         {
             GraphicsDevice.Clear(Color.Black);
 
+            // TODO: Porobably get rid of this
+            /*
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
             if (gameState == GameState.Game)
@@ -228,38 +232,9 @@ namespace Sweet_Dreams
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
                 Matrix.CreateTranslation(-player.Position.X, -player.Position.Y, 0));
 
-                // Draws the level itself
-                level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
-
-                // TODO: Uncomment the following once fields are initialized
-                /*
-                // Draws all candies that are on screen
-                for (int i = 0; i < collectibles.Count; i++)
-                {
-                    if (collectibles[i].IsOnScreen(worldToScreen))
-                    {
-                        collectibles[i].Draw(_spriteBatch);
-                    }
-                }
-
-                // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch, worldToScreen);
-                */
-
-                // Draws all bullets
-                for (int i = 0; i < bullets.Count; i++)
-                {
-                    if (bullets[i].IsOnScreen(worldToScreen))
-                    {
-                        bullets[i].Draw(_spriteBatch);
-                    }
-                }
-
-                // Draws the player
-                player.Draw(_spriteBatch);
-
-                _spriteBatch.End();
+            _spriteBatch.End()
             }
+            */
             
             // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
@@ -277,6 +252,36 @@ namespace Sweet_Dreams
                     break;
 
                 case GameState.Game:
+
+                    // Draws the level itself
+                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+
+                    // TODO: Uncomment the following once fields are initialized
+                    /*
+                    // Draws all candies that are on screen
+                    for (int i = 0; i < collectibles.Count; i++)
+                    {
+                        if (collectibles[i].IsOnScreen(worldToScreen))
+                        {
+                            collectibles[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws all enemies that are on screen
+                    enemyManager.DrawAll(_spriteBatch, worldToScreen);
+                    */
+
+                    // Draws all bullets
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        if (bullets[i].IsOnScreen(worldToScreen))
+                        {
+                            bullets[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws the player
+                    player.Draw(_spriteBatch);
 
                     break;
 

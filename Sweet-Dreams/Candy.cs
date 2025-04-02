@@ -40,15 +40,28 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
+        {
+            get
+            {
+                return screenPosition.X + screenPosition.Width < 0
+                    || screenPosition.X > screenWidth
+                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y > screenHeight;
+            }
+        }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
-            : base(asset, position, screenWidth, screenHeight)
+        public Candy(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
+            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
         {
-            
+            // Only used here in the constructor
+            // TODO: Maybe use a reference one generator instead of a new one for each object?
             rng = new Random();
 
             // this value will be determine the type of Candy
@@ -77,26 +90,21 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
-        /// <summary>
-        /// Determines whether an object is at all visible on screen.
-        /// </summary>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
-        /// <returns>True if any part of the object is on screen.</returns>
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            // Returns false if any of the following out of bounds conditions are true
-            return !(position.X + position.Width < worldToScreen.X      // Too far left
-                || position.X > screenWidth + worldToScreen.X           // Too far right
-                || position.Y + position.Height < worldToScreen.Y       // Too far up
-                || position.Y > screenHeight + worldToScreen.Y);        // Too far down
-        }
+
         public override void UpdateAnimation(GameTime gameTime)
         {
            
         }
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
+            // Updates world position by moving toward the player
 
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X - (int)worldToScreen.X,
+                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.Width,
+                worldPosition.Height);
         }
         public override void Draw(SpriteBatch sb)
         {

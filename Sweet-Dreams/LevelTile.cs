@@ -66,8 +66,7 @@ namespace Sweet_Dreams
         /// <returns>Whether or not the tile is at all visible on the screen.</returns>
         public bool IsOnScreen(Vector2 worldToScreen, int screenWidth, int screenHeight)
         {
-            // TODO: Using tile size and worldToScreen, determine whether
-            // or not any pixil of the tile is on screen
+            // Returns false if any of the following out of bounds conditions are true
             return !(drawnRectangle.X + drawnRectangle.Width < worldToScreen.X      // Too far left
                 || drawnRectangle.X > screenWidth - worldToScreen.X                 // Too far right
                 || drawnRectangle.Y + drawnRectangle.Height < worldToScreen.Y       // Too far up

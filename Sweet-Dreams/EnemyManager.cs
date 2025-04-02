@@ -12,9 +12,12 @@ using System.Threading.Tasks;
 
 namespace Sweet_Dreams
 {
+    // Ayvin Krug
+    // Purpose: Used inside of Game1 to update and draw all enemies at once
+    //          and to trigger new waves without needing any checks in Game1.
+
     /// <summary>
-    /// Ayvin Krug
-    /// Draws and updates all enemies in a level.
+    /// Draws, updates, and creates waves of all enemies in a level.
     /// </summary>
     public class EnemyManager
     {
@@ -47,11 +50,17 @@ namespace Sweet_Dreams
         /// Updates all enemy positions, removes them from the level and has them
         /// drop candies if they're dead, and dequeues more enemies into the level 
         /// if the current wave has finished.
-        /// <paramref name="gameTime">Time information from MonoGame.</param>
         /// </summary>
-        public void UpdateAll(GameTime gameTime)
+        /// <param name="gameTime">Time information from MonoGame.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
         {
-            
+            for (int i = 0; i < currentEnemies.Count; i++)
+            {
+                currentEnemies[i].Update(gameTime, worldToScreen);
+            }
+
+            // TODO: Add drop candy, remove from level, and next wave logic
         }
 
         /// <summary>
@@ -59,12 +68,12 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="sb">The SpriteBatch object that does the drawing.</param>
         /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
-        public void DrawAll(SpriteBatch sb, Vector2 worldToScreen)
+        public void DrawAll(SpriteBatch sb)
         {
             // Draws all enemies that will appear on the screen
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                if (currentEnemies[i].IsOnScreen(worldToScreen))
+                if (currentEnemies[i].IsOnScreen)
                 {
                     currentEnemies[i].Draw(sb);
                 }

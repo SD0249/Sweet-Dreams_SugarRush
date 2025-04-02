@@ -20,7 +20,8 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         protected Texture2D asset;
-        protected Rectangle position;
+        protected Rectangle worldPosition;
+        protected Rectangle screenPosition;
         protected int screenWidth;
         protected int screenHeight;
         protected int currentFrame;
@@ -33,24 +34,19 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public GameObject(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
+        public GameObject(Texture2D asset, Rectangle worldPosition,
+            Rectangle screenPosition, int screenWidth, int screenHeight)
         {
             this.asset = asset;
-            this.position = position;
+            this.worldPosition = worldPosition;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
+            this.screenPosition = screenPosition;
         }
 
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
-
-        /// <summary>
-        /// Requires child classes to be able to determine if they're on-screen.
-        /// </summary>
-        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
-        /// <returns></returns>
-        public abstract bool IsOnScreen(Vector2 worldToScreen);
         
         /// <summary>
         /// Requires child classes to update their animation
@@ -61,8 +57,9 @@ namespace Sweet_Dreams
         /// <summary>
         /// Requires child classes to have their own update method
         /// </summary>
-        /// <param name="gameTime"> Info about time from MonoGame </param>
-        public abstract void Update(GameTime gameTime);
+        /// <param name="gameTime">Info about time from MonoGame.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        public abstract void Update(GameTime gameTime, Vector2 worldToScreen);
 
         /// <summary>
         /// Requires child classes to have their own draw method

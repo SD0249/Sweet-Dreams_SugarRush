@@ -29,26 +29,39 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        public Rectangle Position
+        public Rectangle WorldPosition
         {
-            get { return position; }
-            set { position = value; }
+            get { return WorldPosition; }
+            set { WorldPosition = value; }
+        }
+
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
+        {
+            get
+            {
+                return screenPosition.X + screenPosition.Width < 0
+                    || screenPosition.X > screenWidth
+                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y > screenHeight;
+            }
         }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
-        :base(asset, position, screenWidth, screenHeight)
+        public Bullet(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
+        :base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
-            this.position = position;
             speed = 10;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
 
             // Finding the rotation of the bullet based off the mouse
-            rotation = (float)Math.Atan2(position.Y - mouse.Y, position.X - mouse.X);
+            rotation = (float)Math.Atan2(worldPosition.Y - mouse.Y, worldPosition.X - mouse.X);
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
@@ -60,20 +73,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
 
         /// <summary>
-        /// Determines whether an object is at all visible on screen.
-        /// </summary>
-        /// <param name="worldToScreen"> World to screen offset vector. </param>
-        /// <returns> True if any part of the object is on screen. </returns>
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            // Returns false if any of the following out of bounds conditions are true
-            return !(position.X + position.Width < worldToScreen.X      // Too far left
-                || position.X > screenWidth + worldToScreen.X           // Too far right
-                || position.Y + position.Height < worldToScreen.Y       // Too far up
-                || position.Y > screenHeight + worldToScreen.Y);        // Too far down
-        }
-
-        /// <summary>
         /// Bullets won't have an animation for this project
         /// The only animation they would have is exploding (not doing that)
         /// </summary>
@@ -83,22 +82,27 @@ namespace Sweet_Dreams
             
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             mouse = Mouse.GetState();
 
-
-
             // Changing the bullets position
-            position.X += (int)Math.Round(direction.X * speed);
-            position.Y += (int)Math.Round(direction.Y * speed);
+            worldPosition.X += (int)Math.Round(direction.X * speed);
+            worldPosition.Y += (int)Math.Round(direction.Y * speed);
+
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X - (int)worldToScreen.X,
+                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.Width,
+                worldPosition.Height);
         }
 
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(
                 asset,
-                new Rectangle(position.X + 15, position.Y + 10, 16, 16),
+                new Rectangle(worldPosition.X + 15, worldPosition.Y + 10, 16, 16),
                 new Rectangle(0, 0, 16, 16),
                 Color.White,
                 (rotation - 0.78f),

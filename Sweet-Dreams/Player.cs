@@ -10,7 +10,7 @@ using System.Net.Http;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    enum PlayerState
+    public enum PlayerState
     {
         WalkRight,
         WalkLeft,
@@ -37,14 +37,13 @@ namespace Sweet_Dreams
         private double spf;
         private double reloadTimer;
 
-
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
         public Rectangle Position
         {
-            get { return position; }
-            set { position = value; }
+            get { return worldPosition; }
+            set { worldPosition = value; }
         }
         public PlayerState PlayerState
         {
@@ -64,23 +63,30 @@ namespace Sweet_Dreams
         // TODO: Remove these movement control properties after testing
         public int X
         {
-            get { return position.X; }
-            set { position.X = value; }
+            get { return worldPosition.X; }
+            set { worldPosition.X = value; }
         }
         public int Y
         {
-            get { return position.Y; }
-            set { position.Y = value; }
+            get { return worldPosition.Y; }
+            set { worldPosition.Y = value; }
+        }
+
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
+        {
+            get { return true; }
         }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Player(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
-        : base(asset, position, screenWidth, screenHeight)
+        public Player(Texture2D asset, Rectangle worldPosition, Rectangle screenPosition,
+            int screenWidth, int screenHeight)
+            : base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
-            this.asset = asset;
-            this.position = position;
             health = 6;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
@@ -120,8 +126,12 @@ namespace Sweet_Dreams
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
+            // Updates world position based on keyboard input
+            
+            // Screen position does not need to be updated
+
             kbState = Keyboard.GetState();
 
             // Player FSM (incomplete)
@@ -205,21 +215,9 @@ namespace Sweet_Dreams
         {
             //Draws the player with no movement
             sb.Draw(asset,
-                position,
+                screenPosition,
                 new Rectangle(7, 7, 10, 18),
                 Color.White);
-
-
-        }
-
-        /// <summary>
-        /// Player is always on screen. This method is mostly for Bullet, Enemy, and Candy
-        /// </summary>
-        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
-        /// <returns>Always true.</returns>
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            return true;
         }
     }
 }
