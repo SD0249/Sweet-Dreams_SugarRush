@@ -11,23 +11,17 @@ using System.Threading.Tasks;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    /* Brooke Maciejewski, Ayvin Krug
-     * Purpose: A Level class that uses the LevelTile objects as 
-     *          the basic building blocks of a level background. 
-     *          Loads information from the file and constructs the level accordingly. */
     public enum CandyType
     {
         SkullCandy,
         Peppermint,
-        PinkCandy,
+        CandyCorn,
         GreenCandy,
         YellowCandy
     }
     public class Candy : GameObject
     {
-        // --------------------------------------------------------------
-        // Fields
-        // --------------------------------------------------------------
+        // FIELDS
         // the type of candy that will appear on screen
         CandyType cType;
 
@@ -37,9 +31,7 @@ namespace Sweet_Dreams
         // source Rectangle
         Rectangle sourceRectangle;
 
-        // --------------------------------------------------------------
         // Properties
-        // --------------------------------------------------------------
         /// <summary>
         /// Whether or not any part of the object is visible on the screen.
         /// </summary>
@@ -47,10 +39,10 @@ namespace Sweet_Dreams
         {
             get
             {
-                return screenPosition.X + screenPosition.Width < 0
+                return !(screenPosition.X + screenPosition.Width < 0
                     || screenPosition.X > screenWidth
                     || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight;
+                    || screenPosition.Y > screenHeight);
             }
         }
 
@@ -66,7 +58,7 @@ namespace Sweet_Dreams
 
             // this value will be determine the type of Candy
             // SOURCE RECTANGLE
-            int rngNum = rng.Next(5);
+            int rngNum = rng.Next(0, 4);
             switch (rngNum)
             {
                 case 0:
@@ -76,7 +68,7 @@ namespace Sweet_Dreams
                     cType = CandyType.Peppermint;
                     break;
                 case 2:
-                    cType = CandyType.PinkCandy;
+                    cType = CandyType.CandyCorn;
                     break;
                 case 3:
                     cType = CandyType.GreenCandy;
@@ -87,10 +79,7 @@ namespace Sweet_Dreams
             }
         }
 
-        // --------------------------------------------------------------
-        // Methods
-        // --------------------------------------------------------------
-
+        // METHODS
         public override void UpdateAnimation(GameTime gameTime)
         {
            
@@ -106,9 +95,49 @@ namespace Sweet_Dreams
                 worldPosition.Width,
                 worldPosition.Height);
         }
+
         public override void Draw(SpriteBatch sb)
         {
-
+            if (cType == CandyType.Peppermint)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(0, 16, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.CandyCorn)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(0, 0, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.GreenCandy)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(17, 33, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.YellowCandy)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(33, 81, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.SkullCandy)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(65, 97, 16, 16),
+                Color.White);
+            }
         }
     }
 }
