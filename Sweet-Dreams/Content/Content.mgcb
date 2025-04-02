@@ -68,6 +68,18 @@
 /processorParam:TextureFormat=Color
 /build:mainlevbuild.png
 
+#begin Necromancer_Animation.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Necromancer_Animation.png
+
 #begin PlayerAnimation.png
 /importer:TextureImporter
 /processor:TextureProcessor
