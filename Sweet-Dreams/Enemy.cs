@@ -184,6 +184,7 @@ namespace Sweet_Dreams
         public bool CollidesWith()
         {
             // if the Enemy position intersects with the player position
+            //if (worldPosition.Intersects())
             return false;
         }
 
@@ -196,8 +197,8 @@ namespace Sweet_Dreams
             {
                 for (int i = 0; i < candyNum; i++)
                 {
-                    //// TODO: determine params for Candy(), remove isAlive check
-                    //collectibles.Add(new Candy());
+                    // Should be drawn at the enemy's death position
+                    collectibles.Add(new Candy(asset, worldPosition, screenWidth, screenHeight));
                 }
             }
         }

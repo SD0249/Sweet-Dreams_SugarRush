@@ -44,7 +44,7 @@ namespace Sweet_Dreams
             {
                 return !(screenPosition.X + screenPosition.Width < 0
                     || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y + screenPosition.Width < 0
                     || screenPosition.Y > screenHeight);
             }
         }
@@ -52,16 +52,16 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
-        :base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+        public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, int screenWidth, int screenHeight)
+        :base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
-            speed = 10;
+            speed = 3;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
 
             // Finding the rotation of the bullet based off the mouse
-            rotation = (float)Math.Atan2(worldPosition.Y - mouse.Y, worldPosition.X - mouse.X);
+            rotation = (float)Math.Atan2(screenPosition.Y - mouse.Y, screenPosition.X - mouse.X);
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
@@ -92,8 +92,8 @@ namespace Sweet_Dreams
 
             // Updates screen position
             screenPosition = new Rectangle(
-                worldPosition.X - (int)worldToScreen.X,
-                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.X + (int)worldToScreen.X,
+                worldPosition.Y + (int)worldToScreen.Y,
                 worldPosition.Width,
                 worldPosition.Height);
         }
@@ -102,13 +102,15 @@ namespace Sweet_Dreams
         {
             sb.Draw(
                 asset,
-                new Rectangle(worldPosition.X + 15, worldPosition.Y + 10, 16, 16),
+                new Rectangle(screenPosition.X + 15, screenPosition.Y + 10, 16, 16),
                 new Rectangle(0, 0, 16, 16),
                 Color.White,
                 rotation - 0.78f,
                 origin,
                 SpriteEffects.None,
                 1);
+
+            DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
         }
     }
 }

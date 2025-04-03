@@ -40,6 +40,10 @@ namespace Sweet_Dreams
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
         private Texture2D candySprites;
+        private Texture2D cloakSprite;
+        private Texture2D impSprite;
+        private Texture2D mouthDemonSprite;
+        private Texture2D hornDemonSprite;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
         private KeyboardState currentKbState;
@@ -84,6 +88,10 @@ namespace Sweet_Dreams
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
+            cloakSprite = Content.Load<Texture2D>("Necromancer_Animation");
+            impSprite = Content.Load<Texture2D>("ImpSpriteSheet");
+            mouthDemonSprite = Content.Load<Texture2D>("MouthDemonSpriteSheet");
+            hornDemonSprite = Content.Load<Texture2D>("HornDemon_SpriteSheet");
 
             // Load the Level
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
@@ -143,7 +151,7 @@ namespace Sweet_Dreams
 
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
-                    player.UpdateAnimation(gameTime);
+                    //player.UpdateAnimation(gameTime);
 
                     // Updates world to screen offset vector
                     worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
@@ -154,7 +162,7 @@ namespace Sweet_Dreams
                         player.ReloadTimer <= 0)
                     {
                         // Makes a new bullet every time you shoot
-                        bullets.Add(new Bullet(candySprites, player.WorldPosition, screenWidth, screenHeight));
+                        bullets.Add(new Bullet(candySprites, player.WorldPosition, player.ScreenPosition, screenWidth, screenHeight));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -166,6 +174,7 @@ namespace Sweet_Dreams
                     for (int i = 0; i < bullets.Count; i++)
                     {
                         bullets[i].Update(gameTime, worldToScreen);
+
                     }
                     
                     // If the player is dead the game state changes to lose
@@ -268,6 +277,11 @@ namespace Sweet_Dreams
 
                     // Draws the player
                     player.Draw(_spriteBatch);
+                    
+                    DebugLib.DrawRectOutline(_spriteBatch,
+                        player.WorldPosition,
+                        2,
+                        Color.Black);
 
                     break;
 
@@ -333,11 +347,11 @@ namespace Sweet_Dreams
 
             //Draws the current number of bullets
             sb.DrawString(
-                arial12,
-                $"Bullet Count: {bullets.Count}",
-                new Vector2(10, screenHeight - 98),
-                Color.White);
-            
+                    arial12,
+                    $"Bullet Count: {bullets.Count}",
+                    new Vector2(10, screenHeight - 98),
+                    Color.White);
+
             //Draws the player's screen position
             sb.DrawString(
                 arial12,
