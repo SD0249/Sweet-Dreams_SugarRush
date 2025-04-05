@@ -178,7 +178,6 @@ namespace Sweet_Dreams
                 new Rectangle(7, 7, 10, 18),
                 Color.White);
 
-
         }
 
         /// <summary>
