@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|z:\\igmprofile\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\content\\level1.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:content\\level1.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|z:\\igmprofile\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -50,11 +54,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "Level1.txt",
+              "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Content\\Level1.txt",
+              "RelativeDocumentMoniker": "Content\\Level1.txt",
+              "ToolTip": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Content\\Level1.txt",
+              "RelativeToolTip": "Content\\Level1.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAArAQAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-04-05T18:11:27.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Button.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
               "RelativeDocumentMoniker": "Button.cs",
@@ -66,7 +83,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Level.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Level.cs",
               "RelativeDocumentMoniker": "Level.cs",
@@ -78,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "LevelTile.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\LevelTile.cs",
               "RelativeDocumentMoniker": "LevelTile.cs",
@@ -90,20 +107,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Bullet.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
               "RelativeDocumentMoniker": "Bullet.cs",
               "ToolTip": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
               "RelativeToolTip": "Bullet.cs",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAwwGMAAAAAAAAA",
+              "ViewState": "AQIAACIAAAAAAAAAAAAgwGMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-19T22:26:57.652Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Candy.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
               "RelativeDocumentMoniker": "Candy.cs",
@@ -115,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Enemy.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
               "RelativeDocumentMoniker": "Enemy.cs",
@@ -127,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "EnemyManager.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
               "RelativeDocumentMoniker": "EnemyManager.cs",
@@ -139,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "GameObject.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
               "RelativeDocumentMoniker": "GameObject.cs",
@@ -151,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Player.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
               "RelativeDocumentMoniker": "Player.cs",
@@ -163,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Game1.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
               "RelativeDocumentMoniker": "Game1.cs",
