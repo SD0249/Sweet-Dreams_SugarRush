@@ -9,7 +9,7 @@ using System.Net.Http;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    enum PlayerState
+    public enum PlayerState
     {
         WalkRight,
         WalkLeft,
@@ -25,16 +25,28 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         private PlayerState playerState;
-        private KeyboardState kbState;
         private int health;
         private double stunTimer;
         private int playerHealth;
         private bool isAlive;
         private Vector2 velocity;
-        
+        private double timer;
+        private double fps;
+        private double spf;
+        private double reloadTimer;
+
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
+        
+        public Rectangle WorldPosition
+        {
+            get { return worldPosition; }
+        }
+        public Rectangle ScreenPosition
+        {
+            get { return screenPosition; }
+        }
         public PlayerState PlayerState
         {
             get { return playerState; }
@@ -44,20 +56,34 @@ namespace Sweet_Dreams
             get { return health; }
             set { health = value; }
         }
+        public double ReloadTimer
+        {
+            get { return reloadTimer; }
+            set { reloadTimer = value; }
+        }
+
+        /// <summary>
+        /// Whether or not the object is visible. Always true for the player.
+        /// </summary>
+        public bool IsOnScreen
+        {
+            get { return true; }
+        }
 
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Player(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
-        : base(asset, position, screenWidth, screenHeight)
+        public Player(Texture2D asset, Rectangle worldPosition, Rectangle screenPosition,
+            int screenWidth, int screenHeight)
+            : base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
-            this.asset = asset;
-            this.position = position;
             health = 6;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
+            timer = 0.0;                        // Change these values
+            spf = 0.0;
+            fps = 0.0;
         }
-
 
         // --------------------------------------------------------------
         // Methods
@@ -89,11 +115,30 @@ namespace Sweet_Dreams
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-            kbState = Keyboard.GetState();
+            // Updates world position based on keyboard input
+            KeyboardState kbState = Keyboard.GetState();
 
-            //Player FSM (incomplete)
+            // TODO: Remove this test movement and use velocity inside of FSM instead
+            if (kbState.IsKeyDown(Keys.Right))
+            {
+                worldPosition.X += 5;
+            }
+            if (kbState.IsKeyDown(Keys.Left))
+            {
+                worldPosition.X -= 5;
+            }
+            if (kbState.IsKeyDown(Keys.Up))
+            {
+                worldPosition.Y -= 5;
+            }
+            if (kbState.IsKeyDown(Keys.Down))
+            {
+                worldPosition.Y += 5;
+            }
+
+            // Player FSM (incomplete)
             switch (playerState)
             {
 
@@ -174,21 +219,13 @@ namespace Sweet_Dreams
         {
             //Draws the player with no movement
             sb.Draw(asset,
-                position,
+                screenPosition,
                 new Rectangle(7, 7, 10, 18),
                 Color.White);
+<<<<<<< HEAD
 
+=======
+>>>>>>> a3f495314e8ca712f09bf982c49572c109284546
         }
-
-        /// <summary>
-        /// Player is always on screen, this method is mostly for Bullet & Enemy
-        /// </summary>
-        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
-        /// <returns></returns>
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            return true;
-        }
-
     }
 }

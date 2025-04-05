@@ -29,23 +29,29 @@ namespace Sweet_Dreams
         // Additional fields used for the game
         private Random rng;
         private List<Candy> collectibles;
+        private List<Bullet> bullets;
         private EnemyManager enemyManager;
         private GameState gameState;
         private MouseState mouse;
         private Player player;
         private int screenWidth;
         private int screenHeight;
-        private int worldWidth;
-        private int worldHeight;
         private Vector2 worldToScreen;
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
-        private Texture2D darkDungeon;
+        private Texture2D candySprites;
+        private Texture2D cloakSprite;
+        private Texture2D impSprite;
+        private Texture2D mouthDemonSprite;
+        private Texture2D hornDemonSprite;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
-
         private Button myButton;
         private Texture2D tempButton;
+        private KeyboardState currentKbState;
+        private KeyboardState previousKbState;
+        private bool doorIsReached;
+        private Level level1;
 
         // Whether or not the game is currently in debug mode
         public static bool debugMode;
@@ -59,8 +65,16 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
+            // Screen dimensions
             screenHeight = _graphics.GraphicsDevice.Viewport.Height;
             screenWidth = _graphics.GraphicsDevice.Viewport.Width;
+
+            // Lists to hold all candies and bullets currently in the world
+            bullets = new List<Bullet>();
+            collectibles = new List<Candy>();
+
+            // Debug mode is on for testing
+            debugMode = true;
 
             mouse = Mouse.GetState();
 
@@ -71,19 +85,35 @@ namespace Sweet_Dreams
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Loads assets
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
-            darkDungeon = Content.Load<Texture2D>("mainlevbuild");
             arial12 = Content.Load<SpriteFont>("arial12");
             tempButton = Content.Load<Texture2D>("ShitButton");
 
             myButton = new Button(tempButton,
                 new Rectangle(340, 250, 100, 50));
 
+            candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
+            cloakSprite = Content.Load<Texture2D>("Necromancer_Animation");
+            impSprite = Content.Load<Texture2D>("ImpSpriteSheet");
+            mouthDemonSprite = Content.Load<Texture2D>("MouthDemonSpriteSheet");
+            hornDemonSprite = Content.Load<Texture2D>("HornDemon_SpriteSheet");
+
+            // Load the Level
+            level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
+            level1.LoadLevel("../../../Content/Level1.txt");
+
+            // Creates the player at its starting world and screen positions
             player = new Player(playerAnimation, 
-                new Rectangle(screenWidth/2 - 15, screenHeight/2 - 27, 30, 54), 
-                screenHeight, 
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
+                screenWidth, 
                 screenHeight);
+
+            // Determines world to screen offset vector
+            worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
+                      player.ScreenPosition.Y - player.WorldPosition.Y);
         }
 
         protected override void Update(GameTime gameTime)
@@ -93,37 +123,70 @@ namespace Sweet_Dreams
 
             mouse = Mouse.GetState();
 
+            // Updates current and previous keyboard states
+            previousKbState = currentKbState;
+            currentKbState = Keyboard.GetState();
+
             switch (gameState)
             {
                 case GameState.Menu:
 
-                    // draw menu to console
+                    // Draw menu to console
 
                     if (myButton.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
                     }
 
-                    // if button is pressed?
-                    // need button class
+                    // If button is pressed?
+                    // Need button class
 
                     break;
 
                 case GameState.Game:
 
-                    // draw game to console
+                    // Draw game to console
 
-                    // #ToBeDetermened
-                    // READ THIS!!!!
-                    // ememy manager is currentluy NULL!!! this code will not run untill the file
-                    // for enemy manager is made and added to the game!!!
-                    /*if (enemyManager.CheckEnemys(currentEnemyList) == false && door is reached)
+                    // TODO: Initialize fields before uncommenting
+                    /*
+                    // Victory when all enemies are gone and the player is touching the door
+                    // if (enemyManager.IsLevelCleared() && doorIsReached)
                     {
                         gameState = GameState.Win;
-                    }*/
+                    }
+                    */
 
                     // if the player is dead the game state changes to lose
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
+                    // Updates the player
+                    player.Update(gameTime, worldToScreen);
+                    //player.UpdateAnimation(gameTime);
+
+                    // Updates world to screen offset vector
+                    worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
+                      player.ScreenPosition.Y - player.WorldPosition.Y);
+
+                    // Checks for a left click and bullet timer to shoot
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        player.ReloadTimer <= 0)
+                    {
+                        // Makes a new bullet every time you shoot
+                        bullets.Add(new Bullet(candySprites, player.WorldPosition, player.ScreenPosition, screenWidth, screenHeight));
+
+                        // Resets the timer for reloading the gun 
+                        player.ReloadTimer = 1;
+                    }
+                    // Has a 1 second timer between shooting a bullet
+                    player.ReloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                    // Updates all bullets
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        bullets[i].Update(gameTime, worldToScreen);
+
+                    }
+                    
+                    // If the player is dead the game state changes to lose
                     if (currentPlayerState == PlayerState.Dead)
                     {
                         gameState = GameState.Lose;
@@ -135,6 +198,7 @@ namespace Sweet_Dreams
 
                     // draw win screen to console
                     // assuming were also going to need the button class?
+                    // Draw win screen to console
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
@@ -145,8 +209,8 @@ namespace Sweet_Dreams
 
                 case GameState.Lose:
 
-                    // draw game over to console
-                    // press enter to continue back to home screen 
+                    // Draw game over to console
+                    // Press enter to continue back to home screen 
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
@@ -156,15 +220,29 @@ namespace Sweet_Dreams
                     break;
             }
             
-            //Update Methods for the player
-            player.Update(gameTime);
-            player.UpdateAnimation(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Black);
+
+            // TODO: Porobably get rid of this
+            /*
+            // If in Game mode, the following is drawn translated with respect to
+            // the player's world position
+            if (gameState == GameState.Game)
+            {
+            // Draws everything whose position needs to be translated
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
+                Matrix.CreateTranslation(-player.Position.X, -player.Position.Y, 0));
+
+            _spriteBatch.End()
+            }
+            */
+            
+            // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
             
             switch (gameState)
@@ -192,28 +270,56 @@ namespace Sweet_Dreams
 
                 case GameState.Game:
 
-                    GraphicsDevice.Clear(Color.Honeydew);
+                    // Draws the level itself
+                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
 
-                    //Draws the player
+                    // TODO: Uncomment the following once fields are initialized
+                    /*
+                    // Draws all candies that are on screen
+                    for (int i = 0; i < collectibles.Count; i++)
+                    {
+                        if (collectibles[i].IsOnScreen(worldToScreen))
+                        {
+                            collectibles[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws all enemies that are on screen
+                    enemyManager.DrawAll(_spriteBatch, worldToScreen);
+                    */
+
+                    // Draws all bullets
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        if (bullets[i].IsOnScreen)
+                        {
+                            bullets[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws the player
                     player.Draw(_spriteBatch);
+                    
+                    DebugLib.DrawRectOutline(_spriteBatch,
+                        player.WorldPosition,
+                        2,
+                        Color.Black);
 
                     break;
 
                 case GameState.Win:
 
-                    GraphicsDevice.Clear(Color.Honeydew);
+                    // GraphicsDevice.Clear(Color.Honeydew);
 
                     _spriteBatch.DrawString(
                         arial12,
                         "#YouWon",
                         new Vector2(300, 200),
-                        Color.Black);
+                        Color.White);
 
                     break;
 
                 case GameState.Lose:
-
-                    GraphicsDevice.Clear(Color.Black);
 
                     _spriteBatch.DrawString(
                         arial12,
@@ -224,8 +330,11 @@ namespace Sweet_Dreams
                     break;
             }
 
-            //Draws the Debug Information
-            DebugInfo(_spriteBatch);
+            // Draws the Debug Information if debug mode is on
+            if (debugMode)
+            {
+                DrawDebugInfo(_spriteBatch);
+            }
 
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -235,28 +344,56 @@ namespace Sweet_Dreams
         /// Draws the needing Debuging info to the game screen
         /// </summary>
         /// <param name="sb">The sprite batch needed to draw</param>
-        private void DebugInfo(SpriteBatch sb)
+        private void DrawDebugInfo(SpriteBatch sb)
         {
             //Draws the Mouses's X and Y position
             sb.DrawString(
                 arial12,
                 $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 24),
-                Color.Black);
+                new Vector2(10, screenHeight - 24),
+                Color.White);
 
             //Draws the current state of the game
             sb.DrawString(
                 arial12,
                 $"Game's State: {gameState}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 48),
-                Color.Black);
+                new Vector2(10, screenHeight - 48),
+                Color.White);
 
             //Draws the current state of the player
             sb.DrawString(
                 arial12,
-                $"Game's State: {player.PlayerState}",
-                new Vector2(10, _graphics.GraphicsDevice.Viewport.Height - 74),
-                Color.Black);
+                $"Player's State: {player.PlayerState}",
+                new Vector2(10, screenHeight - 72),
+                Color.White);
+
+            //Draws the current number of bullets
+            sb.DrawString(
+                    arial12,
+                    $"Bullet Count: {bullets.Count}",
+                    new Vector2(10, screenHeight - 98),
+                    Color.White);
+
+            //Draws the player's screen position
+            sb.DrawString(
+                arial12,
+                $"Player Screen Position: {player.ScreenPosition.X}, {player.ScreenPosition.Y}",
+                new Vector2(10,screenHeight - 124),
+                Color.White);
+
+            //Draws the player's world position
+            sb.DrawString(
+                arial12,
+                $"Player World Position: {player.WorldPosition.X}, {player.WorldPosition.Y}",
+                new Vector2(10, screenHeight - 150),
+                Color.White);
+
+            //Draws worldToScreen vector components
+            sb.DrawString(
+                arial12,
+                $"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
+                new Vector2(10, screenHeight - 176),
+                Color.White);
         }
     }
 }

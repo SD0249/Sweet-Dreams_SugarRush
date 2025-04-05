@@ -24,8 +24,9 @@ namespace Sweet_Dreams
     }
     public class Enemy : GameObject
     {
-        // FIELDS
-
+        // --------------------------------------------------------------
+        // Fields
+        // --------------------------------------------------------------
         // the type of Enemy
         private EnemyType eType;
 
@@ -38,62 +39,153 @@ namespace Sweet_Dreams
         // the amount of damage that the Enemy can deal to the player
         private int damage;
 
-        // enemy's speed and direction
-        Vector2 velocity;
+        // the enemy's speed and direction
+        private Vector2 velocity;
 
-        // CONSTRUCTORS
+        // values needed for the enemy's animation
+        private double timer;
+        private double fps;
+        private double spf;
+
+        // --------------------------------------------------------------
+        // Properties
+        // --------------------------------------------------------------
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
+        {
+            get
+            {
+                return !(screenPosition.X + screenPosition.Width < 0
+                    || screenPosition.X > screenWidth
+                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y > screenHeight);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // Constructors
+        // --------------------------------------------------------------
         /// <summary>
         /// Randomly generates an Enemy
         /// </summary>
-        public Enemy(Random rng, Texture2D asset, Rectangle position, int screenWidth, 
-            int screenHeight)
-            :base(asset, position, screenWidth, screenHeight)
+        public Enemy(Random rng, Texture2D asset, Rectangle worldPosition,
+            int screenWidth, int screenHeight)
+            :base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
         {
             isAlive = true;
+            screenPosition = worldPosition;
 
             eType = (EnemyType)rng.Next(0, 4);
             CreateEnemy();
+
+            // TODO: Change these values
+            timer = 0.0;
+            spf = 0.0;
+            fps = 0.0;
 
         }
         /// <summary>
         /// Generates chosen enemies
         /// </summary>
         /// <param name="eType">the type of enemy chosen</param>
-        public Enemy(EnemyType eType, Texture2D asset, Rectangle position, int screenWidth, 
-            int screenHeight) : base(asset, position, screenWidth, screenHeight)
+        public Enemy(EnemyType eType, Texture2D asset, Rectangle worldPosition, 
+            int screenWidth, int screenHeight) 
+            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
         {
             isAlive = true;
 
             this.eType = eType;
             CreateEnemy();
 
+            // TODO: Change these values
+            timer = 0.0;
+            spf = 0.0;
+            fps = 0.0;
         }
 
-        //METHODS
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            return false;
-        }
-
+        // --------------------------------------------------------------
+        // Methods
+        // --------------------------------------------------------------
         public override void UpdateAnimation(GameTime gameTime)
         {
+            timer += gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (timer >= spf)
+            {
+                currentFrame++;
+                if (currentFrame >= 3)
+                {
+                    currentFrame = 0;
+                }
+
+                timer -= spf;
+            }
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-
+            // Updates world position by moving toward the player
+            
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X - (int)worldToScreen.X,
+                worldPosition.Y - (int)worldToScreen.Y, 
+                worldPosition.Width, 
+                worldPosition.Height);
         }
 
         public override void Draw(SpriteBatch sb)
         {
             //Draws an Enemy at a given position
+            // CLOAK
+            if (eType == EnemyType.Cloak)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(2, 7, 12, 15), // x, y, width, height
+                Color.White);
+            }
+
+            //IMP
+            if (eType == EnemyType.Imp)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(5, 5, 9, 13),
+                Color.White);
+            }
+             
+
+            //MOUTH DEMON
+            if (eType == EnemyType.MouthDemon)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(5, 7, 20, 35),
+                Color.White);
+            }
+
+            // HORN DEMON
+            if (eType == EnemyType.HornDemon)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(4, 6, 11, 23),
+                Color.White);
+            }
         }
 
         public bool CollidesWith()
         {
             // if the Enemy position intersects with the player position
-            return true;
+            //if (worldPosition.Intersects())
+            return false;
         }
 
         /// <summary>
@@ -105,8 +197,8 @@ namespace Sweet_Dreams
             {
                 for (int i = 0; i < candyNum; i++)
                 {
-                    //// TODO: determine params for Candy(), remove isAlive check
-                    //collectibles.Add(new Candy());
+                    // Should be drawn at the enemy's death position
+                    collectibles.Add(new Candy(asset, worldPosition, screenWidth, screenHeight));
                 }
             }
         }

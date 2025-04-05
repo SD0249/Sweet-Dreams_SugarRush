@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    /* Amy Lee
+    /* Amy Lee, Ayvin Krug
      * Purpose: A Level class that uses the LevelTile objects as 
      *          the basic building blocks of a level background. 
      *          Loads information from the file and constructs the level accordingly. */
@@ -22,9 +22,6 @@ namespace Sweet_Dreams
 
         // A Texture2D asset that includes all the assets for the background
         private Texture2D spriteSheet;
-
-        // A SpriteBatch field used to draw the level to the game window
-        // private SpriteBatch spriteBatch;
 
         // The intended Size of each level tile in pixels drawn on the game window.
         private int intendedSize;
@@ -106,27 +103,19 @@ namespace Sweet_Dreams
                     {
                         splitData = line.Split(',');
 
-                        // We have the size of one tile from the file
-                        if(splitData.Length == 2)
-                        {
-                            spriteWidth = int.Parse(splitData[0]);
-                            spriteHeight = int.Parse(splitData[1]);
-                        }
+                        // Save the corresponding row and column data
+                        // from the text file
+                        int x = int.Parse(splitData[1]);
+                        int y = int.Parse(splitData[2]);
+                        spriteWidth = int.Parse(splitData[3]);
+                        spriteHeight = int.Parse(splitData[4]);
 
-                        // We have a tile to populate the dictionary
-                        if(splitData.Length == 3)
-                        {
-                            // Save the corresponding row and column data
-                            // from the text file
-                            int column = int.Parse(splitData[1]);
-                            int row = int.Parse(splitData[2]);
-
-                            textureMap.Add(splitData[0],                        // KEY
-                                           new Rectangle(column * spriteWidth,  // X position
-                                                         row * spriteHeight,    // Y position
-                                                         spriteWidth,           // Width
-                                                         spriteHeight));        // Height
-                        }
+                        // Add the corresponding tile asset information to the dictionary
+                        textureMap.Add(splitData[0],                        // KEY
+                                       new Rectangle(x,                     // X position
+                                                     y,                     // Y position
+                                                     spriteWidth,           // Width
+                                                     spriteHeight));        // Height
                     }
                 }
 
@@ -164,27 +153,86 @@ namespace Sweet_Dreams
                 string line = "";
                 string[] splitData = null;
 
+                // A local variable used to draw a tile asset
+                // to the appropriate location  
+                int rowCount = 0;
 
+                while ((line = reader.ReadLine()!) != null)
+                {
+                    splitData = line.Split(',');
 
+                    // The line with 2 data has information
+                    // of the intended size of a tile
+                    if(splitData.Length == 2)
+                    {
+                        intendedSize = int.Parse(splitData[1]);
+                    }
+                    // The line with 3 data has information
+                    // of the rows & columns of the tile array
+                    else if(splitData.Length == 3)
+                    {
+                        column = int.Parse(splitData[1]);
+                        row = int.Parse(splitData[2]);
+
+                        tileSet = new LevelTile[column, row];
+                    }
+                    // The rest of the lines includes information about
+                    // each individual tile's location in relation to the tileSet array
+                    else
+                    {
+                        // The column and row information for each tile
+                        // to store them at the right tileSet location
+                        for(int c = 0; c < splitData.Length; c++)
+                        {
+                            // Before populating the tileSet,
+                            // calculate the x and y position on the window to place a tile
+                            int xPosition = c * intendedSize;
+                            int yPosition = rowCount * intendedSize;
+
+                            // Store each level tile object to the tileSet field.
+                            tileSet[c, rowCount] = new LevelTile(spriteSheet,
+                                                                 textureMap[splitData[c]], 
+                                                                 new Rectangle
+                                                                 (xPosition, yPosition, intendedSize, intendedSize));
+                        }
+
+                        // Increment the RowCount variable for the next background line to use
+                        rowCount++;
+                    }
+                }
+
+                // Close the stream to ensure the level loading is complete
+                reader.Close();
             }
             // Throw an exception if there is an error in the process
             catch(Exception error)
             {
-
+                Debug.WriteLine("There was an error in Level Loading.");
+                Debug.WriteLine("Check the following the details: " + error.Message);
             }
         }
 
 
         /// <summary>
-        /// Draws all the level tile to the console window
+        /// Draws all level tiles to the console window
         /// </summary>
-        public void DisplayTiles(SpriteBatch sb)
+        /// <param name="sb">SpriteBatch to draw with.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        public void DisplayTiles(SpriteBatch sb, Vector2 worldToScreen, int screenWidth, int screenHeight)
         {
-            for(int r = 0; r < tileSet.GetLength(0); r++)
+            for(int r = 0; r < row; r++)
             {
-                for(int c = 0; c < tileSet.GetLength(1); c++)
+                for(int c = 0; c < column; c++)
                 {
-                    tileSet[r, c].Draw(sb);
+                    //// Draws all tiles that would be at all visible on the screen
+                    //if (tileSet[r, c].IsOnScreen(worldToScreen, screenWidth, screenHeight))
+                    //{
+                    //    tileSet[r, c].Draw(sb);
+                    //}
+
+                    // For testing, draws all tiles even if they're off screen
+                    // Could change after developing 2D camera system
+                    tileSet[r, c].Draw(sb, worldToScreen);
                 }
             }
         }

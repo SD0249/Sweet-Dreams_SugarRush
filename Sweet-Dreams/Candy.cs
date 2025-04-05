@@ -15,7 +15,7 @@ namespace Sweet_Dreams
     {
         SkullCandy,
         Peppermint,
-        PinkCandy,
+        CandyCorn,
         GreenCandy,
         YellowCandy
     }
@@ -31,11 +31,29 @@ namespace Sweet_Dreams
         // source Rectangle
         Rectangle sourceRectangle;
 
-        // CONSTRUCTORS
-        public Candy(Texture2D asset, Rectangle position, int screenWidth, int screenHeight)
-            : base(asset, position, screenWidth, screenHeight)
+        // Properties
+        /// <summary>
+        /// Whether or not any part of the object is visible on the screen.
+        /// </summary>
+        public bool IsOnScreen
         {
-            
+            get
+            {
+                return !(screenPosition.X + screenPosition.Width < 0
+                    || screenPosition.X > screenWidth
+                    || screenPosition.Y + screenPosition.Height < 0
+                    || screenPosition.Y > screenHeight);
+            }
+        }
+
+        // --------------------------------------------------------------
+        // Constructor
+        // --------------------------------------------------------------
+        public Candy(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
+            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+        {
+            // Only used here in the constructor
+            // TODO: Maybe use a reference one generator instead of a new one for each object?
             rng = new Random();
 
             // this value will be determine the type of Candy
@@ -50,7 +68,7 @@ namespace Sweet_Dreams
                     cType = CandyType.Peppermint;
                     break;
                 case 2:
-                    cType = CandyType.PinkCandy;
+                    cType = CandyType.CandyCorn;
                     break;
                 case 3:
                     cType = CandyType.GreenCandy;
@@ -62,21 +80,64 @@ namespace Sweet_Dreams
         }
 
         // METHODS
-        public override bool IsOnScreen(Vector2 worldToScreen)
-        {
-            return false;
-        }
         public override void UpdateAnimation(GameTime gameTime)
         {
            
         }
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
+            // Updates world position by moving toward the player
 
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X - (int)worldToScreen.X,
+                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.Width,
+                worldPosition.Height);
         }
+
         public override void Draw(SpriteBatch sb)
         {
-
+            if (cType == CandyType.Peppermint)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(0, 16, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.CandyCorn)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(0, 0, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.GreenCandy)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(17, 33, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.YellowCandy)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(33, 81, 16, 16),
+                Color.White);
+            }
+            if (cType == CandyType.SkullCandy)
+            {
+                sb.Draw(
+                asset,
+                worldPosition,
+                new Rectangle(65, 97, 16, 16),
+                Color.White);
+            }
         }
     }
 }
