@@ -46,6 +46,8 @@ namespace Sweet_Dreams
         private Texture2D hornDemonSprite;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
+        private Button myButton;
+        private Texture2D tempButton;
         private KeyboardState currentKbState;
         private KeyboardState previousKbState;
         private bool doorIsReached;
@@ -87,6 +89,11 @@ namespace Sweet_Dreams
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
+            tempButton = Content.Load<Texture2D>("ShitButton");
+
+            myButton = new Button(tempButton,
+                new Rectangle(340, 250, 100, 50));
+
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
             cloakSprite = Content.Load<Texture2D>("Necromancer_Animation");
             impSprite = Content.Load<Texture2D>("ImpSpriteSheet");
@@ -126,7 +133,7 @@ namespace Sweet_Dreams
 
                     // Draw menu to console
 
-                    if (currentKbState.IsKeyDown(Keys.Enter))
+                    if (myButton.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
                     }
@@ -149,6 +156,8 @@ namespace Sweet_Dreams
                     }
                     */
 
+                    // if the player is dead the game state changes to lose
+                    // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
                     //player.UpdateAnimation(gameTime);
@@ -187,6 +196,8 @@ namespace Sweet_Dreams
 
                 case GameState.Win:
 
+                    // draw win screen to console
+                    // assuming were also going to need the button class?
                     // Draw win screen to console
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
@@ -237,6 +248,17 @@ namespace Sweet_Dreams
             switch (gameState)
             {
                 case GameState.Menu:
+
+                    GraphicsDevice.Clear(Color.Black);
+
+                    if (myButton.Update(mouse) == true)
+                    {
+                        myButton.Draw(_spriteBatch);
+                    }
+                    else
+                    {
+                        myButton.Draw(_spriteBatch);
+                    }
 
                     _spriteBatch.DrawString(
                         arial12,
