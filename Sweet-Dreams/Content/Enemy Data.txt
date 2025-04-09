@@ -1,6 +1,6 @@
 // Enemy Data Information.
 // Uses the sprite png from "0x72_DungeonTilesetII_v1.7"
-// Sprite Size: about 32 x 32
+// Sprite Size: about 32 x 32 (MouthDemon is about 64 x 64)
 //
 // This will be used to generate enemies from a switch statement
 //
