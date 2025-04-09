@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
