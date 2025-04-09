@@ -47,7 +47,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
-        
         /// <summary>
         /// Requires child classes to update their animation
         /// </summary>

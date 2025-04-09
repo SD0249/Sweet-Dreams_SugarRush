@@ -30,6 +30,8 @@ namespace Sweet_Dreams
         private int playerHealth;
         private bool isAlive;
         private Vector2 velocity;
+
+        // Animation fields
         private double timer;
         private double fps;
         private double spf;
@@ -38,7 +40,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        
         public Rectangle WorldPosition
         {
             get { return worldPosition; }
@@ -88,7 +89,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
-
         /// <summary>
         /// 
         // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
@@ -115,6 +115,11 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// Updates the players position based on what keys are pressed
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="worldToScreen"></param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             // Updates world position based on keyboard input
@@ -215,6 +220,10 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// Draws the player to the screen
+        /// </summary>
+        /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
             //Draws the player with no movement

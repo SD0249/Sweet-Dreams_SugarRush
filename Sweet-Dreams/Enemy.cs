@@ -22,6 +22,7 @@ namespace Sweet_Dreams
         HornDemon,
         Cloak
     }
+
     public class Enemy : GameObject
     {
         // --------------------------------------------------------------
@@ -86,6 +87,7 @@ namespace Sweet_Dreams
             fps = 0.0;
 
         }
+
         /// <summary>
         /// Generates chosen enemies
         /// </summary>
@@ -108,22 +110,38 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
+        /// <summary>
+        /// 
+        // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
+        ///
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void UpdateAnimation(GameTime gameTime)
         {
+            // ElapsedGameTime is the duration of the last GAME frame
             timer += gameTime.ElapsedGameTime.TotalSeconds;
 
+            // Has enough time passed to flip to the next frame?
             if (timer >= spf)
             {
+                // Change which frame is active, ensuring the frame is reset back to the first 
                 currentFrame++;
                 if (currentFrame >= 3)
                 {
                     currentFrame = 0;
                 }
 
+                // Reset the time counter, keeping remaining elapsed time
                 timer -= spf;
             }
         }
 
+        /// <summary>
+        /// Updates the enemies position to always 
+        /// move towards the player
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="worldToScreen"> World to screen offset vector </param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             // Updates world position by moving toward the player
@@ -136,6 +154,10 @@ namespace Sweet_Dreams
                 worldPosition.Height);
         }
 
+        /// <summary>
+        /// Draws the enemy based on it's enemy type
+        /// </summary>
+        /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
             //Draws an Enemy at a given position
@@ -181,9 +203,12 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// Checks if the enemy collied with the player
+        /// </summary>
+        /// <returns> If they are colliding </returns>
         public bool CollidesWith()
         {
-            // if the Enemy position intersects with the player position
             //if (worldPosition.Intersects())
             return false;
         }
@@ -191,10 +216,13 @@ namespace Sweet_Dreams
         /// <summary>
         /// When the enemy dies, Candy will be drawn near the enemy position
         /// </summary>
+        /// <param name="collectibles"> List of dropped candies </param>
         public void DropCandy(List<Candy> collectibles)
         {
+            // If the enemy is dead
             if (!isAlive)
             {
+                // Add all the dropped candies to the collectibles list
                 for (int i = 0; i < candyNum; i++)
                 {
                     // Should be drawn at the enemy's death position
@@ -203,7 +231,10 @@ namespace Sweet_Dreams
             }
         }
 
-        // HELPER METHOD
+        /// <summary>
+        /// A helper method used when loading the enemies
+        /// in order to set their damage and how many candies they drop
+        /// </summary>
         private void CreateEnemy()
         {
             switch (eType)

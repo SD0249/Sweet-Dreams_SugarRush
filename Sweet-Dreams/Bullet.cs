@@ -44,7 +44,7 @@ namespace Sweet_Dreams
             {
                 return !(screenPosition.X + screenPosition.Width < 0
                     || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Width < 0
+                    || screenPosition.Y + screenPosition.Height < 0
                     || screenPosition.Y > screenHeight);
             }
         }
@@ -82,10 +82,13 @@ namespace Sweet_Dreams
             
         }
 
+        /// <summary>
+        /// Updates the bullet's world & screen position
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="worldToScreen"> World to screen offset vector </param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-            mouse = Mouse.GetState();
-
             // Changing the bullets position
             worldPosition.X += (int)Math.Round(direction.X * speed);
             worldPosition.Y += (int)Math.Round(direction.Y * speed);
@@ -98,6 +101,10 @@ namespace Sweet_Dreams
                 worldPosition.Height);
         }
 
+        /// <summary>
+        /// Draws the bullet :]
+        /// </summary>
+        /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(
@@ -110,7 +117,7 @@ namespace Sweet_Dreams
                 SpriteEffects.None,
                 1);
 
-            DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
+            //DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
         }
     }
 }
