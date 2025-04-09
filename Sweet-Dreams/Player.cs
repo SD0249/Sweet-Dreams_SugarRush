@@ -264,5 +264,13 @@ namespace Sweet_Dreams
                 worldPosition.Y = worldHeight;
             }
         }
+
+        /// <summary>
+        /// Removes candy from the List and adds to the Player's 
+        /// </summary>
+        public void CollectCandy()
+        {
+
+        }
     }
 }
