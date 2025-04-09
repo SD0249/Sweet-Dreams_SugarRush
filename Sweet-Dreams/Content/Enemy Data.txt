@@ -1,6 +1,11 @@
-// Enemy Data File
+// Enemy Data Information.
+// Uses the sprite png from "0x72_DungeonTilesetII_v1.7"
+// Sprite Size: about 32 x 32
 //
+// This will be used to generate enemies from a switch statement
 //
+// File format:
+// Name of enemy type
 // Wave 1 Enemies
 Imp
 Imp
