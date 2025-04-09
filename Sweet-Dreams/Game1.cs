@@ -311,14 +311,14 @@ namespace Sweet_Dreams
                     // Draws all candies that are on screen
                     for (int i = 0; i < collectibles.Count; i++)
                     {
-                        if (collectibles[i].IsOnScreen(worldToScreen))
+                        if (collectibles[i].IsOnScreen)
                         {
                             collectibles[i].Draw(_spriteBatch);
                         }
                     }
 
                     // Draws all enemies that are on screen
-                    enemyManager.DrawAll(_spriteBatch, worldToScreen);
+                    enemyManager.DrawAll(_spriteBatch);
                     */
 
                     // Draws all bullets
