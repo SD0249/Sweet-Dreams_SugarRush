@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Enumeration;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,14 +38,15 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="fileName">File containing all enemy data for the level.</param>
         /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
-        public EnemyManager(string fileName, List<Candy> collectibles)
+        public EnemyManager(Random rng, string fileName, List<Candy> collectibles, 
+            Texture2D asset, int screenWidth, int screenHeight)
         {
             // Inits fields with empty data structures
             allEnemies = new Queue<Enemy>();
             currentEnemies = new List<Enemy>();
 
             // Fills the queue with enemy data from the file
-            this.ReadEnemyData(fileName);
+            this.ReadEnemyData(rng, fileName, asset, screenWidth, screenHeight);
 
             // Gives a reference to the list of collectibles to be drawn
             this.collectibles = collectibles;
@@ -94,9 +97,41 @@ namespace Sweet_Dreams
         /// as determined by file data.
         /// </summary>
         /// <param name="fileName">File containing all enemy data for the level.</param>
-        private void ReadEnemyData(string fileName)
+        private void ReadEnemyData(Random rng, string fileName, Texture2D asset,
+            int screenWidth, int screenHeight)
         {
+            // File reading/writing:
+            StreamReader reader = null;
+            string lineFromFile = "";
 
+            try
+            {
+                //Creating a new StreamReader object
+                reader = new StreamReader(fileName);
+
+                //Read the data from the file
+                while ((lineFromFile = reader.ReadLine()) != null)
+                {
+                    allEnemies.Enqueue(new Enemy(rng,
+                                                 asset,
+                                                 new Rectangle(0, 0, 1, 1),
+                                                 screenWidth,
+                                                 screenHeight));
+                }
+            }
+            catch (Exception e)
+            {
+                //Catch the potential exception and print error message
+                Console.WriteLine("Error: " + e.Message);
+            }
+            finally
+            {
+                //Close the reader
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
         }
 
         /// <summary>

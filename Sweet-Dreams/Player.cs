@@ -232,5 +232,38 @@ namespace Sweet_Dreams
                 new Rectangle(7, 7, 10, 18),
                 Color.White);
         }
+
+        /// <summary>
+        /// In relation to the world width and height, 
+        /// this method ensures that the player doesn't move out the bounds of the drawn map.
+        /// </summary>
+        /// <param name="worldWidth">World Width; Num of columns * Size of a tile</param>
+        /// <param name="WorldHeight">World Height; Num of rows * Size of a tile</param>
+        public void KeepPlayerInBounds(int worldWidth, int worldHeight)
+        {
+            // If the player is too FAR LEFT
+            if (worldPosition.X < 0)
+            {
+                worldPosition.X = 0;
+            }
+
+            // If the player is too FAR RIGHT
+            if (worldPosition.X + worldPosition.Width > worldWidth)
+            {
+                worldPosition.X = worldWidth - worldPosition.Width;
+            }
+
+            // If the player is too FAR UP
+            if (worldPosition.Y < 0)
+            {
+                worldPosition.Y = 0;
+            }
+
+            // If the player is too FAR DOWN
+            if (worldPosition.Y + worldPosition.Height > worldHeight)
+            {
+                worldPosition.Y = worldHeight;
+            }
+        }
     }
 }
