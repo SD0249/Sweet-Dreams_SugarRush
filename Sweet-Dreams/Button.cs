@@ -49,9 +49,9 @@ namespace Sweet_Dreams
         public void Update(MouseState mouse)
         {
             Point mousePoint = new Point(mouse.X, mouse.Y);
-            bool hoveringOverButton = Bounds.Contains(mousePoint);
+            //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
-            if (hoveringOverButton)
+            if (Bounds.Contains(mousePoint))
             {
                 currentButtonColor = HoveredOverColor;
             }
@@ -81,9 +81,9 @@ namespace Sweet_Dreams
         public bool buttonPressed(MouseState mouse)
         {
             Point mousePoint = new Point(mouse.X, mouse.Y);
-            bool hoveringOverButton = Bounds.Contains(mousePoint);
+            //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
-            if (hoveringOverButton && mouse.LeftButton == ButtonState.Pressed)
+            if (Bounds.Contains(mousePoint) && mouse.LeftButton == ButtonState.Pressed)
             {
                 return true;
             }
