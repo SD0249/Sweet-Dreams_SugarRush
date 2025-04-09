@@ -1,0 +1,43 @@
+// Enemy Data File //
+//
+//
+// Wave 1 Enemies //
+
+Imp
+Imp
+Imp
+Cloak
+Imp
+Cloak
+Cloak
+Imp
+Imp
+Imp
+
+// Wave 2 Enemies //
+
+Imp
+Imp
+Cloak
+HornDemon
+Cloak
+Cloak
+HornDemon
+HornDemon
+Cloak
+MouthDemon
+
+
+// Wave 3 Enemies //
+
+HornDemon
+HornDemon
+Cloak
+MouthDemon
+HornDemon
+Cloak
+HornDemon
+HornDemon
+MouthDemon
+MouthDemon
+
