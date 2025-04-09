@@ -216,8 +216,8 @@ namespace Sweet_Dreams
         /// <summary>
         /// Draws all level tiles to the console window
         /// </summary>
-        /// <param name="sb">SpriteBatch to draw with.</param>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
+        /// <param name="sb"> SpriteBatch to draw with </param>
+        /// <param name="worldToScreen"> World to screen offset vector </param>
         public void DisplayTiles(SpriteBatch sb, Vector2 worldToScreen, int screenWidth, int screenHeight)
         {
             for(int r = 0; r < row; r++)

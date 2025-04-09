@@ -19,19 +19,24 @@ namespace Sweet_Dreams
         GreenCandy,
         YellowCandy
     }
+
     public class Candy : GameObject
     {
-        // FIELDS
-        // the type of candy that will appear on screen
+        // --------------------------------------------------------------
+        // Fields
+        // --------------------------------------------------------------
+        // The type of candy that will appear on screen
         CandyType cType;
 
-        // generates a number that determines the type of candy dropped
+        // Generates a number that determines the type of candy dropped
         Random rng;
 
-        // source Rectangle
+        // Source Rectangle
         Rectangle sourceRectangle;
 
+        // --------------------------------------------------------------
         // Properties
+        // --------------------------------------------------------------
         /// <summary>
         /// Whether or not any part of the object is visible on the screen.
         /// </summary>
@@ -79,11 +84,14 @@ namespace Sweet_Dreams
             }
         }
 
+        // --------------------------------------------------------------
         // METHODS
+        // --------------------------------------------------------------
         public override void UpdateAnimation(GameTime gameTime)
         {
            
         }
+
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             // Updates world position by moving toward the player
@@ -96,6 +104,10 @@ namespace Sweet_Dreams
                 worldPosition.Height);
         }
 
+        /// <summary>
+        /// Draws the candy based on its candy type
+        /// </summary>
+        /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
             if (cType == CandyType.Peppermint)
