@@ -119,8 +119,7 @@ namespace Sweet_Dreams
         /// Updates the players position based on what keys are pressed
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="worldToScreen"></param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();

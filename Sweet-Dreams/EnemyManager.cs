@@ -62,11 +62,11 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="gameTime">Time information from MonoGame.</param>
         /// <param name="worldToScreen">World to screen offset vector.</param>
-        public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
+        public void UpdateAll(GameTime gameTime)
         {
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                currentEnemies[i].Update(gameTime, worldToScreen);
+                currentEnemies[i].Update(gameTime);
             }
 
             // TODO: Add drop candy, remove from level, and next wave logic
@@ -112,11 +112,11 @@ namespace Sweet_Dreams
                 //Read the data from the file
                 while ((lineFromFile = reader.ReadLine()) != null)
                 {
-                    allEnemies.Enqueue(new Enemy(rng,
+                    /* allEnemies.Enqueue(new Enemy(rng,
                                                  asset,
                                                  new Rectangle(0, 0, 1, 1),
                                                  screenWidth,
-                                                 screenHeight));
+                                                 screenHeight)); */
                 }
             }
             catch (Exception e)

@@ -53,14 +53,15 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="sb">SpriteBatch object used to 
         /// draw the object on the game window</param>
-        public void Draw(SpriteBatch sb, Vector2 worldToScreen)
+        public void Draw(SpriteBatch sb)
         {
             sb.Draw(spriteSheet, 
-                new Rectangle(drawnRectangle.X + (int)worldToScreen.X,
-                    drawnRectangle.Y + (int)worldToScreen.Y,
-                    drawnRectangle.Width,
-                    drawnRectangle.Height),
-                sourceRectangle, Color.White);
+                    new Rectangle(drawnRectangle.X,
+                              drawnRectangle.Y,
+                              drawnRectangle.Width,
+                              drawnRectangle.Height),
+                    sourceRectangle, 
+                    Color.White);
         }
 
         /// <summary>

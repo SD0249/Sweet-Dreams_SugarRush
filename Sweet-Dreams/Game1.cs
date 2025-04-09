@@ -167,7 +167,7 @@ namespace Sweet_Dreams
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
                     // Updates the player
-                    player.Update(gameTime, worldToScreen);
+                    player.Update(gameTime);
                     //player.UpdateAnimation(gameTime);
 
                     // Updates world to screen offset vector
@@ -190,7 +190,7 @@ namespace Sweet_Dreams
                     // Updates all bullets
                     for (int i = 0; i < bullets.Count; i++)
                     {
-                        bullets[i].Update(gameTime, worldToScreen);
+                        bullets[i].Update(gameTime);
 
                     }
                     
