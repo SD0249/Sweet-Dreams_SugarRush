@@ -32,11 +32,6 @@
 /processorParam:TextureFormat=Compressed
 /build:arial12.spritefont
 
-#begin Enemy Data.txt
-/importer:
-/processor:
-/build:Enemy Data.txt
-
 #begin EnemySpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
