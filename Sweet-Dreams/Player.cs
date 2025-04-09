@@ -228,7 +228,7 @@ namespace Sweet_Dreams
         {
             //Draws the player with no movement
             sb.Draw(asset,
-                screenPosition,
+                worldPosition,
                 new Rectangle(7, 7, 10, 18),
                 Color.White);
         }

@@ -43,6 +43,12 @@ namespace Sweet_Dreams
         // the enemy's speed and direction
         private Vector2 velocity;
 
+        // Width of the world map
+        private int worldWidth;
+
+        // Height of the world map
+        private int worldHeight;
+
         // values needed for the enemy's animation
         private double timer;
         private double fps;
@@ -69,42 +75,64 @@ namespace Sweet_Dreams
         // Constructors
         // --------------------------------------------------------------
         /// <summary>
-        /// Randomly generates an Enemy
+        /// Generates a randomly positioned enemy of a given type.
         /// </summary>
-        public Enemy(Random rng, Texture2D asset, Rectangle worldPosition,
-            int screenWidth, int screenHeight)
-            :base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+        /// <param name="eType">The type of enemy.</param>
+        /// <param name="rng">Reference to the game's randomizer.</param>
+        /// <param name="asset">Spritesheet of enemies.</param>
+        /// <param name="anyRect">Any rect can be passed in here. 
+        /// Position will be randomized in the constructor.</param>
+        /// <param name="screenWidth">Screen's width.</param>
+        /// <param name="screenHeight">Screen's height.</param>
+        public Enemy(EnemyType eType, Random rng, Texture2D asset, Rectangle anyRect,
+            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+            :base(asset, anyRect, anyRect, screenWidth, screenHeight)
         {
             isAlive = true;
-            screenPosition = worldPosition;
+            this.worldWidth = worldWidth;
+            this.worldHeight = worldHeight;
 
-            eType = (EnemyType)rng.Next(0, 4);
-            CreateEnemy();
-
-            // TODO: Change these values
-            timer = 0.0;
-            spf = 0.0;
-            fps = 0.0;
-
-        }
-
-        /// <summary>
-        /// Generates chosen enemies
-        /// </summary>
-        /// <param name="eType">the type of enemy chosen</param>
-        public Enemy(EnemyType eType, Texture2D asset, Rectangle worldPosition, 
-            int screenWidth, int screenHeight) 
-            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
-        {
-            isAlive = true;
-
+            // Determines type-specific field values for this enemy
             this.eType = eType;
             CreateEnemy();
 
+            // Randomizes enemy's position to somewhere on the border
+            int edge = rng.Next(4);
+            switch (edge)
+            {
+                // Left edge, random height
+                case 0:
+                    worldPosition.X = -worldPosition.Width;
+                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
+                    break;
+
+                // Right edge, random height
+                case 1:
+                    worldPosition.X = worldWidth;
+                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
+                    break;
+
+                // Top edge, random X value
+                case 2:
+                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
+                    worldPosition.Y = -worldPosition.Height;
+                    break;
+
+                // Bottom edge, random X value
+                case 3:
+                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
+                    worldPosition.Y = worldHeight;
+                    break;
+            }
+            
+            // Gives screen position a default value until it is updated in Update()
+            screenPosition = worldPosition;
+
             // TODO: Change these values
             timer = 0.0;
             spf = 0.0;
             fps = 0.0;
+
         }
 
         // --------------------------------------------------------------
@@ -232,11 +260,12 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// A helper method used when loading the enemies
-        /// in order to set their damage and how many candies they drop
+        /// A helper method used when loading the enemies in order to
+        /// set their damage, source rectangle, and how many candies they drop.
         /// </summary>
         private void CreateEnemy()
         {
+            // TODO: Determine source rect and change the width and height of position rect
             switch (eType)
             {
                 case EnemyType.Imp:

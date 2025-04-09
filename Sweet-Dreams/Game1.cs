@@ -52,6 +52,7 @@ namespace Sweet_Dreams
         private KeyboardState previousKbState;
         private bool doorIsReached;
         private Level level1;
+        private OrthographicCamera camera;
 
         // Whether or not the game is currently in debug mode
         public static bool debugMode;
@@ -75,6 +76,9 @@ namespace Sweet_Dreams
 
             // Debug mode is on for testing
             debugMode = true;
+
+            // Initialize Camera
+            camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
 
             mouse = Mouse.GetState();
 
@@ -196,6 +200,15 @@ namespace Sweet_Dreams
                         gameState = GameState.Lose;
                     }
 
+                    // Update ALL the camera related stuff
+                    camera.Update(worldToScreen, 
+                                  player.WorldPosition, 
+                                  level1.WorldWidth, 
+                                  level1.WorldHeight);
+
+                    // Keep player in bounds
+                    player.KeepPlayerInBounds(level1.WorldWidth, level1.WorldHeight);
+
                     break;
 
                 case GameState.Win:
@@ -231,20 +244,31 @@ namespace Sweet_Dreams
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Porobably get rid of this
-            /*
+            
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
             if (gameState == GameState.Game)
             {
             // Draws everything whose position needs to be translated
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
-                Matrix.CreateTranslation(-player.Position.X, -player.Position.Y, 0));
+            _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
 
-            _spriteBatch.End()
+                // Draws the level itself
+                level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+
+                // Draws all bullets
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if (bullets[i].IsOnScreen)
+                    {
+                        bullets[i].Draw(_spriteBatch);
+                    }
+                }
+
+                // Draws the player
+                player.Draw(_spriteBatch);
+
+                _spriteBatch.End();
             }
-            */
             
             // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
@@ -280,34 +304,34 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     // Draws the level itself
-                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+                    // level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
 
                     // TODO: Uncomment the following once fields are initialized
                     /*
                     // Draws all candies that are on screen
                     for (int i = 0; i < collectibles.Count; i++)
                     {
-                        if (collectibles[i].IsOnScreen(worldToScreen))
+                        if (collectibles[i].IsOnScreen)
                         {
                             collectibles[i].Draw(_spriteBatch);
                         }
                     }
 
                     // Draws all enemies that are on screen
-                    enemyManager.DrawAll(_spriteBatch, worldToScreen);
+                    enemyManager.DrawAll(_spriteBatch);
                     */
 
                     // Draws all bullets
-                    for (int i = 0; i < bullets.Count; i++)
+                    /* for (int i = 0; i < bullets.Count; i++)
                     {
                         if (bullets[i].IsOnScreen)
                         {
                             bullets[i].Draw(_spriteBatch);
                         }
-                    }
+                    } */
 
                     // Draws the player
-                    player.Draw(_spriteBatch);
+                    // player.Draw(_spriteBatch);
                     
                     /* DebugLib.DrawRectOutline(_spriteBatch,
                         player.WorldPosition,
