@@ -29,7 +29,10 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        
+        /// <summary>
+        /// This object's world position.
+        /// </summary>
+        public abstract Rectangle WorldPosition { get; }
 
         // --------------------------------------------------------------
         // Constructor

@@ -40,7 +40,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        public Rectangle WorldPosition
+        public override Rectangle WorldPosition
         {
             get { return worldPosition; }
         }
@@ -234,12 +234,22 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
+        /// If this object is colliding with another given object.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <returns></returns>
+        public bool CollidesWith(GameObject gameObject)
+        {
+            return worldPosition.Intersects(gameObject.WorldPosition);
+        }
+
+        /// <summary>
         /// In relation to the world width and height, 
         /// this method ensures that the player doesn't move out the bounds of the drawn map.
         /// </summary>
         /// <param name="worldWidth">World Width; Num of columns * Size of a tile</param>
-        /// <param name="WorldHeight">World Height; Num of rows * Size of a tile</param>
-        public void KeepPlayerInBounds(int worldWidth, int worldHeight)
+        /// <param name="worldHeight">World Height; Num of rows * Size of a tile</param>
+        private void KeepPlayerInBounds(int worldWidth, int worldHeight)
         {
             // If the player is too FAR LEFT
             if (worldPosition.X < 0)
@@ -263,6 +273,36 @@ namespace Sweet_Dreams
             if (worldPosition.Y + worldPosition.Height > worldHeight)
             {
                 worldPosition.Y = worldHeight;
+            }
+        }
+
+        /// <summary>
+        /// Gives a buff or debuff to the player based on the type of candy it is collecting.
+        /// </summary>
+        /// <param name="candyType">Type of candy that is being collected.</param>
+        public void CollectCandy(CandyType candyType)
+        {
+            switch (candyType)
+            {
+                case CandyType.SkullCandy:
+                    // Deal damage to the player
+                    break;
+
+                case CandyType.Peppermint:
+                    // Do something
+                    break;
+
+                case CandyType.CandyCorn:
+                    // Do something
+                    break;
+
+                case CandyType.GreenCandy:
+                    // Do something
+                    break;
+
+                case CandyType.YellowCandy:
+                    // Do something
+                    break;
             }
         }
     }

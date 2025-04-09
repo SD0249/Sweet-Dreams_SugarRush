@@ -29,10 +29,9 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        public Rectangle WorldPosition
+        public override Rectangle WorldPosition
         {
             get { return WorldPosition; }
-            set { WorldPosition = value; }
         }
 
         /// <summary>
