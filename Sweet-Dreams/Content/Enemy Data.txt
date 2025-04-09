@@ -1,8 +1,7 @@
-// Enemy Data File //
+// Enemy Data File
 //
 //
-// Wave 1 Enemies //
-
+// Wave 1 Enemies
 Imp
 Imp
 Imp
@@ -13,9 +12,7 @@ Cloak
 Imp
 Imp
 Imp
-
-// Wave 2 Enemies //
-
+// Wave 2 Enemies
 Imp
 Imp
 Cloak
@@ -26,10 +23,7 @@ HornDemon
 HornDemon
 Cloak
 MouthDemon
-
-
-// Wave 3 Enemies //
-
+// Wave 3 Enemies
 HornDemon
 HornDemon
 Cloak
@@ -40,4 +34,3 @@ HornDemon
 HornDemon
 MouthDemon
 MouthDemon
-
