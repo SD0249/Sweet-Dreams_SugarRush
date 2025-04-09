@@ -21,12 +21,16 @@ namespace Sweet_Dreams
     /// </summary>
     public class EnemyManager
     {
+        // --------------------------------------------------------------
         // Fields
+        // --------------------------------------------------------------
         private Queue<Enemy> allEnemies;
         private List<Enemy> currentEnemies;
         private List<Candy> collectibles;
 
+        // --------------------------------------------------------------
         // Constructor
+        // --------------------------------------------------------------
         /// <summary>
         /// Instantiates a manager for all enemies in a level.
         /// </summary>
@@ -45,7 +49,9 @@ namespace Sweet_Dreams
             this.collectibles = collectibles;
         }
 
+        // --------------------------------------------------------------
         // Public methods
+        // --------------------------------------------------------------
         /// <summary>
         /// Updates all enemy positions, removes them from the level and has them
         /// drop candies if they're dead, and dequeues more enemies into the level 
@@ -80,7 +86,9 @@ namespace Sweet_Dreams
             }
         }
 
+        // --------------------------------------------------------------
         // Private helper methods
+        // --------------------------------------------------------------
         /// <summary>
         /// Fills the queue with all enemies that will spawn in the level,
         /// as determined by file data.

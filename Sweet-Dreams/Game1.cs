@@ -138,6 +138,10 @@ namespace Sweet_Dreams
                         gameState = GameState.Game;
                     }
 
+                    // Makes sure that the player doesn't shoot
+                    // when the play button is pressed
+                    player.ReloadTimer = 0.3;
+
                     // If button is pressed?
                     // Need button class
 
@@ -156,8 +160,8 @@ namespace Sweet_Dreams
                     }
                     */
 
-                    // if the player is dead the game state changes to lose
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
+
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
                     //player.UpdateAnimation(gameTime);
@@ -251,6 +255,11 @@ namespace Sweet_Dreams
 
                     GraphicsDevice.Clear(Color.Black);
 
+                    // Updates and draws the play button
+                    myButton.Update(mouse);
+                    myButton.Draw(_spriteBatch);
+
+                    /*
                     if (myButton.Update(mouse) == true)
                     {
                         myButton.Draw(_spriteBatch);
@@ -258,7 +267,7 @@ namespace Sweet_Dreams
                     else
                     {
                         myButton.Draw(_spriteBatch);
-                    }
+                    } */
 
                     _spriteBatch.DrawString(
                         arial12,
@@ -300,10 +309,10 @@ namespace Sweet_Dreams
                     // Draws the player
                     player.Draw(_spriteBatch);
                     
-                    DebugLib.DrawRectOutline(_spriteBatch,
+                    /* DebugLib.DrawRectOutline(_spriteBatch,
                         player.WorldPosition,
                         2,
-                        Color.Black);
+                        Color.Black); */
 
                     break;
 
