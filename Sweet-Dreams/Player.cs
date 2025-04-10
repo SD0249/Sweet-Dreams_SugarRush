@@ -119,8 +119,7 @@ namespace Sweet_Dreams
         /// Updates the players position based on what keys are pressed
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="worldToScreen"></param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
@@ -228,7 +227,7 @@ namespace Sweet_Dreams
         {
             //Draws the player with no movement
             sb.Draw(asset,
-                screenPosition,
+                worldPosition,
                 new Rectangle(7, 7, 10, 18),
                 Color.White);
         }
@@ -249,7 +248,7 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="worldWidth">World Width; Num of columns * Size of a tile</param>
         /// <param name="worldHeight">World Height; Num of rows * Size of a tile</param>
-        private void KeepPlayerInBounds(int worldWidth, int worldHeight)
+        public void KeepPlayerInBounds(int worldWidth, int worldHeight)
         {
             // If the player is too FAR LEFT
             if (worldPosition.X < 0)

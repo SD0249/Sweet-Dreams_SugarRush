@@ -174,15 +174,14 @@ namespace Sweet_Dreams
         /// move towards the player
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="worldToScreen"> World to screen offset vector </param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position by moving toward the player
             
             // Updates screen position
             screenPosition = new Rectangle(
-                worldPosition.X - (int)worldToScreen.X,
-                worldPosition.Y - (int)worldToScreen.Y, 
+                worldPosition.X,
+                worldPosition.Y, 
                 worldPosition.Width, 
                 worldPosition.Height);
         }

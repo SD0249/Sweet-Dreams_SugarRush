@@ -40,10 +40,7 @@ namespace Sweet_Dreams
         private Texture2D playerAnimation;
         private Texture2D purpleDungeon;
         private Texture2D candySprites;
-        private Texture2D cloakSprite;
-        private Texture2D impSprite;
-        private Texture2D mouthDemonSprite;
-        private Texture2D hornDemonSprite;
+        private Texture2D enemySprites;
         private SpriteFont arial12;
         private PlayerState currentPlayerState;
         private Button myButton;
@@ -52,6 +49,7 @@ namespace Sweet_Dreams
         private KeyboardState previousKbState;
         private bool doorIsReached;
         private Level level1;
+        private OrthographicCamera camera;
 
         // Whether or not the game is currently in debug mode
         public static bool debugMode;
@@ -76,6 +74,9 @@ namespace Sweet_Dreams
             // Debug mode is on for testing
             debugMode = true;
 
+            // Initialize Camera
+            camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
+
             mouse = Mouse.GetState();
 
             base.Initialize();
@@ -95,10 +96,7 @@ namespace Sweet_Dreams
                 new Rectangle(340, 250, 100, 50));
 
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
-            cloakSprite = Content.Load<Texture2D>("Necromancer_Animation");
-            impSprite = Content.Load<Texture2D>("ImpSpriteSheet");
-            mouthDemonSprite = Content.Load<Texture2D>("MouthDemonSpriteSheet");
-            hornDemonSprite = Content.Load<Texture2D>("HornDemon_SpriteSheet");
+            enemySprites = Content.Load<Texture2D>("EnemySpriteSheet");
 
             // Load the Level
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
@@ -163,7 +161,7 @@ namespace Sweet_Dreams
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
                     // Updates the player
-                    player.Update(gameTime, worldToScreen);
+                    player.Update(gameTime);
                     //player.UpdateAnimation(gameTime);
 
                     // Updates world to screen offset vector
@@ -186,7 +184,7 @@ namespace Sweet_Dreams
                     // Updates all bullets
                     for (int i = 0; i < bullets.Count; i++)
                     {
-                        bullets[i].Update(gameTime, worldToScreen);
+                        bullets[i].Update(gameTime);
 
                     }
                     
@@ -195,6 +193,15 @@ namespace Sweet_Dreams
                     {
                         gameState = GameState.Lose;
                     }
+
+                    // Update ALL the camera related stuff
+                    camera.Update(worldToScreen, 
+                                  player.WorldPosition, 
+                                  level1.WorldWidth, 
+                                  level1.WorldHeight);
+
+                    // Keep player in bounds
+                    player.KeepPlayerInBounds(level1.WorldWidth, level1.WorldHeight);
 
                     break;
 
@@ -231,20 +238,31 @@ namespace Sweet_Dreams
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Porobably get rid of this
-            /*
+            
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
             if (gameState == GameState.Game)
             {
             // Draws everything whose position needs to be translated
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
-                Matrix.CreateTranslation(-player.Position.X, -player.Position.Y, 0));
+            _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
 
-            _spriteBatch.End()
+                // Draws the level itself
+                level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+
+                // Draws all bullets
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if (bullets[i].IsOnScreen)
+                    {
+                        bullets[i].Draw(_spriteBatch);
+                    }
+                }
+
+                // Draws the player
+                player.Draw(_spriteBatch);
+
+                _spriteBatch.End();
             }
-            */
             
             // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
@@ -280,7 +298,7 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     // Draws the level itself
-                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+                    // level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
 
                     // TODO: Uncomment the following once fields are initialized
                     /*
@@ -298,16 +316,16 @@ namespace Sweet_Dreams
                     */
 
                     // Draws all bullets
-                    for (int i = 0; i < bullets.Count; i++)
+                    /* for (int i = 0; i < bullets.Count; i++)
                     {
                         if (bullets[i].IsOnScreen)
                         {
                             bullets[i].Draw(_spriteBatch);
                         }
-                    }
+                    } */
 
                     // Draws the player
-                    player.Draw(_spriteBatch);
+                    // player.Draw(_spriteBatch);
                     
                     /* DebugLib.DrawRectOutline(_spriteBatch,
                         player.WorldPosition,

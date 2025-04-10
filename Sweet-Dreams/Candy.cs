@@ -97,14 +97,14 @@ namespace Sweet_Dreams
            
         }
 
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position by moving toward the player
 
             // Updates screen position
             screenPosition = new Rectangle(
-                worldPosition.X - (int)worldToScreen.X,
-                worldPosition.Y - (int)worldToScreen.Y,
+                worldPosition.X,
+                worldPosition.Y,
                 worldPosition.Width,
                 worldPosition.Height);
         }
@@ -156,5 +156,11 @@ namespace Sweet_Dreams
                 Color.White);
             }
         }
+
+        // POWER UPS
+        // change the velocity of the bullets - Player
+        // if (cType == 
+        // debuff the player by either decreasing their speed or increasing the enemy speed
+        // 
     }
 }

@@ -39,14 +39,15 @@ namespace Sweet_Dreams
         /// <param name="fileName">File containing all enemy data for the level.</param>
         /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
         public EnemyManager(Random rng, string fileName, List<Candy> collectibles, 
-            Texture2D asset, int screenWidth, int screenHeight)
+            Texture2D asset, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
             // Inits fields with empty data structures
             allEnemies = new Queue<Enemy>();
             currentEnemies = new List<Enemy>();
 
             // Fills the queue with enemy data from the file
-            this.ReadEnemyData(rng, fileName, asset, screenWidth, screenHeight);
+            this.ReadEnemyData(rng, fileName, asset, screenWidth, 
+                screenHeight, worldWidth, worldHeight);
 
             // Gives a reference to the list of collectibles to be drawn
             this.collectibles = collectibles;
@@ -62,11 +63,11 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="gameTime">Time information from MonoGame.</param>
         /// <param name="worldToScreen">World to screen offset vector.</param>
-        public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
+        public void UpdateAll(GameTime gameTime)
         {
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                currentEnemies[i].Update(gameTime, worldToScreen);
+                currentEnemies[i].Update(gameTime);
             }
 
             // TODO: Add drop candy, remove from level, and next wave logic
@@ -98,11 +99,12 @@ namespace Sweet_Dreams
         /// </summary>
         /// <param name="fileName">File containing all enemy data for the level.</param>
         private void ReadEnemyData(Random rng, string fileName, Texture2D asset,
-            int screenWidth, int screenHeight)
+            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
             // File reading/writing:
             StreamReader reader = null;
             string lineFromFile = "";
+            EnemyType enemyType = EnemyType.Imp;
 
             try
             {
@@ -112,11 +114,39 @@ namespace Sweet_Dreams
                 //Read the data from the file
                 while ((lineFromFile = reader.ReadLine()) != null)
                 {
-                    allEnemies.Enqueue(new Enemy(rng,
+                    // Skips any lines that start with a doulbe slash
+                    while(lineFromFile.Split(' ')[0] == "//")
+                    {
+                        lineFromFile = reader.ReadLine();
+                    }
+
+                    // Sets the enemy type based off the line from the file
+                    if (lineFromFile == "Imp")
+                    {
+                        enemyType = EnemyType.Imp;
+                    }
+                    else if (lineFromFile == "Cloak")
+                    {
+                        enemyType = EnemyType.Cloak;
+                    }
+                    else if (lineFromFile == "MouthDemon")
+                    {
+                        enemyType = EnemyType.MouthDemon;
+                    }
+                    else if (lineFromFile == "HornDemon")
+                    {
+                        enemyType = EnemyType.HornDemon;
+                    }
+
+                    // Queues a new enemy
+                    allEnemies.Enqueue(new Enemy(enemyType,
+                                                 rng,
                                                  asset,
                                                  new Rectangle(0, 0, 1, 1),
                                                  screenWidth,
-                                                 screenHeight));
+                                                 screenHeight,
+                                                 worldWidth,
+                                                 worldHeight));
                 }
             }
             catch (Exception e)
