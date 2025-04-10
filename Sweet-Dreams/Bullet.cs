@@ -85,7 +85,7 @@ namespace Sweet_Dreams
         /// Updates the bullet's world & screen position
         /// </summary>
         /// <param name="gameTime"></param>
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             // Changing the bullets position
             worldPosition.X += (int)Math.Round(direction.X * speed);
@@ -93,8 +93,8 @@ namespace Sweet_Dreams
 
             // Updates screen position
             screenPosition = new Rectangle(
-                worldPosition.X,
-                worldPosition.Y,
+                worldPosition.X + (int)worldToScreen.X,
+                worldPosition.Y + (int)worldToScreen.Y,
                 worldPosition.Width,
                 worldPosition.Height);
         }
@@ -107,7 +107,7 @@ namespace Sweet_Dreams
         {
             sb.Draw(
                 asset,
-                new Rectangle(screenPosition.X + 15, screenPosition.Y + 10, 16, 16),
+                new Rectangle(worldPosition.X + 15, worldPosition.Y + 10, 16, 16),
                 new Rectangle(0, 0, 16, 16),
                 Color.White,
                 rotation - 0.78f,
