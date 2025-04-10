@@ -57,7 +57,7 @@ namespace Sweet_Dreams
         /// Requires child classes to have their own update method
         /// </summary>
         /// <param name="gameTime">Info about time from MonoGame.</param>
-        public abstract void Update(GameTime gameTime);
+        public abstract void Update(GameTime gameTime, Vector2 worldToScreen);
 
         /// <summary>
         /// Requires child classes to have their own draw method
