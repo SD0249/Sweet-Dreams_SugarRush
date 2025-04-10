@@ -261,7 +261,7 @@ namespace Sweet_Dreams
             // If the player is too FAR DOWN
             if (worldPosition.Y + worldPosition.Height > worldHeight)
             {
-                worldPosition.Y = worldHeight;
+                worldPosition.Y = worldHeight - worldPosition.Height;
             }
         }
 
