@@ -71,6 +71,11 @@ namespace Sweet_Dreams
             }
         }
 
+        public override Rectangle WorldPosition
+        {
+            get { return worldPosition; }
+        }
+
         // --------------------------------------------------------------
         // Constructors
         // --------------------------------------------------------------

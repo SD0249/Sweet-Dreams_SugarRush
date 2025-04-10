@@ -261,7 +261,8 @@ namespace Sweet_Dreams
                 // Draws the player
                 player.Draw(_spriteBatch);
 
-                _spriteBatch.End();
+            
+            _spriteBatch.End();
             }
             
             // Draws everything that should be stationary on the screen
