@@ -49,6 +49,9 @@ namespace Sweet_Dreams
         // Height of the world map
         private int worldHeight;
 
+        //Source Rectangle for animations
+        Rectangle sourceRect;
+
         // values needed for the enemy's animation
         private double timer;
         private double fps;
@@ -199,7 +202,7 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(2, 13, 12, 15), // x, y, width, height
+                sourceRect, // x, y, width, height
                 Color.White);
             }
 
@@ -209,10 +212,9 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(5, 5, 9, 13),
+                sourceRect,
                 Color.White);
             }
-             
 
             //MOUTH DEMON
             if (eType == EnemyType.MouthDemon)
@@ -220,7 +222,7 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(5, 51, 20, 35),
+                sourceRect,
                 Color.White);
             }
 
@@ -230,7 +232,7 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(4, 28, 11, 23),
+                sourceRect,
                 Color.White);
             }
         }
@@ -270,23 +272,28 @@ namespace Sweet_Dreams
         private void CreateEnemy()
         {
             // TODO: Determine source rect and change the width and height of position rect
+            // Position the enemies on the edge of the map or randomly within?
             switch (eType)
             {
                 case EnemyType.Imp:
                     damage = 1;
                     candyNum = 1;
+                    sourceRect = new Rectangle(5, 5, 9, 13);
                     break;
                 case EnemyType.MouthDemon:
                     damage = 1;
                     candyNum = 3;
+                    sourceRect = new Rectangle(5, 51, 20, 35);
                     break;
                 case EnemyType.HornDemon:
                     damage = 1;
                     candyNum = 2;
+                    sourceRect = new Rectangle(4, 28, 11, 23);
                     break;
                 case EnemyType.Cloak:
                     damage = 1;
                     candyNum = 2;
+                    sourceRect = new Rectangle(2, 13, 12, 15);
                     break;
             }
         }
