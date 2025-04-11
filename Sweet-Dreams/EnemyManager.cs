@@ -106,10 +106,10 @@ namespace Sweet_Dreams
             // Draws all enemies that will appear on the screen
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                //if (currentEnemies[i].IsOnScreen)
-                //{
+                if (currentEnemies[i].IsOnScreen)
+                {
                     currentEnemies[i].Draw(sb);
-                //}
+                }
             }
         }
 
