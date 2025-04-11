@@ -29,6 +29,9 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
+        /// <summary>
+        /// This object's position in the world.
+        /// </summary>
         public override Rectangle WorldPosition
         {
             get { return WorldPosition; }
@@ -66,7 +69,6 @@ namespace Sweet_Dreams
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
         }
 
-
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
@@ -75,7 +77,7 @@ namespace Sweet_Dreams
         /// Bullets won't have an animation for this project
         /// The only animation they would have is exploding (not doing that)
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void UpdateAnimation(GameTime gameTime)
         {
             
@@ -84,7 +86,7 @@ namespace Sweet_Dreams
         /// <summary>
         /// Updates the bullet's world & screen position
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void Update(GameTime gameTime)
         {
             // Changing the bullets position

@@ -40,18 +40,33 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
+        /// <summary>
+        /// This object's position in the world.
+        /// </summary>
         public override Rectangle WorldPosition
         {
             get { return worldPosition; }
         }
+
+        /// <summary>
+        /// The player's position on the screen.
+        /// </summary>
         public Rectangle ScreenPosition
         {
             get { return screenPosition; }
         }
+        
+        /// <summary>
+        /// The current animation state of the player.
+        /// </summary>
         public PlayerState PlayerState
         {
             get { return playerState; }
         }
+        
+        /// <summary>
+        /// The player's remaining health.
+        /// </summary>
         public int Health
         {
             get { return health; }
@@ -94,7 +109,7 @@ namespace Sweet_Dreams
         // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
         ///
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void UpdateAnimation(GameTime gameTime)
         {
             // ElapsedGameTime is the duration of the last GAME frame
@@ -118,7 +133,7 @@ namespace Sweet_Dreams
         /// <summary>
         /// Updates the players position based on what keys are pressed
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void Update(GameTime gameTime)
         {
             // Updates world position based on keyboard input
@@ -235,8 +250,8 @@ namespace Sweet_Dreams
         /// <summary>
         /// If this object is colliding with another given object.
         /// </summary>
-        /// <param name="gameObject"></param>
-        /// <returns></returns>
+        /// <param name="gameObject">The object to check collisions with.</param>
+        /// <returns>Whether or not the objects' position rectangles intersect.</returns>
         public bool CollidesWith(GameObject gameObject)
         {
             return worldPosition.Intersects(gameObject.WorldPosition);

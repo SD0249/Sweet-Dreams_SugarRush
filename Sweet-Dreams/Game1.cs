@@ -112,6 +112,11 @@ namespace Sweet_Dreams
             // Determines world to screen offset vector
             worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
                       player.ScreenPosition.Y - player.WorldPosition.Y);
+
+            // Loads in level 1 enemy data
+            enemyManager = new EnemyManager(rng, "Enemy Data.txt", collectibles, bullets, 
+                enemySprites, candySprites, screenWidth, screenHeight, 
+                level1.WorldWidth, level1.WorldHeight);
         }
 
         protected override void Update(GameTime gameTime)
@@ -186,6 +191,12 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Update(gameTime);
 
+                    }
+
+                    // Updates all enemies unless the level has been cleared
+                    if (!enemyManager.IsLevelCleared())
+                    {
+                        enemyManager.UpdateAll(gameTime);
                     }
                     
                     // If the player is dead the game state changes to lose

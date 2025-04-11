@@ -43,10 +43,11 @@ namespace Sweet_Dreams
         // the enemy's speed and direction
         private Vector2 velocity;
 
-        // Width of the world map
-        private int worldWidth;
+        // Reference to the game's randomizer
+        private Random rng;
 
-        // Height of the world map
+        // Bounds of the world map
+        private int worldWidth;
         private int worldHeight;
 
         // values needed for the enemy's animation
@@ -71,6 +72,9 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// This object's position in the world.
+        /// </summary>
         public override Rectangle WorldPosition
         {
             get { return worldPosition; }
@@ -94,6 +98,7 @@ namespace Sweet_Dreams
             :base(asset, anyRect, anyRect, screenWidth, screenHeight)
         {
             isAlive = true;
+            this.rng = rng;
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
 
@@ -236,29 +241,37 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Checks if the enemy collied with the player
+        /// If this object is colliding with another given object.
         /// </summary>
-        /// <returns> If they are colliding </returns>
-        public bool CollidesWith()
+        /// <param name="gameObject">The object to check collisions with.</param>
+        /// <returns>Whether or not the objects' position rectangles intersect.</returns>
+        public bool CollidesWith(GameObject gameObject)
         {
-            //if (worldPosition.Intersects())
-            return false;
+            return worldPosition.Intersects(gameObject.WorldPosition);
         }
 
         /// <summary>
         /// When the enemy dies, Candy will be drawn near the enemy position
         /// </summary>
         /// <param name="collectibles"> List of dropped candies </param>
-        public void DropCandy(List<Candy> collectibles)
+        public void DropCandy(List<Candy> collectibles, Texture2D candyAsset)
         {
-            // If the enemy is dead
+            // If the enemy is dead (TODO: Put this check outside of the class)
             if (!isAlive)
             {
                 // Add all the dropped candies to the collectibles list
                 for (int i = 0; i < candyNum; i++)
                 {
-                    // Should be drawn at the enemy's death position
-                    collectibles.Add(new Candy(asset, worldPosition, screenWidth, screenHeight));
+                    // Position is randomized close to the enemy
+                    collectibles.Add(new Candy(
+                        candyAsset, 
+                        new Rectangle(
+                            worldPosition.X + rng.Next(-32, 41),
+                            worldPosition.Y + rng.Next(-32, 41),
+                            16,
+                            16),
+                        screenWidth, 
+                        screenHeight));
                 }
             }
         }
