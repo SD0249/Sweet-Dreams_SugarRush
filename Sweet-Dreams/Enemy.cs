@@ -331,20 +331,9 @@ namespace Sweet_Dreams
                     break;
             }
 
-            //Positions the enemy using its sourceRect to keep within bounds
-            // if the x-value is negative
-            if (worldPosition.X < 0)
-            {
-                worldPosition.Width = worldPosition.Width + sourceRect.Width;
-                worldPosition.Height = worldPosition.Height + sourceRect.Height;
-            }
-
-            // x-value is positive
-            else
-            {
-                worldPosition.Width = worldPosition.Width - sourceRect.Width;
-                worldPosition.Height = worldPosition.Height - sourceRect.Height;
-            }
+            // Changes the enemy worldPosition based on the enemies sourceRect
+            worldPosition.Width = sourceRect.Width;
+            worldPosition.Height = sourceRect.Height;
         }
     }
 }
