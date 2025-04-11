@@ -291,13 +291,6 @@ namespace Sweet_Dreams
         /// </summary>
         private void CreateEnemy()
         {
-            // TODO: Determine source rect and change the width and height of position rect
-            // Position the enemies on the edge of the map or randomly within?
-            // Answer to the above question: They already get positioned ON THE EDGE in the 
-            // constructor, right after this method executes. Only the size needs to be
-            // changed here; not the X or Y. Positioning happens after this because it 
-            // checks the enemy's size to make sure it is completely off screen.
-
             //Initializes the Enemy fields based on the Enemy type
             switch (eType)
             {
