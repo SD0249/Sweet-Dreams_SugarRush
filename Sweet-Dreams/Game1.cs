@@ -280,6 +280,9 @@ namespace Sweet_Dreams
                     }
                 }
 
+                // Draws all enemies that are on screen
+                enemyManager.DrawAll(_spriteBatch);
+
                 // Draws the player
                 player.Draw(_spriteBatch);
 
@@ -333,8 +336,7 @@ namespace Sweet_Dreams
                         }
                     }*/
 
-                    // Draws all enemies that are on screen
-                    enemyManager.DrawAll(_spriteBatch);
+                    
                     
 
                     // Draws all bullets
