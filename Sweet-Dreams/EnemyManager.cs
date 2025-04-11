@@ -181,13 +181,13 @@ namespace Sweet_Dreams
                                                  worldWidth,
                                                  worldHeight));
                 }
-
+                
                 //currentEnemies.Add(new Enemy(EnemyType.Imp,
-                                                 //asset,
-                                                 //screenWidth,
-                                                 //screenHeight,
-                                                 //worldWidth,
-                                                 //worldHeight));
+                //                                 asset,
+                //                                 screenWidth,
+                //                                 screenHeight,
+                //                                 worldWidth,
+                //                                 worldHeight));
             }
             catch (Exception e)
             {

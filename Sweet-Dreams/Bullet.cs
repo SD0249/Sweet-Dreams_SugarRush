@@ -34,7 +34,7 @@ namespace Sweet_Dreams
         /// </summary>
         public override Rectangle WorldPosition
         {
-            get { return WorldPosition; }
+            get { return worldPosition; }
         }
 
         /// <summary>

@@ -110,7 +110,6 @@ namespace Sweet_Dreams
         /// <param name="eType">The type of enemy.</param>
         /// <param name="rng">Reference to the game's randomizer.</param>
         /// <param name="asset">Spritesheet of enemies.</param>
-        /// <param name="anyRect">Any rect can be passed in here. 
         /// Position will be randomized in the constructor.</param>
         /// <param name="screenWidth">Screen's width.</param>
         /// <param name="screenHeight">Screen's height.</param>
@@ -334,9 +333,7 @@ namespace Sweet_Dreams
             }
 
             // Changes the enemy worldPosition based on the enemies sourceRect
-            
-            worldPosition.Width = sourceRect.Width;
-            worldPosition.Height = sourceRect.Height;
+            worldPosition = new Rectangle(0, 0, sourceRect.Width * 2, sourceRect.Height * 2);
         }
     }
 }
