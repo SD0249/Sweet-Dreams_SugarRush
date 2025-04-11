@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -202,7 +203,8 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                sourceRect, // x, y, width, height
+                sourceRect,
+
                 Color.White);
             }
 
@@ -279,21 +281,33 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     sourceRect = new Rectangle(5, 5, 9, 13);
+                    worldPosition.X = worldPosition.X - sourceRect.X;
+                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
+
                     break;
                 case EnemyType.MouthDemon:
                     damage = 1;
                     candyNum = 3;
                     sourceRect = new Rectangle(5, 51, 20, 35);
+                    worldPosition.X = worldPosition.X - sourceRect.X;
+                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
+
                     break;
                 case EnemyType.HornDemon:
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(4, 28, 11, 23);
+                    worldPosition.X = worldPosition.X - sourceRect.X;
+                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
+
                     break;
                 case EnemyType.Cloak:
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);
+                    worldPosition.X = worldPosition.X - sourceRect.X;
+                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
+
                     break;
             }
         }
