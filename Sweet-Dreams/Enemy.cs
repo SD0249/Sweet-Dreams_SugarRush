@@ -187,7 +187,7 @@ namespace Sweet_Dreams
 
             // TODO: Change these values
             health = 5;
-            speed = 5;
+            speed = 2;
             timer = 0.0;
             spf = 0.0;
             fps = 0.0;
@@ -230,7 +230,7 @@ namespace Sweet_Dreams
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-            playerLocation = new Vector2(385 + worldToScreen.X, 213 + worldToScreen.Y);
+            playerLocation = new Vector2(415 + worldToScreen.X, 260 + worldToScreen.Y);
             
             // Updates world position by moving toward the player
             rotation = (float)Math.Atan2(screenPosition.Y - playerLocation.Y, screenPosition.X - playerLocation.X);
