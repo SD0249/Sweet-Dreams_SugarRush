@@ -209,48 +209,12 @@ namespace Sweet_Dreams
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
-            // TODO: Remove this switch since all cases are identical(?)
-            //Draws an Enemy at a given position
-            // CLOAK
-            if (eType == EnemyType.Cloak)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-
-                Color.White);
-            }
-
-            //IMP
-            if (eType == EnemyType.Imp)
-            {
-                sb.Draw(
+            // Draws the enemy
+            sb.Draw(
                 asset,
                 worldPosition,
                 sourceRect,
                 Color.White);
-            }
-
-            //MOUTH DEMON
-            if (eType == EnemyType.MouthDemon)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-                Color.White);
-            }
-
-            // HORN DEMON
-            if (eType == EnemyType.HornDemon)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-                Color.White);
-            }
         }
 
         /// <summary>
