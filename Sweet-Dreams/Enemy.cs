@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -59,6 +60,12 @@ namespace Sweet_Dreams
         private double fps;
         private double spf;
 
+        // Values needed for enemy movement
+        private float rotation;
+        private Vector2 direction;
+        private Vector2 playerLocation;
+        private int speed;
+
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
@@ -89,7 +96,7 @@ namespace Sweet_Dreams
         /// </summary>
         public bool IsAlive
         {
-            get { return health <= 0; }
+            get { return health > 0; }
         }
 
         // --------------------------------------------------------------
@@ -151,6 +158,36 @@ namespace Sweet_Dreams
             screenPosition = worldPosition;
 
             // TODO: Change these values
+            health = 0;
+            speed = 5;
+            timer = 0.0;
+            spf = 0.0;
+            fps = 0.0;
+
+        }
+
+        public Enemy(EnemyType eType, Texture2D asset,
+           int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+           : base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
+                screenWidth, screenHeight)
+        {
+            this.worldWidth = worldWidth;
+            this.worldHeight = worldHeight;
+
+            // Determines type-specific field values for this enemy
+            this.eType = eType;
+            CreateEnemy();
+
+            // Randomizes enemy's position to somewhere on the border
+            worldPosition.X = 500;
+            worldPosition.Y = 500;
+
+            // Gives screen position a default value until it is updated in Update()
+            screenPosition = worldPosition;
+
+            // TODO: Change these values
+            health = 5;
+            speed = 5;
             timer = 0.0;
             spf = 0.0;
             fps = 0.0;
@@ -193,8 +230,15 @@ namespace Sweet_Dreams
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-            // Updates world position by moving toward the player
+            playerLocation = new Vector2(385 + worldToScreen.X, 213 + worldToScreen.Y);
             
+            // Updates world position by moving toward the player
+            rotation = (float)Math.Atan2(screenPosition.Y - playerLocation.Y, screenPosition.X - playerLocation.X);
+            direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
+
+            worldPosition.X += (int)Math.Round(direction.X * speed);
+            worldPosition.Y += (int)Math.Round(direction.Y * speed);
+
             // Updates screen position
             screenPosition = new Rectangle(
                 worldPosition.X + (int)worldToScreen.X,

@@ -63,6 +63,9 @@ namespace Sweet_Dreams
 
         protected override void Initialize()
         {
+            // Random
+            rng = new Random();
+            
             // Screen dimensions
             screenHeight = _graphics.GraphicsDevice.Viewport.Height;
             screenWidth = _graphics.GraphicsDevice.Viewport.Width;
@@ -114,7 +117,7 @@ namespace Sweet_Dreams
                       player.ScreenPosition.Y - player.WorldPosition.Y);
 
             // Loads in level 1 enemy data
-            enemyManager = new EnemyManager(rng, "Enemy Data.txt", collectibles, bullets, 
+            enemyManager = new EnemyManager(rng, "../../../Content/Enemy Data.txt", collectibles, bullets, 
                 enemySprites, candySprites, screenWidth, screenHeight, 
                 level1.WorldWidth, level1.WorldHeight);
         }
@@ -328,11 +331,11 @@ namespace Sweet_Dreams
                         {
                             collectibles[i].Draw(_spriteBatch);
                         }
-                    }
+                    }*/
 
                     // Draws all enemies that are on screen
                     enemyManager.DrawAll(_spriteBatch);
-                    */
+                    
 
                     // Draws all bullets
                     /* for (int i = 0; i < bullets.Count; i++)

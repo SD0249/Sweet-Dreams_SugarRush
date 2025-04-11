@@ -106,6 +106,7 @@ namespace Sweet_Dreams
             // Draws all enemies that will appear on the screen
             for (int i = 0; i < currentEnemies.Count; i++)
             {
+                currentEnemies[i].Draw(sb);
                 if (currentEnemies[i].IsOnScreen)
                 {
                     currentEnemies[i].Draw(sb);
@@ -180,6 +181,13 @@ namespace Sweet_Dreams
                                                  worldWidth,
                                                  worldHeight));
                 }
+
+                currentEnemies.Add(new Enemy(EnemyType.Imp,
+                                                 asset,
+                                                 screenWidth,
+                                                 screenHeight,
+                                                 worldWidth,
+                                                 worldHeight));
             }
             catch (Exception e)
             {
