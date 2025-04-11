@@ -199,7 +199,7 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(2, 7, 12, 15), // x, y, width, height
+                new Rectangle(2, 13, 12, 15), // x, y, width, height
                 Color.White);
             }
 
@@ -220,7 +220,7 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(5, 7, 20, 35),
+                new Rectangle(5, 51, 20, 35),
                 Color.White);
             }
 
@@ -230,7 +230,7 @@ namespace Sweet_Dreams
                 sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(4, 6, 11, 23),
+                new Rectangle(4, 28, 11, 23),
                 Color.White);
             }
         }
