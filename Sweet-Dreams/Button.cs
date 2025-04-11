@@ -8,13 +8,13 @@ using System.Collections.Generic;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    internal class Button
+    public class Button
     {
         // --------------------------------------------------------------
         // Felids :)
         // --------------------------------------------------------------
-        private Rectangle Bounds;
-        private Texture2D Texture;
+        private Rectangle bounds;
+        private Texture2D texture;
         private MouseState mouse;
 
         // These two can totally be changed depending on the real
@@ -27,10 +27,10 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Button(Texture2D texture, Rectangle Bounds)
+        public Button(Texture2D texture, Rectangle bounds)
         {
-            this.Texture = texture;
-            this.Bounds = Bounds;
+            this.texture = texture;
+            this.bounds = bounds;
 
             // Sets the normal, not hovering over the button with the mouse,
             // color to the default C:
@@ -51,7 +51,7 @@ namespace Sweet_Dreams
             Point mousePoint = new Point(mouse.X, mouse.Y);
             //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
-            if (Bounds.Contains(mousePoint))
+            if (bounds.Contains(mousePoint))
             {
                 currentButtonColor = HoveredOverColor;
             }
@@ -83,7 +83,7 @@ namespace Sweet_Dreams
             Point mousePoint = new Point(mouse.X, mouse.Y);
             //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
-            if (Bounds.Contains(mousePoint) && mouse.LeftButton == ButtonState.Pressed)
+            if (bounds.Contains(mousePoint) && mouse.LeftButton == ButtonState.Pressed)
             {
                 return true;
             }
@@ -98,8 +98,8 @@ namespace Sweet_Dreams
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                Texture,
-                Bounds, 
+                texture,
+                bounds, 
                 currentButtonColor);
         }
 

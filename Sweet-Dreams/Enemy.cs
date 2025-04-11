@@ -32,8 +32,8 @@ namespace Sweet_Dreams
         // the type of Enemy
         private EnemyType eType;
 
-        // the status of the Enemy
-        private bool isAlive;
+        // the hit points of the Enemy
+        private int health;
 
         // how many candies the enemy will drop when it dies
         private int candyNum;
@@ -44,10 +44,11 @@ namespace Sweet_Dreams
         // the enemy's speed and direction
         private Vector2 velocity;
 
-        // Width of the world map
-        private int worldWidth;
+        // Reference to the game's randomizer
+        private Random rng;
 
-        // Height of the world map
+        // Bounds of the world map
+        private int worldWidth;
         private int worldHeight;
 
         //Source Rectangle for animations
@@ -75,9 +76,20 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// This object's position in the world.
+        /// </summary>
         public override Rectangle WorldPosition
         {
             get { return worldPosition; }
+        }
+
+        /// <summary>
+        /// Whether or not this enemy has any health remaining.
+        /// </summary>
+        public bool IsAlive
+        {
+            get { return health <= 0; }
         }
 
         // --------------------------------------------------------------
@@ -93,11 +105,12 @@ namespace Sweet_Dreams
         /// Position will be randomized in the constructor.</param>
         /// <param name="screenWidth">Screen's width.</param>
         /// <param name="screenHeight">Screen's height.</param>
-        public Enemy(EnemyType eType, Random rng, Texture2D asset, Rectangle anyRect,
+        public Enemy(EnemyType eType, Random rng, Texture2D asset,
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-            :base(asset, anyRect, anyRect, screenWidth, screenHeight)
+            :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1), 
+                 screenWidth, screenHeight)
         {
-            isAlive = true;
+            this.rng = rng;
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
 
@@ -191,11 +204,12 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Draws the enemy based on it's enemy type
+        /// Draws the enemy based on its enemy type
         /// </summary>
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
+            // TODO: Remove this switch since all cases are identical(?)
             //Draws an Enemy at a given position
             // CLOAK
             if (eType == EnemyType.Cloak)
@@ -240,30 +254,34 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Checks if the enemy collied with the player
+        /// If this object is colliding with another given object.
         /// </summary>
-        /// <returns> If they are colliding </returns>
-        public bool CollidesWith()
+        /// <param name="gameObject">The object to check collisions with.</param>
+        /// <returns>Whether or not the objects' position rectangles intersect.</returns>
+        public bool CollidesWith(GameObject gameObject)
         {
-            //if (worldPosition.Intersects())
-            return false;
+            return worldPosition.Intersects(gameObject.WorldPosition);
         }
 
         /// <summary>
         /// When the enemy dies, Candy will be drawn near the enemy position
         /// </summary>
         /// <param name="collectibles"> List of dropped candies </param>
-        public void DropCandy(List<Candy> collectibles)
+        public void DropCandy(List<Candy> collectibles, Texture2D candyAsset)
         {
-            // If the enemy is dead
-            if (!isAlive)
+            // Add all the dropped candies to the collectibles list
+            for (int i = 0; i < candyNum; i++)
             {
-                // Add all the dropped candies to the collectibles list
-                for (int i = 0; i < candyNum; i++)
-                {
-                    // Should be drawn at the enemy's death position
-                    collectibles.Add(new Candy(asset, worldPosition, screenWidth, screenHeight));
-                }
+                // Position is randomized close to the enemy
+                collectibles.Add(new Candy(
+                    candyAsset, 
+                    new Rectangle(
+                        worldPosition.X + rng.Next(-32, 41),
+                        worldPosition.Y + rng.Next(-32, 41),
+                        16,
+                        16),
+                    screenWidth, 
+                    screenHeight));
             }
         }
 
@@ -275,9 +293,14 @@ namespace Sweet_Dreams
         {
             // TODO: Determine source rect and change the width and height of position rect
             // Position the enemies on the edge of the map or randomly within?
+            // Answer to the above question: They already get positioned ON THE EDGE in the 
+            // constructor, right after this method executes. Only the size needs to be
+            // changed here; not the X or Y. Positioning happens after this because it 
+            // checks the enemy's size to make sure it is completely off screen.
             switch (eType)
             {
                 case EnemyType.Imp:
+                    health = 1;
                     damage = 1;
                     candyNum = 1;
                     sourceRect = new Rectangle(5, 5, 9, 13);
@@ -286,6 +309,7 @@ namespace Sweet_Dreams
 
                     break;
                 case EnemyType.MouthDemon:
+                    health = 1;
                     damage = 1;
                     candyNum = 3;
                     sourceRect = new Rectangle(5, 51, 20, 35);
@@ -294,6 +318,7 @@ namespace Sweet_Dreams
 
                     break;
                 case EnemyType.HornDemon:
+                    health = 1;
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(4, 28, 11, 23);
@@ -302,6 +327,7 @@ namespace Sweet_Dreams
 
                     break;
                 case EnemyType.Cloak:
+                    health = 1;
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);

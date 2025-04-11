@@ -51,6 +51,9 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// This object's position in the world.
+        /// </summary>
         public override Rectangle WorldPosition
         {
             get { return worldPosition; }

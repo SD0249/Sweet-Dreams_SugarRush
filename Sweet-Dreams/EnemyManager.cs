@@ -29,6 +29,8 @@ namespace Sweet_Dreams
         private Queue<Enemy> allEnemies;
         private List<Enemy> currentEnemies;
         private List<Candy> collectibles;
+        private List<Bullet> bullets;
+        private Texture2D candyAsset;
 
         // --------------------------------------------------------------
         // Constructor
@@ -39,18 +41,26 @@ namespace Sweet_Dreams
         /// <param name="fileName">File containing all enemy data for the level.</param>
         /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
         public EnemyManager(Random rng, string fileName, List<Candy> collectibles, 
-            Texture2D asset, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+            List<Bullet> bullets, Texture2D enemyAsset, Texture2D candyAsset, 
+            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
-            // Inits fields with empty data structures
+            // Initializes fields with empty data structures
             allEnemies = new Queue<Enemy>();
             currentEnemies = new List<Enemy>();
 
             // Fills the queue with enemy data from the file
-            this.ReadEnemyData(rng, fileName, asset, screenWidth, 
+            this.ReadEnemyData(rng, fileName, enemyAsset, screenWidth, 
                 screenHeight, worldWidth, worldHeight);
 
-            // Gives a reference to the list of collectibles to be drawn
+            // Gains a reference to the list of candy to be drawn plus their spritesheet
             this.collectibles = collectibles;
+            this.candyAsset = candyAsset;
+
+            // Gains a reference to the list of objects that can interact with enemies
+            this.bullets = bullets;
+
+            // Creates the first wave of enemies
+            NewWave(10);
         }
 
         // --------------------------------------------------------------
@@ -65,12 +75,25 @@ namespace Sweet_Dreams
         /// <param name="worldToScreen">World to screen offset vector.</param>
         public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
         {
+            // Updates all enemy positions and states
             for (int i = 0; i < currentEnemies.Count; i++)
             {
                 currentEnemies[i].Update(gameTime, worldToScreen);
+
+                // If the enemy is dead, it drops candy then gets removed from the list
+                if (!currentEnemies[i].IsAlive)
+                {
+                    currentEnemies[i].DropCandy(collectibles, candyAsset);
+                    currentEnemies.RemoveAt(i);
+                    i--;
+                }
             }
 
-            // TODO: Add drop candy, remove from level, and next wave logic
+            // A new wave of ten enemies forms once all current enemies are gone
+            if (currentEnemies.Count == 0)
+            {
+                NewWave(10);
+            }
         }
 
         /// <summary>
@@ -88,6 +111,16 @@ namespace Sweet_Dreams
                     currentEnemies[i].Draw(sb);
                 }
             }
+        }
+
+        /// <summary>
+        /// Whether or not all enemies are gone.
+        /// </summary>
+        /// <returns>True if no more enemies exist or will be generated
+        /// in the level, false otherwise.</returns>
+        public bool IsLevelCleared()
+        {
+            return currentEnemies.Count == 0 && allEnemies.Count == 0;
         }
 
         // --------------------------------------------------------------
@@ -142,7 +175,6 @@ namespace Sweet_Dreams
                     allEnemies.Enqueue(new Enemy(enemyType,
                                                  rng,
                                                  asset,
-                                                 new Rectangle(0, 0, 1, 1),
                                                  screenWidth,
                                                  screenHeight,
                                                  worldWidth,
@@ -165,13 +197,21 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Whether or not all enemies are gone.
+        /// Spawns a new wave of enemies into the level.
         /// </summary>
-        /// <returns>True if no more enemies exist or will be generated
-        /// in the level, false otherwise.</returns>
-        public bool IsLevelCleared()
+        /// <param name="amount">The number of enemies in the wave.</param>
+        private void NewWave(int amount)
         {
-            return currentEnemies.Count == 0 && allEnemies.Count == 0;
+            // As long as there are enemies left to be spawned in the level, they
+            // are moved to the new wave until the given amount have been added
+            while (amount > 0 && allEnemies.Count > 0)
+            {
+                // Moves the next enemy for the level into the list of current enemies
+                currentEnemies.Add(allEnemies.Dequeue());
+
+                // Decrements the number of enemies that still need to be spawned
+                amount--;
+            }
         }
     }
 }
