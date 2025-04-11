@@ -19,7 +19,7 @@ namespace Sweet_Dreams
         Hit
     }
 
-    internal class Player : GameObject
+    public class Player : GameObject
     {
         // --------------------------------------------------------------
         // Fields
