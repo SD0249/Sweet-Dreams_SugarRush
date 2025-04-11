@@ -51,7 +51,7 @@ namespace Sweet_Dreams
         private Level level1;
         private OrthographicCamera camera;
 
-        // Whether or not the game is currently in debug mode
+        // Whether or not the game is currently in god/debug mode
         public static bool godMode;
 
         public Game1()
@@ -75,7 +75,7 @@ namespace Sweet_Dreams
             collectibles = new List<Candy>();
 
             // Debug mode is on for testing
-            godMode = true;
+            godMode = false;
 
             // Initialize Camera
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
@@ -169,6 +169,12 @@ namespace Sweet_Dreams
                     */
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
+
+                    // Turns on or off god/debug mode if G is pressed
+                    if (SingleKeyPress(Keys.G))
+                    {
+                        godMode = !godMode;
+                    }
 
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
@@ -463,6 +469,16 @@ namespace Sweet_Dreams
                 $"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
                 new Vector2(10, screenHeight - 176),
                 Color.White);
+        }
+
+        /// <summary>
+        /// Detect a single key press.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>Whether or not the key was pressed just now.</returns>
+        private bool SingleKeyPress(Keys key)
+        {
+            return currentKbState.IsKeyDown(key) && previousKbState.IsKeyUp(key);
         }
     }
 }

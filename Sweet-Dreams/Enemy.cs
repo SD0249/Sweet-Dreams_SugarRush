@@ -237,14 +237,20 @@ namespace Sweet_Dreams
             //     worldPosition.X - player.WorldPosition.X);
             // direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
 
-            // Creates a unit direction vector pointing toward the player
+            // Creates a direction vector pointing toward the player
             direction = new Vector2(player.WorldPosition.X - worldPosition.X,
                 player.WorldPosition.Y - worldPosition.Y);
-            direction.Normalize();
+
+            // As long as the direction is not the zero vector, it is normalized so 
+            // the enemy will have the same displacement every movement frame
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
 
             // Updates world position by moving toward the player
-            worldPosition.X += (int)Math.Round(direction.X * speed);
-            worldPosition.Y += (int)Math.Round(direction.Y * speed);
+            worldPosition.X += (int)(direction.X * speed);
+            worldPosition.Y += (int)(direction.Y * speed);
 
             // Updates screen position
             screenPosition = new Rectangle(

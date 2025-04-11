@@ -120,7 +120,6 @@ namespace Sweet_Dreams
         /// Draws all enemies currently in the level to the screen (if they're in bounds).
         /// </summary>
         /// <param name="sb">The SpriteBatch object that does the drawing.</param>
-        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
         public void DrawAll(SpriteBatch sb)
         {
             // Draws all enemies that will appear on the screen
