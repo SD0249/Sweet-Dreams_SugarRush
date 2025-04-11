@@ -33,6 +33,26 @@ namespace Sweet_Dreams
         private Texture2D candyAsset;
 
         // --------------------------------------------------------------
+        // Properties
+        // --------------------------------------------------------------
+        /// <summary>
+        /// List of enemies' world positons as (X,Y) vectors.
+        /// </summary>
+        public List<Vector2> WorldPositions
+        {
+            get
+            {
+                List<Vector2> positions = new List<Vector2>();
+                foreach (Enemy singleEnemy in currentEnemies)
+                {
+                    positions.Add(new Vector2(singleEnemy.WorldPosition.X, 
+                        singleEnemy.WorldPosition.Y));
+                }
+                return positions;
+            }
+        }
+
+        // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
         /// <summary>

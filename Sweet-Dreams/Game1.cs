@@ -52,7 +52,7 @@ namespace Sweet_Dreams
         private OrthographicCamera camera;
 
         // Whether or not the game is currently in debug mode
-        public static bool debugMode;
+        public static bool godMode;
 
         public Game1()
         {
@@ -75,7 +75,7 @@ namespace Sweet_Dreams
             collectibles = new List<Candy>();
 
             // Debug mode is on for testing
-            debugMode = true;
+            godMode = true;
 
             // Initialize Camera
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
@@ -380,7 +380,7 @@ namespace Sweet_Dreams
             }
 
             // Draws the Debug Information if debug mode is on
-            if (debugMode)
+            if (godMode)
             {
                 DrawDebugInfo(_spriteBatch);
             }
@@ -390,17 +390,35 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Draws the needing Debuging info to the game screen
+        /// Draws debug info to the game screen.
         /// </summary>
-        /// <param name="sb">The sprite batch needed to draw</param>
+        /// <param name="sb">The sprite batch needed to draw.</param>
         private void DrawDebugInfo(SpriteBatch sb)
         {
-            //Draws the Mouses's X and Y position
+            ////Draws the Mouses's X and Y position
+            //sb.DrawString(
+            //    arial12,
+            //    $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
+            //    new Vector2(10, screenHeight - 24),
+            //    Color.White);
+
+            //Draws the number of enemies currently in the world
             sb.DrawString(
                 arial12,
-                $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
+                "Enemies in the World: " + enemyManager.WorldPositions.Count,
                 new Vector2(10, screenHeight - 24),
                 Color.White);
+
+            //Draws one enemy's world position
+            if (enemyManager.WorldPositions.Count > 0)
+            {
+                sb.DrawString(
+                    arial12,
+                    $"One enemy's position: ({enemyManager.WorldPositions[0].X}, " +
+                    $"{enemyManager.WorldPositions[0].Y})",
+                    new Vector2(460, screenHeight - 24),
+                    Color.White);
+            }
 
             //Draws the current state of the game
             sb.DrawString(

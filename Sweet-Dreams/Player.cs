@@ -157,6 +157,13 @@ namespace Sweet_Dreams
                 worldPosition.Y += 5;
             }
 
+            // Updates screen position
+            screenPosition = new Rectangle(
+                worldPosition.X + (int)worldToScreen.X,
+                worldPosition.Y + (int)worldToScreen.Y,
+                worldPosition.Width,
+                worldPosition.Height);
+
             // Player FSM (incomplete)
             switch (playerState)
             {
@@ -240,7 +247,7 @@ namespace Sweet_Dreams
         /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
-            //Draws the player with no movement
+            // Draws the player
             sb.Draw(asset,
                 worldPosition,
                 new Rectangle(7, 7, 10, 18),

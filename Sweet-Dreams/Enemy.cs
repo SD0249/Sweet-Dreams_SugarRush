@@ -60,9 +60,10 @@ namespace Sweet_Dreams
         private double fps;
         private double spf;
 
-        // Values needed for enemy movement
-        private float rotation;
+        // Unit direction vector
         private Vector2 direction;
+
+        // Speed scalar 
         private int speed;
 
         // Reference to the player
@@ -160,8 +161,6 @@ namespace Sweet_Dreams
             screenPosition = worldPosition;
 
             // TODO: Change these values
-            health = 0;
-            speed = 5;
             timer = 0.0;
             spf = 0.0;
             fps = 0.0;
@@ -228,14 +227,22 @@ namespace Sweet_Dreams
         /// Updates the enemies position to always 
         /// move towards the player
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Info from MonoGame about the time state.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
-        {            
+        {
             // Updates world position by moving toward the player
-            rotation = (float)Math.Atan2(screenPosition.Y - player.WorldPosition.Y,
-                screenPosition.X - player.WorldPosition.X);
-            direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
 
+            // rotation = (float)Math.Atan2(worldPosition.Y - player.WorldPosition.Y,
+            //     worldPosition.X - player.WorldPosition.X);
+            // direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
+
+            // Creates a unit direction vector pointing toward the player
+            direction = new Vector2(player.WorldPosition.X - worldPosition.X,
+                player.WorldPosition.Y - worldPosition.Y);
+            direction.Normalize();
+
+            // Updates world position by moving toward the player
             worldPosition.X += (int)Math.Round(direction.X * speed);
             worldPosition.Y += (int)Math.Round(direction.Y * speed);
 
@@ -306,6 +313,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 1;
+                    speed = 5;
                     sourceRect = new Rectangle(5, 5, 9, 13);
 
                     break;
@@ -313,6 +321,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 3;
+                    speed = 5;
                     sourceRect = new Rectangle(5, 51, 20, 35);
 
                     break;
@@ -320,20 +329,22 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 2;
+                    speed = 5;
                     sourceRect = new Rectangle(4, 28, 11, 23);
 
                     break;
                 case EnemyType.Cloak:
                     health = 1;
                     damage = 1;
+                    speed = 5;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);
 
                     break;
             }
 
-            // Changes the enemy worldPosition based on the enemies sourceRect
-            worldPosition = new Rectangle(0, 0, sourceRect.Width * 2, sourceRect.Height * 2);
+            // Changes the enemy worldPosition based on the enemy's sourceRect
+            worldPosition = new Rectangle(0, 0, sourceRect.Width * 4, sourceRect.Height * 4);
         }
     }
 }
