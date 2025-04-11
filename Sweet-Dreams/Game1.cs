@@ -114,7 +114,7 @@ namespace Sweet_Dreams
                       player.ScreenPosition.Y - player.WorldPosition.Y);
 
             // Loads in level 1 enemy data
-            enemyManager = new EnemyManager(rng, "Enemy Data.txt", collectibles, bullets, 
+            enemyManager = new EnemyManager(rng, "../../../Content/Enemy Data.txt", collectibles, bullets, 
                 enemySprites, candySprites, screenWidth, screenHeight, 
                 level1.WorldWidth, level1.WorldHeight);
         }
