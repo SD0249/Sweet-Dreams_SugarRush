@@ -72,11 +72,12 @@ namespace Sweet_Dreams
         /// if the current wave has finished.
         /// </summary>
         /// <param name="gameTime">Time information from MonoGame.</param>
-        public void UpdateAll(GameTime gameTime)
+        /// <param name="worldToScreen">World to screen offset vector.</param>
+        public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
         {
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                currentEnemies[i].Update(gameTime);
+                currentEnemies[i].Update(gameTime, worldToScreen);
             }
 
             // TODO: Add drop candy logic and removal from level

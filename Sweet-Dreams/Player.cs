@@ -134,7 +134,7 @@ namespace Sweet_Dreams
         /// Updates the players position based on what keys are pressed
         /// </summary>
         /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
@@ -286,7 +286,7 @@ namespace Sweet_Dreams
             // If the player is too FAR DOWN
             if (worldPosition.Y + worldPosition.Height > worldHeight)
             {
-                worldPosition.Y = worldHeight;
+                worldPosition.Y = worldHeight - worldPosition.Height;
             }
         }
 
