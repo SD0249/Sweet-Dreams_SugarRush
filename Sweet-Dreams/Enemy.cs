@@ -253,48 +253,12 @@ namespace Sweet_Dreams
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
-            // TODO: Remove this switch since all cases are identical(?)
-            //Draws an Enemy at a given position
-            // CLOAK
-            if (eType == EnemyType.Cloak)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-
-                Color.White);
-            }
-
-            //IMP
-            if (eType == EnemyType.Imp)
-            {
-                sb.Draw(
+            // Draws the enemy
+            sb.Draw(
                 asset,
                 worldPosition,
                 sourceRect,
                 Color.White);
-            }
-
-            //MOUTH DEMON
-            if (eType == EnemyType.MouthDemon)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-                Color.White);
-            }
-
-            // HORN DEMON
-            if (eType == EnemyType.HornDemon)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-                Color.White);
-            }
         }
 
         /// <summary>
@@ -335,12 +299,7 @@ namespace Sweet_Dreams
         /// </summary>
         private void CreateEnemy()
         {
-            // TODO: Determine source rect and change the width and height of position rect
-            // Position the enemies on the edge of the map or randomly within?
-            // Answer to the above question: They already get positioned ON THE EDGE in the 
-            // constructor, right after this method executes. Only the size needs to be
-            // changed here; not the X or Y. Positioning happens after this because it 
-            // checks the enemy's size to make sure it is completely off screen.
+            //Initializes the Enemy fields based on the Enemy type
             switch (eType)
             {
                 case EnemyType.Imp:
@@ -348,8 +307,6 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     sourceRect = new Rectangle(5, 5, 9, 13);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
                 case EnemyType.MouthDemon:
@@ -357,8 +314,6 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 3;
                     sourceRect = new Rectangle(5, 51, 20, 35);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
                 case EnemyType.HornDemon:
@@ -366,8 +321,6 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(4, 28, 11, 23);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
                 case EnemyType.Cloak:
@@ -375,11 +328,13 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
             }
+
+            // Changes the enemy worldPosition based on the enemies sourceRect
+            worldPosition.Width = sourceRect.Width;
+            worldPosition.Height = sourceRect.Height;
         }
     }
 }
