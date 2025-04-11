@@ -142,7 +142,6 @@ namespace Sweet_Dreams
             camPosition.Y = MathHelper.Clamp(camPosition.Y, 0, worldHeight - screenHeight);
 
             // Build the matrix to offset the world by the camera position
-            // (Ensuring that it is only rendering the drawn part of the world)
             cameraMatrix = Matrix.CreateTranslation(-camPosition.X, -camPosition.Y, 0);
 
             // Additionally, update the camera's bound defined by the new camera position.
