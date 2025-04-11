@@ -297,6 +297,8 @@ namespace Sweet_Dreams
             // constructor, right after this method executes. Only the size needs to be
             // changed here; not the X or Y. Positioning happens after this because it 
             // checks the enemy's size to make sure it is completely off screen.
+
+            //Initializes the Enemy fields based on the Enemy type
             switch (eType)
             {
                 case EnemyType.Imp:
@@ -304,8 +306,6 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     sourceRect = new Rectangle(5, 5, 9, 13);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
                 case EnemyType.MouthDemon:
@@ -313,8 +313,6 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 3;
                     sourceRect = new Rectangle(5, 51, 20, 35);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
                 case EnemyType.HornDemon:
@@ -322,8 +320,6 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(4, 28, 11, 23);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
                 case EnemyType.Cloak:
@@ -331,10 +327,23 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);
-                    worldPosition.X = worldPosition.X - sourceRect.X;
-                    worldPosition.Y = worldPosition.Y - sourceRect.Y;
 
                     break;
+            }
+
+            //Positions the enemy using its sourceRect to keep within bounds
+            // if the x-value is negative
+            if (worldPosition.X < 0)
+            {
+                worldPosition.Width = worldPosition.Width + sourceRect.Width;
+                worldPosition.Height = worldPosition.Height + sourceRect.Height;
+            }
+
+            // x-value is positive
+            else
+            {
+                worldPosition.Width = worldPosition.Width - sourceRect.Width;
+                worldPosition.Height = worldPosition.Height - sourceRect.Height;
             }
         }
     }
