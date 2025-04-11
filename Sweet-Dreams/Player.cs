@@ -19,7 +19,7 @@ namespace Sweet_Dreams
         Hit
     }
 
-    internal class Player : GameObject
+    public class Player : GameObject
     {
         // --------------------------------------------------------------
         // Fields
@@ -303,7 +303,7 @@ namespace Sweet_Dreams
                     break;
 
                 case CandyType.Peppermint:
-                    // Do something
+                    // Increase bullet velocity
                     break;
 
                 case CandyType.CandyCorn:

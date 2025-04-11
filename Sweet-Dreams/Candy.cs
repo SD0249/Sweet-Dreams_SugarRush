@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ namespace Sweet_Dreams
         Peppermint,
         CandyCorn,
         GreenCandy,
-        YellowCandy
+        YellowCandy,
+        Chocolate
     }
 
     public class Candy : GameObject
@@ -32,7 +34,7 @@ namespace Sweet_Dreams
         Random rng;
 
         // Source Rectangle
-        Rectangle sourceRectangle;
+        Rectangle sourceRect;
 
         // --------------------------------------------------------------
         // Properties
@@ -70,25 +72,39 @@ namespace Sweet_Dreams
             rng = new Random();
 
             // this value will be determine the type of Candy
-            // SOURCE RECTANGLE
-            int rngNum = rng.Next(0, 4);
+            int rngNum = rng.Next(0, 6);
             switch (rngNum)
             {
                 case 0:
                     cType = CandyType.SkullCandy;
-                    break;
+                    sourceRect = new Rectangle(65, 97, 16, 16);
+
+					break;
                 case 1:
                     cType = CandyType.Peppermint;
-                    break;
+                    sourceRect = new Rectangle(0, 16, 16, 16);
+
+					break;
                 case 2:
                     cType = CandyType.CandyCorn;
-                    break;
+                    sourceRect = new Rectangle(0, 0, 16, 16);
+
+					break;
                 case 3:
                     cType = CandyType.GreenCandy;
-                    break;
+                    sourceRect = new Rectangle(17, 33, 16, 16);
+
+					break;
                 case 4:
                     cType = CandyType.YellowCandy;
-                    break;
+                    sourceRect = new Rectangle(33, 81, 16, 16);
+
+					break;
+                case 5:
+                    cType = CandyType.Chocolate;
+                    sourceRect = new Rectangle(0, 129, 16, 16);
+
+					break;
             }
         }
 
@@ -118,46 +134,11 @@ namespace Sweet_Dreams
         /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
-            if (cType == CandyType.Peppermint)
-            {
-                sb.Draw(
+            sb.Draw(
                 asset,
                 worldPosition,
-                new Rectangle(0, 16, 16, 16),
+                sourceRect,
                 Color.White);
-            }
-            if (cType == CandyType.CandyCorn)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                new Rectangle(0, 0, 16, 16),
-                Color.White);
-            }
-            if (cType == CandyType.GreenCandy)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                new Rectangle(17, 33, 16, 16),
-                Color.White);
-            }
-            if (cType == CandyType.YellowCandy)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                new Rectangle(33, 81, 16, 16),
-                Color.White);
-            }
-            if (cType == CandyType.SkullCandy)
-            {
-                sb.Draw(
-                asset,
-                worldPosition,
-                new Rectangle(65, 97, 16, 16),
-                Color.White);
-            }
         }
     }
 }
