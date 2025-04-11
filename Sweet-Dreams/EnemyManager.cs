@@ -75,12 +75,19 @@ namespace Sweet_Dreams
         /// <param name="worldToScreen">World to screen offset vector.</param>
         public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
         {
+            // Updates all enemy positions and states
             for (int i = 0; i < currentEnemies.Count; i++)
             {
                 currentEnemies[i].Update(gameTime, worldToScreen);
-            }
 
-            // TODO: Add drop candy logic and removal from level
+                // If the enemy is dead, it drops candy then gets removed from the list
+                if (!currentEnemies[i].IsAlive)
+                {
+                    currentEnemies[i].DropCandy(collectibles, candyAsset);
+                    currentEnemies.RemoveAt(i);
+                    i--;
+                }
+            }
 
             // A new wave of ten enemies forms once all current enemies are gone
             if (currentEnemies.Count == 0)
@@ -168,7 +175,6 @@ namespace Sweet_Dreams
                     allEnemies.Enqueue(new Enemy(enemyType,
                                                  rng,
                                                  asset,
-                                                 new Rectangle(0, 0, 1, 1),
                                                  screenWidth,
                                                  screenHeight,
                                                  worldWidth,

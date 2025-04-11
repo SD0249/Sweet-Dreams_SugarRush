@@ -54,7 +54,8 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, int screenWidth, int screenHeight)
+        public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, 
+            int screenWidth, int screenHeight)
         :base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
@@ -118,6 +119,20 @@ namespace Sweet_Dreams
                 1);
 
             //DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
+        }
+
+        /// <summary>
+        /// Determines whether or not the bullet is past the world's bounds.
+        /// </summary>
+        /// <param name="worldWidth">Width of the world map.</param>
+        /// <param name="worldHeight">Height of the world map.</param>
+        /// <returns>Whether or not the bullet has traveled off the world map.</returns>
+        public bool OutOfBounds(int worldWidth, int worldHeight)
+        {
+            return worldPosition.Y + worldPosition.Height < 0       // Too far up
+                || worldPosition.Y > worldHeight                    // Too far down
+                || worldPosition.X + worldPosition.Width < 0        // Too far left
+                || worldPosition.X > worldWidth;                    // Too far right
         }
     }
 }

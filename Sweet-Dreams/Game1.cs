@@ -136,6 +136,8 @@ namespace Sweet_Dreams
 
                     // Draw menu to console
 
+                    // Updates the play button
+                    myButton.Update(mouse);
                     if (myButton.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
@@ -191,6 +193,12 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Update(gameTime, worldToScreen);
 
+                        // Removes the bullet from the list if it is out of bounds
+                        if (bullets[i].OutOfBounds(level1.WorldWidth, level1.WorldHeight))
+                        {
+                            bullets.RemoveAt(i);
+                            i--;
+                        }
                     }
 
                     // Updates all enemies unless the level has been cleared
@@ -285,8 +293,7 @@ namespace Sweet_Dreams
 
                     GraphicsDevice.Clear(Color.Black);
 
-                    // Updates and draws the play button
-                    myButton.Update(mouse);
+                    // Draws the play button
                     myButton.Draw(_spriteBatch);
 
                     /*
