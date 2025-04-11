@@ -51,6 +51,9 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// This object's position in the world.
+        /// </summary>
         public override Rectangle WorldPosition
         {
             get { return worldPosition; }
@@ -156,11 +159,5 @@ namespace Sweet_Dreams
                 Color.White);
             }
         }
-
-        // POWER UPS
-        // change the velocity of the bullets - Player
-        // if (cType == 
-        // debuff the player by either decreasing their speed or increasing the enemy speed
-        // 
     }
 }
