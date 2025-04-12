@@ -319,7 +319,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 1;
-                    speed = 5;
+                    speed = 3;
                     sourceRect = new Rectangle(5, 5, 9, 13);
 
                     break;
@@ -327,7 +327,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 3;
-                    speed = 5;
+                    speed = 1;
                     sourceRect = new Rectangle(5, 51, 20, 35);
 
                     break;
@@ -335,14 +335,14 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 2;
-                    speed = 5;
+                    speed = 2;
                     sourceRect = new Rectangle(4, 28, 11, 23);
 
                     break;
                 case EnemyType.Cloak:
                     health = 1;
                     damage = 1;
-                    speed = 5;
+                    speed = 2;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);
 

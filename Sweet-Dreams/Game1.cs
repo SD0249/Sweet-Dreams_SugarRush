@@ -324,6 +324,15 @@ namespace Sweet_Dreams
                         new Vector2(300, 200),
                         Color.White);
 
+                    // Draws placeholder instructions
+                    _spriteBatch.DrawString(
+                        arial12,
+                        "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
+                        "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
+                        "Toggle 'god mode' (and debug information) with the G key.",
+                        new Vector2(30, screenHeight - 80),
+                        Color.White);
+
                     break;
 
                 case GameState.Game:
@@ -417,16 +426,16 @@ namespace Sweet_Dreams
                 new Vector2(10, screenHeight - 24),
                 Color.White);
 
-            //Draws one enemy's world position
-            if (enemyManager.WorldPositions.Count > 0)
-            {
-                sb.DrawString(
-                    arial12,
-                    $"One enemy's position: ({enemyManager.WorldPositions[0].X}, " +
-                    $"{enemyManager.WorldPositions[0].Y})",
-                    new Vector2(460, screenHeight - 24),
-                    Color.White);
-            }
+            ////Draws one enemy's world position
+            //if (enemyManager.WorldPositions.Count > 0)
+            //{
+            //    sb.DrawString(
+            //        arial12,
+            //        $"One enemy's position: ({enemyManager.WorldPositions[0].X}, " +
+            //        $"{enemyManager.WorldPositions[0].Y})",
+            //        new Vector2(460, screenHeight - 24),
+            //        Color.White);
+            //}
 
             //Draws the current state of the game
             sb.DrawString(

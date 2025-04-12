@@ -13,7 +13,7 @@ namespace Sweet_Dreams
     /// Purpose: An 2D Camera System that acts like an perspective camera.
     ///          Allows easily moving the viewable area of the world.
     /// </summary>
-    internal class OrthographicCamera
+    public class OrthographicCamera
     {
         //---------------------------------------------------------------
         // Fields
@@ -92,7 +92,7 @@ namespace Sweet_Dreams
 
         /// <summary>
         /// The Orthographic Camera has its own Update method. 
-        /// This will be the only method of the  that will be able to accessed.
+        /// This will be the only method of the class that will be able to accessed.
         /// </summary>
         /// <param name="worldToScreenOffSet">World to Screen Offset
         /// (i.e. worldPosition + this.OffSet = screenPosition)</param>
