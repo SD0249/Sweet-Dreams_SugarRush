@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Transactions;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
@@ -183,6 +184,10 @@ namespace Sweet_Dreams
                         if (player.CollidesWith(collectibles[i]))
                         {
                             player.CollectCandy(collectibles[i].CType);
+
+                            // Remove the candy from the List
+                            collectibles.RemoveAt(i);
+                            i--;
                         }
                     }
 
