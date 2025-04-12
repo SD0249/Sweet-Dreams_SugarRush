@@ -30,6 +30,7 @@ namespace Sweet_Dreams
         private int playerHealth;
         private bool isAlive;
         private Vector2 velocity;
+        private int points;
 
         // Animation fields
         private double timer;
@@ -307,6 +308,7 @@ namespace Sweet_Dreams
             {
                 case CandyType.SkullCandy:
                     // Deal damage to the player
+                    playerHealth--;
                     break;
 
                 case CandyType.Peppermint:
@@ -314,15 +316,22 @@ namespace Sweet_Dreams
                     break;
 
                 case CandyType.CandyCorn:
-                    // Do something
+                    // More damage
+                    
                     break;
 
                 case CandyType.GreenCandy:
-                    // Do something
+                    // Add 5 points to player points
+                    points += 5;
                     break;
 
                 case CandyType.YellowCandy:
-                    // Do something
+                    // Add 10 points to player points
+                    points += 10;
+                    break;
+                case CandyType.Chocolate:
+                    // Heal player health
+                    playerHealth++;
                     break;
             }
         }

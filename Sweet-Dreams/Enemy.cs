@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -330,32 +331,32 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 1;
-                    speed = 5;
-                    sourceRect = new Rectangle(5, 5, 9, 13);
+                    speed = 3;
+                    sourceRect = new Rectangle(4, 3, 10, 14);
 
                     break;
                 case EnemyType.MouthDemon:
                     health = 1;
                     damage = 1;
                     candyNum = 3;
-                    speed = 5;
-                    sourceRect = new Rectangle(5, 51, 20, 35);
+                    speed = 1;
+                    sourceRect = new Rectangle(5, 41, 26, 34);
 
                     break;
                 case EnemyType.HornDemon:
                     health = 1;
                     damage = 1;
                     candyNum = 2;
-                    speed = 5;
-                    sourceRect = new Rectangle(4, 28, 11, 23);
+                    speed = 2;
+                    sourceRect = new Rectangle(4, 22, 14, 21);
 
                     break;
                 case EnemyType.Cloak:
                     health = 1;
                     damage = 1;
-                    speed = 5;
+                    speed = 2;
                     candyNum = 2;
-                    sourceRect = new Rectangle(2, 13, 12, 15);
+                    sourceRect = new Rectangle(2, 20, 13, 17);
 
                     break;
             }
