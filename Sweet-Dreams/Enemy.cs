@@ -342,7 +342,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     speed = 3;
-                    sourceRect = new Rectangle(4, 3, 10, 14);
+                    sourceRect = new Rectangle(4, 3, 10, 12);
 
                     break;
                 case EnemyType.MouthDemon:
