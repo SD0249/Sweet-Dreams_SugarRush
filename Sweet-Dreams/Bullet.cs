@@ -142,10 +142,10 @@ namespace Sweet_Dreams
 
         /// <summary>
         /// Instead of having this as a property, get information from the camera 
-        /// to get the accurate bounds to determine whether the enemy is on screen.
+        /// to get the accurate bounds to determine whether the bullet is on screen.
         /// </summary>
         /// <param name="camera">The current camera created and used in Game1</param>
-        /// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>
+        /// <returns>Whether this bullet is on screen; if it is seen by the camera.</returns>
         public bool IsOnScreen(OrthographicCamera camera)
         {
             return camera.CameraBound.Contains(this.worldPosition);
