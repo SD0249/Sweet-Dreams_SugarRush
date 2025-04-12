@@ -42,7 +42,7 @@ namespace Sweet_Dreams
         /// <summary>
         /// Whether or not any part of the object is visible on the screen.
         /// </summary>
-        public bool IsOnScreen
+        /* public bool IsOnScreen
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Sweet_Dreams
                     || screenPosition.Y + screenPosition.Height < 0
                     || screenPosition.Y > screenHeight);
             }
-        }
+        } */
 
         /// <summary>
         /// This object's position in the world.
@@ -59,6 +59,14 @@ namespace Sweet_Dreams
         public override Rectangle WorldPosition
         {
             get { return worldPosition; }
+        }
+
+        /// <summary>
+        /// The Candy's type
+        /// </summary>
+        public CandyType CType
+        {
+            get { return cType; }
         }
 
         // --------------------------------------------------------------
@@ -139,6 +147,18 @@ namespace Sweet_Dreams
                 worldPosition,
                 sourceRect,
                 Color.White);
+        }
+
+
+        /// <summary>
+        /// Instead of having this as a property, get information from the camera 
+        /// to get the accurate bounds to determine whether a candy is on screen.
+        /// </summary>
+        /// <param name="camera">The current camera created and used in Game1</param>
+        /// <returns>Whether this candy is on screen; if it is seen by the camera.</returns>
+        public bool IsOnScreen(OrthographicCamera camera)
+        {
+            return camera.CameraBound.Contains(this.worldPosition);
         }
     }
 }
