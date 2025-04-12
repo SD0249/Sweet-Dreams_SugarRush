@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Transactions;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
@@ -53,7 +54,7 @@ namespace Sweet_Dreams
         private OrthographicCamera camera;
 
         // Whether or not the game is currently in god/debug mode
-        public static bool godMode;
+        public static bool GodMode;
 
         public Game1()
         {
@@ -76,7 +77,7 @@ namespace Sweet_Dreams
             collectibles = new List<Candy>();
 
             // Debug mode is on for testing
-            godMode = false;
+            GodMode = false;
 
             // Initialize Camera
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
@@ -174,7 +175,7 @@ namespace Sweet_Dreams
                     // Turns on or off god/debug mode if G is pressed
                     if (SingleKeyPress(Keys.G))
                     {
-                        godMode = !godMode;
+                        GodMode = !GodMode;
                     }
 
                     // Update the number of Candies
@@ -183,6 +184,10 @@ namespace Sweet_Dreams
                         if (player.CollidesWith(collectibles[i]))
                         {
                             player.CollectCandy(collectibles[i].CType);
+
+                            // Remove the candy from the List
+                            collectibles.RemoveAt(i);
+                            i--;
                         }
                     }
 
@@ -419,8 +424,13 @@ namespace Sweet_Dreams
             }
 
             // Draws the Debug Information if debug mode is on
-            if (godMode)
+            if (GodMode)
             {
+                _spriteBatch.DrawString(
+                    arial12,
+                    "God mode enabled. Enemies will not damage you in this state.",
+                    new Vector2(10, 10),
+                    Color.White);
                 DrawDebugInfo(_spriteBatch);
             }
 
