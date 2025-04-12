@@ -99,8 +99,34 @@ namespace Sweet_Dreams
             for (int i = 0; i < currentEnemies.Count; i++)
             {
                 currentEnemies[i].Update(gameTime, worldToScreen);
+            }
 
-                // If the enemy is dead, it drops candy then gets removed from the list
+            // Removes bullets and damages enemies if they collide
+            for (int enemyIndex = 0; enemyIndex < currentEnemies.Count; enemyIndex++)
+            {
+                for (int bulletIndex = 0; bulletIndex < bullets.Count; bulletIndex++)
+                {
+                    if (currentEnemies[enemyIndex].CollidesWith(bullets[bulletIndex]))
+                    {
+                        currentEnemies[enemyIndex].Health -= bullets[bulletIndex].Damage;
+                        bullets[bulletIndex].HitEnemy = true;
+                    }
+                }
+            }
+
+            // Any bullets that hit enemies get removed from the list
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                if (bullets[i].HitEnemy)
+                {
+                    bullets.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            // If any enemy is dead, it drops candy then gets removed from the list
+            for (int i = 0; i < currentEnemies.Count; i++)
+            {
                 if (!currentEnemies[i].IsAlive)
                 {
                     currentEnemies[i].DropCandy(collectibles, candyAsset);

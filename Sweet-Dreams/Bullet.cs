@@ -22,6 +22,8 @@ namespace Sweet_Dreams
         private float rotation;
         private Vector2 direction;
         private Vector2 origin;
+        private bool hitEnemy;
+        private int damage;
 
         // --------------------------------------------------------------
         // Properties
@@ -48,14 +50,33 @@ namespace Sweet_Dreams
             }
         }
 
+        /// <summary>
+        /// Whether or not this bullet has hit an enemy.
+        /// </summary>
+        public bool HitEnemy
+        {
+            get { return hitEnemy; }
+            set { hitEnemy = value; }
+        }
+
+        /// <summary>
+        /// How much damage this bullet deals to an enemy.
+        /// </summary>
+        public int Damage
+        {
+            get { return damage; }
+        }
+
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
         public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, 
-            int screenWidth, int screenHeight)
+            int damage, int screenWidth, int screenHeight)
         :base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
+            this.damage = damage;
+            hitEnemy = false;
             speed = 3;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);

@@ -189,7 +189,8 @@ namespace Sweet_Dreams
                         player.ReloadTimer <= 0)
                     {
                         // Makes a new bullet every time you shoot
-                        bullets.Add(new Bullet(candySprites, player.WorldPosition, player.ScreenPosition, screenWidth, screenHeight));
+                        bullets.Add(new Bullet(candySprites, player.WorldPosition, player.ScreenPosition, 
+                            player.Damage, screenWidth, screenHeight));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;

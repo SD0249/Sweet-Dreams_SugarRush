@@ -30,6 +30,7 @@ namespace Sweet_Dreams
         private int playerHealth;
         private bool isAlive;
         private Vector2 velocity;
+        private int damage;
 
         // Animation fields
         private double timer;
@@ -79,6 +80,15 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
+        /// How much damage the player's bullets deal.
+        /// </summary>
+        public int Damage
+        {
+            get { return damage; }
+            set { damage = value; }
+        }
+
+        /// <summary>
         /// Whether or not the object is visible. Always true for the player.
         /// </summary>
         public bool IsOnScreen
@@ -94,6 +104,7 @@ namespace Sweet_Dreams
             : base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
             health = 6;
+            damage = 1;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
             timer = 0.0;                        // Change these values

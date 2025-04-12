@@ -102,6 +102,16 @@ namespace Sweet_Dreams
             get { return health > 0; }
         }
 
+        /// <summary>
+        /// How much health the player has left.
+        /// </summary>
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
+
+        }
+
         // --------------------------------------------------------------
         // Constructors
         // --------------------------------------------------------------
