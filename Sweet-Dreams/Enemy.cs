@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,7 +76,7 @@ namespace Sweet_Dreams
         /// <summary>
         /// Whether or not any part of the object is visible on the screen.
         /// </summary>
-        public bool IsOnScreen
+        /* public bool IsOnScreen
         {
             get
             {
@@ -84,7 +85,7 @@ namespace Sweet_Dreams
                     || screenPosition.Y + screenPosition.Height < 0
                     || screenPosition.Y > screenHeight);
             }
-        }
+        } */
 
         /// <summary>
         /// This object's position in the world.
@@ -317,6 +318,17 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
+        /// Instead of having it as a property, 
+        /// get information from the camera to get the accurate bounds.
+        /// </summary>
+        /// <param name="camera">The current camera created and used in Game1</param>
+        /// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>
+        public bool IsOnScreen(OrthographicCamera camera)
+        {
+            return camera.CameraBound.Contains(this.worldPosition);
+        }
+
+        /// <summary>
         /// A helper method used when loading the enemies in order to
         /// set their damage, source rectangle, and how many candies they drop.
         /// </summary>
@@ -330,7 +342,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     speed = 3;
-                    sourceRect = new Rectangle(5, 5, 9, 13);
+                    sourceRect = new Rectangle(4, 3, 10, 14);
 
                     break;
                 case EnemyType.MouthDemon:
@@ -338,7 +350,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 3;
                     speed = 1;
-                    sourceRect = new Rectangle(5, 51, 20, 35);
+                    sourceRect = new Rectangle(5, 41, 26, 34);
 
                     break;
                 case EnemyType.HornDemon:
@@ -346,7 +358,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 2;
                     speed = 2;
-                    sourceRect = new Rectangle(4, 28, 11, 23);
+                    sourceRect = new Rectangle(4, 22, 14, 21);
 
                     break;
                 case EnemyType.Cloak:
@@ -354,7 +366,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     speed = 2;
                     candyNum = 2;
-                    sourceRect = new Rectangle(2, 13, 12, 15);
+                    sourceRect = new Rectangle(2, 20, 13, 17);
 
                     break;
             }

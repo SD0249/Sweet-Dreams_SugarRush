@@ -99,7 +99,7 @@ namespace Sweet_Dreams
                 new Rectangle(340, 250, 100, 50));
 
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
-            enemySprites = Content.Load<Texture2D>("EnemySpriteSheet");
+            enemySprites = Content.Load<Texture2D>("DemonSprites");
 
             // Load the Level
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
@@ -288,7 +288,7 @@ namespace Sweet_Dreams
                 }
 
                 // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch);
+                enemyManager.DrawAll(_spriteBatch, camera);
 
                 // Draws the player
                 player.Draw(_spriteBatch);
