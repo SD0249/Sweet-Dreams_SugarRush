@@ -298,10 +298,10 @@ namespace Sweet_Dreams
                 for (int i = 0; i < collectibles.Count; i++)
                 {
                     // TODO: Uncomment IsOnScreen once it works
-                    //if (collectibles[i].IsOnScreen)
-                    //{
+                    if (collectibles[i].IsOnScreen(camera))
+                    {
                     collectibles[i].Draw(_spriteBatch);
-                    //}
+                    }
                 }
 
                 // Draws all bullets
