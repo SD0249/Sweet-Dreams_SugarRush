@@ -105,16 +105,19 @@ namespace Sweet_Dreams
                 currentEnemies[i].Update(gameTime, worldToScreen);
             }
 
-            // Checks for player-enemy collisions
-            for (int i = 0; i < currentEnemies.Count; i++)
+            // Checks for player-enemy collisions unless god mode is on
+            if (!Game1.GodMode)
             {
-                if (player.CollidesWith(currentEnemies[i]))
+                for (int i = 0; i < currentEnemies.Count; i++)
                 {
-                    // Player takes damage
-                    player.Health -= currentEnemies[i].Damage;
+                    if (player.CollidesWith(currentEnemies[i]))
+                    {
+                        // Player takes damage
+                        player.Health -= currentEnemies[i].Damage;
 
-                    // Teleports the enemy back to the walls
-                    currentEnemies[i].GoToWorldEdge();
+                        // Teleports the enemy back to the walls
+                        currentEnemies[i].GoToWorldEdge();
+                    }
                 }
             }
 
