@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Transactions;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
@@ -175,6 +176,16 @@ namespace Sweet_Dreams
                     {
                         godMode = !godMode;
                     }
+
+                    // Update the number of Candies
+                    for (int i = 0; i < collectibles.Count; i++)
+                    {
+                        if (player.CollidesWith(collectibles[i]))
+                        {
+                            player.CollectCandy(collectibles[i].CType);
+                        }
+                    }
+
 
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
