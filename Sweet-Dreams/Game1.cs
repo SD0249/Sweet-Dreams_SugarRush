@@ -278,6 +278,16 @@ namespace Sweet_Dreams
                 // Draws the level itself
                 level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
 
+                // Draws all candy
+                for (int i = 0; i < collectibles.Count; i++)
+                {
+                    // TODO: Uncomment IsOnScreen once it works
+                    //if (collectibles[i].IsOnScreen)
+                    //{
+                    collectibles[i].Draw(_spriteBatch);
+                    //}
+                }
+
                 // Draws all bullets
                 for (int i = 0; i < bullets.Count; i++)
                 {
@@ -285,7 +295,7 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Draw(_spriteBatch);
                     }
-                }
+                }                
 
                 // Draws all enemies that are on screen
                 enemyManager.DrawAll(_spriteBatch, camera);
@@ -478,6 +488,13 @@ namespace Sweet_Dreams
                 arial12,
                 $"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
                 new Vector2(10, screenHeight - 176),
+                Color.White);
+
+            //Draws player's remaining health
+            sb.DrawString(
+                arial12,
+                $"Remaining Health: {player.Health}",
+                new Vector2(10, screenHeight - 202),
                 Color.White);
         }
 

@@ -31,6 +31,7 @@ namespace Sweet_Dreams
         private List<Candy> collectibles;
         private List<Bullet> bullets;
         private Texture2D candyAsset;
+        private Player player;
 
         // --------------------------------------------------------------
         // Properties
@@ -79,6 +80,9 @@ namespace Sweet_Dreams
             // Gains a reference to the list of objects that can interact with enemies
             this.bullets = bullets;
 
+            // Gains a reference to a player
+            this.player = player;
+
             // Creates the first wave of enemies
             NewWave(10);
         }
@@ -99,6 +103,19 @@ namespace Sweet_Dreams
             for (int i = 0; i < currentEnemies.Count; i++)
             {
                 currentEnemies[i].Update(gameTime, worldToScreen);
+            }
+
+            // Checks for player-enemy collisions
+            for (int i = 0; i < currentEnemies.Count; i++)
+            {
+                if (player.CollidesWith(currentEnemies[i]))
+                {
+                    // Player takes damage
+                    player.Health -= currentEnemies[i].Damage;
+
+                    // Teleports the enemy back to the walls
+                    currentEnemies[i].GoToWorldEdge();
+                }
             }
 
             // Removes bullets and damages enemies if they collide
