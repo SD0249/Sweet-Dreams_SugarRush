@@ -318,8 +318,8 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Instead of having it as a property, 
-        /// get information from the camera to get the accurate bounds.
+        /// Instead of having this as a property, get information from the camera 
+        /// to get the accurate bounds to determine whether the enemy is on screen.
         /// </summary>
         /// <param name="camera">The current camera created and used in Game1</param>
         /// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>

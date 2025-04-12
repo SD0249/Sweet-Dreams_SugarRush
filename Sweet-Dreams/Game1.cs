@@ -281,7 +281,7 @@ namespace Sweet_Dreams
                 // Draws all bullets
                 for (int i = 0; i < bullets.Count; i++)
                 {
-                    if (bullets[i].IsOnScreen)
+                    if (bullets[i].IsOnScreen(camera))
                     {
                         bullets[i].Draw(_spriteBatch);
                     }

@@ -39,7 +39,7 @@ namespace Sweet_Dreams
         /// <summary>
         /// Whether or not any part of the object is visible on the screen.
         /// </summary>
-        public bool IsOnScreen
+        /* public bool IsOnScreen
         {
             get
             {
@@ -48,7 +48,7 @@ namespace Sweet_Dreams
                     || screenPosition.Y + screenPosition.Height < 0
                     || screenPosition.Y > screenHeight);
             }
-        }
+        } */
 
         /// <summary>
         /// Whether or not this bullet has hit an enemy.
@@ -137,6 +137,18 @@ namespace Sweet_Dreams
                 1);
 
             //DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
+        }
+
+
+        /// <summary>
+        /// Instead of having this as a property, get information from the camera 
+        /// to get the accurate bounds to determine whether the enemy is on screen.
+        /// </summary>
+        /// <param name="camera">The current camera created and used in Game1</param>
+        /// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>
+        public bool IsOnScreen(OrthographicCamera camera)
+        {
+            return camera.CameraBound.Contains(this.worldPosition);
         }
 
         /// <summary>
