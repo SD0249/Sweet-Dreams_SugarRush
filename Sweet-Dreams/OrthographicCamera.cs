@@ -13,7 +13,7 @@ namespace Sweet_Dreams
     /// Purpose: An 2D Camera System that acts like an perspective camera.
     ///          Allows easily moving the viewable area of the world.
     /// </summary>
-    internal class OrthographicCamera
+    public class OrthographicCamera
     {
         //---------------------------------------------------------------
         // Fields

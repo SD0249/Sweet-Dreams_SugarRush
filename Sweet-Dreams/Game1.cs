@@ -287,7 +287,7 @@ namespace Sweet_Dreams
                 }
 
                 // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch);
+                enemyManager.DrawAll(_spriteBatch, camera);
 
                 // Draws the player
                 player.Draw(_spriteBatch);
