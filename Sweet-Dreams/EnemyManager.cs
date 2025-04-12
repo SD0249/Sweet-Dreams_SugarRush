@@ -33,6 +33,26 @@ namespace Sweet_Dreams
         private Texture2D candyAsset;
 
         // --------------------------------------------------------------
+        // Properties
+        // --------------------------------------------------------------
+        /// <summary>
+        /// List of enemies' world positons as (X,Y) vectors.
+        /// </summary>
+        public List<Vector2> WorldPositions
+        {
+            get
+            {
+                List<Vector2> positions = new List<Vector2>();
+                foreach (Enemy singleEnemy in currentEnemies)
+                {
+                    positions.Add(new Vector2(singleEnemy.WorldPosition.X, 
+                        singleEnemy.WorldPosition.Y));
+                }
+                return positions;
+            }
+        }
+
+        // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
         /// <summary>
@@ -41,7 +61,7 @@ namespace Sweet_Dreams
         /// <param name="fileName">File containing all enemy data for the level.</param>
         /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
         public EnemyManager(Random rng, string fileName, List<Candy> collectibles, 
-            List<Bullet> bullets, Texture2D enemyAsset, Texture2D candyAsset, 
+            List<Bullet> bullets, Player player, Texture2D enemyAsset, Texture2D candyAsset, 
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
             // Initializes fields with empty data structures
@@ -49,7 +69,7 @@ namespace Sweet_Dreams
             currentEnemies = new List<Enemy>();
 
             // Fills the queue with enemy data from the file
-            this.ReadEnemyData(rng, fileName, enemyAsset, screenWidth, 
+            this.ReadEnemyData(rng, fileName, enemyAsset, player, screenWidth, 
                 screenHeight, worldWidth, worldHeight);
 
             // Gains a reference to the list of candy to be drawn plus their spritesheet
@@ -100,13 +120,11 @@ namespace Sweet_Dreams
         /// Draws all enemies currently in the level to the screen (if they're in bounds).
         /// </summary>
         /// <param name="sb">The SpriteBatch object that does the drawing.</param>
-        /// <param name="worldToScreen">Worldspace to screenspace offset vector.</param>
         public void DrawAll(SpriteBatch sb)
         {
             // Draws all enemies that will appear on the screen
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                currentEnemies[i].Draw(sb);
                 if (currentEnemies[i].IsOnScreen)
                 {
                     currentEnemies[i].Draw(sb);
@@ -132,7 +150,7 @@ namespace Sweet_Dreams
         /// as determined by file data.
         /// </summary>
         /// <param name="fileName">File containing all enemy data for the level.</param>
-        private void ReadEnemyData(Random rng, string fileName, Texture2D asset,
+        private void ReadEnemyData(Random rng, string fileName, Texture2D asset, Player player,
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
             // File reading/writing:
@@ -176,18 +194,19 @@ namespace Sweet_Dreams
                     allEnemies.Enqueue(new Enemy(enemyType,
                                                  rng,
                                                  asset,
+                                                 player,
                                                  screenWidth,
                                                  screenHeight,
                                                  worldWidth,
                                                  worldHeight));
                 }
-
-                currentEnemies.Add(new Enemy(EnemyType.Imp,
-                                                 asset,
-                                                 screenWidth,
-                                                 screenHeight,
-                                                 worldWidth,
-                                                 worldHeight));
+                
+                //currentEnemies.Add(new Enemy(EnemyType.Imp,
+                //                                 asset,
+                //                                 screenWidth,
+                //                                 screenHeight,
+                //                                 worldWidth,
+                //                                 worldHeight));
             }
             catch (Exception e)
             {

@@ -51,8 +51,8 @@ namespace Sweet_Dreams
         private Level level1;
         private OrthographicCamera camera;
 
-        // Whether or not the game is currently in debug mode
-        public static bool debugMode;
+        // Whether or not the game is currently in god/debug mode
+        public static bool godMode;
 
         public Game1()
         {
@@ -75,7 +75,7 @@ namespace Sweet_Dreams
             collectibles = new List<Candy>();
 
             // Debug mode is on for testing
-            debugMode = true;
+            godMode = false;
 
             // Initialize Camera
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
@@ -118,7 +118,7 @@ namespace Sweet_Dreams
 
             // Loads in level 1 enemy data
             enemyManager = new EnemyManager(rng, "../../../Content/Enemy Data.txt", collectibles, bullets, 
-                enemySprites, candySprites, screenWidth, screenHeight, 
+                player, enemySprites, candySprites, screenWidth, screenHeight, 
                 level1.WorldWidth, level1.WorldHeight);
         }
 
@@ -169,6 +169,12 @@ namespace Sweet_Dreams
                     */
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
+
+                    // Turns on or off god/debug mode if G is pressed
+                    if (SingleKeyPress(Keys.G))
+                    {
+                        godMode = !godMode;
+                    }
 
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
@@ -280,6 +286,9 @@ namespace Sweet_Dreams
                     }
                 }
 
+                // Draws all enemies that are on screen
+                enemyManager.DrawAll(_spriteBatch);
+
                 // Draws the player
                 player.Draw(_spriteBatch);
 
@@ -315,6 +324,15 @@ namespace Sweet_Dreams
                         new Vector2(300, 200),
                         Color.White);
 
+                    // Draws placeholder instructions
+                    _spriteBatch.DrawString(
+                        arial12,
+                        "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
+                        "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
+                        "Toggle 'god mode' (and debug information) with the G key.",
+                        new Vector2(30, screenHeight - 80),
+                        Color.White);
+
                     break;
 
                 case GameState.Game:
@@ -333,8 +351,7 @@ namespace Sweet_Dreams
                         }
                     }*/
 
-                    // Draws all enemies that are on screen
-                    enemyManager.DrawAll(_spriteBatch);
+                    
                     
 
                     // Draws all bullets
@@ -380,7 +397,7 @@ namespace Sweet_Dreams
             }
 
             // Draws the Debug Information if debug mode is on
-            if (debugMode)
+            if (godMode)
             {
                 DrawDebugInfo(_spriteBatch);
             }
@@ -390,17 +407,35 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Draws the needing Debuging info to the game screen
+        /// Draws debug info to the game screen.
         /// </summary>
-        /// <param name="sb">The sprite batch needed to draw</param>
+        /// <param name="sb">The sprite batch needed to draw.</param>
         private void DrawDebugInfo(SpriteBatch sb)
         {
-            //Draws the Mouses's X and Y position
+            ////Draws the Mouses's X and Y position
+            //sb.DrawString(
+            //    arial12,
+            //    $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
+            //    new Vector2(10, screenHeight - 24),
+            //    Color.White);
+
+            //Draws the number of enemies currently in the world
             sb.DrawString(
                 arial12,
-                $"Mouse X: {mouse.X}, Mouse Y:{mouse.Y}",
+                "Enemies in the World: " + enemyManager.WorldPositions.Count,
                 new Vector2(10, screenHeight - 24),
                 Color.White);
+
+            ////Draws one enemy's world position
+            //if (enemyManager.WorldPositions.Count > 0)
+            //{
+            //    sb.DrawString(
+            //        arial12,
+            //        $"One enemy's position: ({enemyManager.WorldPositions[0].X}, " +
+            //        $"{enemyManager.WorldPositions[0].Y})",
+            //        new Vector2(460, screenHeight - 24),
+            //        Color.White);
+            //}
 
             //Draws the current state of the game
             sb.DrawString(
@@ -443,6 +478,16 @@ namespace Sweet_Dreams
                 $"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
                 new Vector2(10, screenHeight - 176),
                 Color.White);
+        }
+
+        /// <summary>
+        /// Detect a single key press.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>Whether or not the key was pressed just now.</returns>
+        private bool SingleKeyPress(Keys key)
+        {
+            return currentKbState.IsKeyDown(key) && previousKbState.IsKeyUp(key);
         }
     }
 }

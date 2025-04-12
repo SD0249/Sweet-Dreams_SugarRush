@@ -52,7 +52,7 @@ namespace Sweet_Dreams
         private int worldWidth;
         private int worldHeight;
 
-        //Source Rectangle for animations
+        // Source Rectangle for animations
         Rectangle sourceRect;
 
         // values needed for the enemy's animation
@@ -60,11 +60,14 @@ namespace Sweet_Dreams
         private double fps;
         private double spf;
 
-        // Values needed for enemy movement
-        private float rotation;
+        // Unit direction vector
         private Vector2 direction;
-        private Vector2 playerLocation;
+
+        // Speed scalar 
         private int speed;
+
+        // Reference to the player
+        Player player;
 
         // --------------------------------------------------------------
         // Properties
@@ -108,11 +111,10 @@ namespace Sweet_Dreams
         /// <param name="eType">The type of enemy.</param>
         /// <param name="rng">Reference to the game's randomizer.</param>
         /// <param name="asset">Spritesheet of enemies.</param>
-        /// <param name="anyRect">Any rect can be passed in here. 
         /// Position will be randomized in the constructor.</param>
         /// <param name="screenWidth">Screen's width.</param>
         /// <param name="screenHeight">Screen's height.</param>
-        public Enemy(EnemyType eType, Random rng, Texture2D asset,
+        public Enemy(EnemyType eType, Random rng, Texture2D asset, Player player,
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
             :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1), 
                  screenWidth, screenHeight)
@@ -120,6 +122,7 @@ namespace Sweet_Dreams
             this.rng = rng;
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
+            this.player = player;
 
             // Determines type-specific field values for this enemy
             this.eType = eType;
@@ -158,41 +161,38 @@ namespace Sweet_Dreams
             screenPosition = worldPosition;
 
             // TODO: Change these values
-            health = 0;
-            speed = 5;
             timer = 0.0;
             spf = 0.0;
             fps = 0.0;
-
         }
 
-        public Enemy(EnemyType eType, Texture2D asset,
-           int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-           : base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
-                screenWidth, screenHeight)
-        {
-            this.worldWidth = worldWidth;
-            this.worldHeight = worldHeight;
-
-            // Determines type-specific field values for this enemy
-            this.eType = eType;
-            CreateEnemy();
-
-            // Randomizes enemy's position to somewhere on the border
-            worldPosition.X = 500;
-            worldPosition.Y = 500;
-
-            // Gives screen position a default value until it is updated in Update()
-            screenPosition = worldPosition;
-
-            // TODO: Change these values
-            health = 5;
-            speed = 5;
-            timer = 0.0;
-            spf = 0.0;
-            fps = 0.0;
-
-        }
+        //public Enemy(EnemyType eType, Texture2D asset,
+        //   int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+        //   : base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
+        //        screenWidth, screenHeight)
+        //{
+        //    this.worldWidth = worldWidth;
+        //    this.worldHeight = worldHeight;
+        //
+        //    // Determines type-specific field values for this enemy
+        //    this.eType = eType;
+        //    CreateEnemy();
+        //
+        //    // Randomizes enemy's position to somewhere on the border
+        //    worldPosition.X = 500;
+        //    worldPosition.Y = 500;
+        //
+        //    // Gives screen position a default value until it is updated in Update()
+        //    screenPosition = worldPosition;
+        //
+        //    // TODO: Change these values
+        //    health = 5;
+        //    speed = 5;
+        //    timer = 0.0;
+        //    spf = 0.0;
+        //    fps = 0.0;
+        //
+        //}
 
         // --------------------------------------------------------------
         // Methods
@@ -227,17 +227,30 @@ namespace Sweet_Dreams
         /// Updates the enemies position to always 
         /// move towards the player
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Info from MonoGame about the time state.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-            playerLocation = new Vector2(385 + worldToScreen.X, 213 + worldToScreen.Y);
-            
             // Updates world position by moving toward the player
-            rotation = (float)Math.Atan2(screenPosition.Y - playerLocation.Y, screenPosition.X - playerLocation.X);
-            direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
 
-            worldPosition.X += (int)Math.Round(direction.X * speed);
-            worldPosition.Y += (int)Math.Round(direction.Y * speed);
+            // rotation = (float)Math.Atan2(worldPosition.Y - player.WorldPosition.Y,
+            //     worldPosition.X - player.WorldPosition.X);
+            // direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
+
+            // Creates a direction vector pointing toward the player
+            direction = new Vector2(player.WorldPosition.X - worldPosition.X,
+                player.WorldPosition.Y - worldPosition.Y);
+
+            // As long as the direction is not the zero vector, it is normalized so 
+            // the enemy will have the same displacement every movement frame
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
+
+            // Updates world position by moving toward the player
+            worldPosition.X += (int)(direction.X * speed);
+            worldPosition.Y += (int)(direction.Y * speed);
 
             // Updates screen position
             screenPosition = new Rectangle(
@@ -306,6 +319,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 1;
+                    speed = 3;
                     sourceRect = new Rectangle(5, 5, 9, 13);
 
                     break;
@@ -313,6 +327,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 3;
+                    speed = 1;
                     sourceRect = new Rectangle(5, 51, 20, 35);
 
                     break;
@@ -320,21 +335,22 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 2;
+                    speed = 2;
                     sourceRect = new Rectangle(4, 28, 11, 23);
 
                     break;
                 case EnemyType.Cloak:
                     health = 1;
                     damage = 1;
+                    speed = 2;
                     candyNum = 2;
                     sourceRect = new Rectangle(2, 13, 12, 15);
 
                     break;
             }
 
-            // Changes the enemy worldPosition based on the enemies sourceRect
-            worldPosition.Width = sourceRect.Width;
-            worldPosition.Height = sourceRect.Height;
+            // Changes the enemy worldPosition based on the enemy's sourceRect
+            worldPosition = new Rectangle(0, 0, sourceRect.Width * 4, sourceRect.Height * 4);
         }
     }
 }
