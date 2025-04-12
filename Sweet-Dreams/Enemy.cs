@@ -321,7 +321,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     speed = 3;
-                    sourceRect = new Rectangle(5, 5, 9, 13);
+                    sourceRect = new Rectangle(5, 6, 10, 12);
 
                     break;
                 case EnemyType.MouthDemon:
@@ -329,7 +329,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 3;
                     speed = 1;
-                    sourceRect = new Rectangle(5, 51, 20, 35);
+                    sourceRect = new Rectangle(5, 41, 26, 34);
 
                     break;
                 case EnemyType.HornDemon:
@@ -337,7 +337,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 2;
                     speed = 2;
-                    sourceRect = new Rectangle(4, 28, 11, 23);
+                    sourceRect = new Rectangle(4, 22, 14, 21);
 
                     break;
                 case EnemyType.Cloak:
@@ -345,7 +345,7 @@ namespace Sweet_Dreams
                     damage = 1;
                     speed = 2;
                     candyNum = 2;
-                    sourceRect = new Rectangle(2, 13, 12, 15);
+                    sourceRect = new Rectangle(2, 20, 13, 17);
 
                     break;
             }
