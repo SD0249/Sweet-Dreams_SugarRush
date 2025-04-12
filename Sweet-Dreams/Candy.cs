@@ -61,6 +61,14 @@ namespace Sweet_Dreams
             get { return worldPosition; }
         }
 
+        /// <summary>
+        /// The Candy's type
+        /// </summary>
+        public CandyType CType
+        {
+            get { return cType; }
+        }
+
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------

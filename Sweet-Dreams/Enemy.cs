@@ -96,6 +96,14 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
+        /// The amount of damage this enemy does to the player.
+        /// </summary>
+        public int Damage
+        {
+            get { return damage; }
+        }
+
+        /// <summary>
         /// Whether or not this enemy has any health remaining.
         /// </summary>
         public bool IsAlive
@@ -139,34 +147,8 @@ namespace Sweet_Dreams
             this.eType = eType;
             CreateEnemy();
 
-            // Randomizes enemy's position to somewhere on the border
-            int edge = rng.Next(4);
-            switch (edge)
-            {
-                // Left edge, random height
-                case 0:
-                    worldPosition.X = -worldPosition.Width;
-                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
-                    break;
-
-                // Right edge, random height
-                case 1:
-                    worldPosition.X = worldWidth;
-                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
-                    break;
-
-                // Top edge, random X value
-                case 2:
-                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
-                    worldPosition.Y = -worldPosition.Height;
-                    break;
-
-                // Bottom edge, random X value
-                case 3:
-                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
-                    worldPosition.Y = worldHeight;
-                    break;
-            }
+            // Positions the enemy on the world's border
+            GoToWorldEdge();
             
             // Gives screen position a default value until it is updated in Update()
             screenPosition = worldPosition;
@@ -310,8 +292,8 @@ namespace Sweet_Dreams
                     new Rectangle(
                         worldPosition.X + rng.Next(-32, 41),
                         worldPosition.Y + rng.Next(-32, 41),
-                        16,
-                        16),
+                        24,
+                        24),
                     screenWidth, 
                     screenHeight));
             }
@@ -373,6 +355,41 @@ namespace Sweet_Dreams
 
             // Changes the enemy worldPosition based on the enemy's sourceRect
             worldPosition = new Rectangle(0, 0, sourceRect.Width * 4, sourceRect.Height * 4);
+        }
+
+        /// <summary>
+        /// Randomizes the enemy's position to somewhere on the border
+        /// </summary>
+        public void GoToWorldEdge()
+        {
+            // Randomizes enemy's position to somewhere on the border
+            int edge = rng.Next(4);
+            switch (edge)
+            {
+                // Left edge, random height
+                case 0:
+                    worldPosition.X = -worldPosition.Width;
+                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
+                    break;
+
+                // Right edge, random height
+                case 1:
+                    worldPosition.X = worldWidth;
+                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
+                    break;
+
+                // Top edge, random X value
+                case 2:
+                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
+                    worldPosition.Y = -worldPosition.Height;
+                    break;
+
+                // Bottom edge, random X value
+                case 3:
+                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
+                    worldPosition.Y = worldHeight;
+                    break;
+            }
         }
     }
 }
