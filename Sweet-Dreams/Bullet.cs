@@ -80,33 +80,40 @@ namespace Sweet_Dreams
             speed = 3;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
-            float offsetX = 385;
-            float offsetY = 213;
+            float startingX = 385;
+            float startingY = 213;
 
+            // If the player is left of the center...
             if (worldPosition.X < 385)
             {
-                offsetX = worldPosition.X;
+                // Match the bullets startingX to the player's X
+                startingX = worldPosition.X;
             }
+            // If the player is right of the center...
             if (worldPosition.X > worldWidth - 385)
             {
-                offsetX = Math.Abs(2 * 385 + (worldPosition.X - worldWidth));
+                // Match the bullets startingX to the center
+                // plus how far right of the center the player is 
+                startingX = Math.Abs(385 + (worldPosition.X - worldWidth + 385));
             }
 
+            // If the player is above the center...
             if (worldPosition.Y < 213)
             {
-                offsetY = worldPosition.Y;
+                // Match the bullets startingY to the player's Y
+                startingY = worldPosition.Y;
             }
+            // If the player is below the center...
             if (worldPosition.Y > worldHeight - 213)
             {
-                offsetY = Math.Abs(2 * 213 + (worldPosition.Y - worldHeight));
+                // Match the bullets startingY to the center
+                // plus how far below the center the player is 
+                startingY = Math.Abs(213 + (worldPosition.Y - worldHeight + 213));
             }
 
             // Finding the rotation of the bullet based off the mouse
-            rotation = (float)Math.Atan2(offsetY - mouse.Y, 
-                                         offsetX - mouse.X);
-
-            // Works correctly unless the player is not in the center of the screen
-
+            rotation = (float)Math.Atan2(startingY - mouse.Y,
+                                         startingX - mouse.X);
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
