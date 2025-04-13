@@ -71,7 +71,7 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, 
-            int damage, int screenWidth, int screenHeight)
+            int damage, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         :base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
@@ -80,9 +80,33 @@ namespace Sweet_Dreams
             speed = 3;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
+            float offsetX = 385;
+            float offsetY = 213;
+
+            if (worldPosition.X < 385)
+            {
+                offsetX = worldPosition.X;
+            }
+            if (worldPosition.X > worldWidth - 385)
+            {
+                offsetX = Math.Abs(2 * 385 + (worldPosition.X - worldWidth));
+            }
+
+            if (worldPosition.Y < 213)
+            {
+                offsetY = worldPosition.Y;
+            }
+            if (worldPosition.Y > worldHeight - 213)
+            {
+                offsetY = Math.Abs(2 * 213 + (worldPosition.Y - worldHeight));
+            }
 
             // Finding the rotation of the bullet based off the mouse
-            rotation = (float)Math.Atan2(screenPosition.Y - mouse.Y, screenPosition.X - mouse.X);
+            rotation = (float)Math.Atan2(offsetY - mouse.Y, 
+                                         offsetX - mouse.X);
+
+            // Works correctly unless the player is not in the center of the screen
+
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));

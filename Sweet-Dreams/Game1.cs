@@ -28,27 +28,31 @@ namespace Sweet_Dreams
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        // -State fields
+        private GameState gameState;
+        private PlayerState playerState;
+        private KeyboardState currentKbState;
+        private KeyboardState previousKbState;
+        private MouseState mouse;
+
+        // Game textures
+        private Texture2D playerAnimation;
+        private Texture2D purpleDungeon;
+        private Texture2D candySprites;
+        private Texture2D enemySprites;
+        private Texture2D tempButton;
+
         // Additional fields used for the game
         private Random rng;
         private List<Candy> collectibles;
         private List<Bullet> bullets;
         private EnemyManager enemyManager;
-        private GameState gameState;
-        private MouseState mouse;
         private Player player;
         private int screenWidth;
         private int screenHeight;
         private Vector2 worldToScreen;
-        private Texture2D playerAnimation;
-        private Texture2D purpleDungeon;
-        private Texture2D candySprites;
-        private Texture2D enemySprites;
         private SpriteFont arial12;
-        private PlayerState currentPlayerState;
         private Button myButton;
-        private Texture2D tempButton;
-        private KeyboardState currentKbState;
-        private KeyboardState previousKbState;
         private bool doorIsReached;
         private Level level1;
         private OrthographicCamera camera;
@@ -206,7 +210,7 @@ namespace Sweet_Dreams
                     {
                         // Makes a new bullet every time you shoot
                         bullets.Add(new Bullet(candySprites, player.WorldPosition, player.ScreenPosition, 
-                            player.Damage, screenWidth, screenHeight));
+                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -234,7 +238,7 @@ namespace Sweet_Dreams
                     }
                     
                     // If the player is dead the game state changes to lose
-                    if (currentPlayerState == PlayerState.Dead)
+                    if (playerState == PlayerState.Dead)
                     {
                         gameState = GameState.Lose;
                     }
