@@ -14,8 +14,10 @@ namespace Sweet_Dreams
         // Felids :)
         // --------------------------------------------------------------
         private Rectangle bounds;
+        private Rectangle sourceRec;
         private Texture2D texture;
         private MouseState mouse;
+        private bool isHovered;
 
         // These two can totally be changed depending on the real
         // Button we use and the vibe of the game :)
@@ -25,12 +27,22 @@ namespace Sweet_Dreams
         private Color currentButtonColor;
 
         // --------------------------------------------------------------
+        // Property
+        // --------------------------------------------------------------
+        public bool IsHovered
+        {
+            get { return isHovered; }
+        }
+
+
+        // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Button(Texture2D texture, Rectangle bounds)
+        public Button(Texture2D texture, Rectangle bounds, Rectangle sourceRec)
         {
             this.texture = texture;
             this.bounds = bounds;
+            this.sourceRec = sourceRec;
 
             // Sets the normal, not hovering over the button with the mouse,
             // color to the default C:
@@ -53,10 +65,12 @@ namespace Sweet_Dreams
             if (bounds.Contains(mousePoint))
             {
                 currentButtonColor = HoveredOverColor;
+                isHovered = true;
             }
             else
             {
                 currentButtonColor = NormalColor;
+                isHovered = false;
             }
         }
 
@@ -87,6 +101,7 @@ namespace Sweet_Dreams
             spriteBatch.Draw(
                 texture,
                 bounds, 
+                sourceRec,
                 currentButtonColor);
         }
 
