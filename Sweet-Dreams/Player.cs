@@ -330,7 +330,7 @@ namespace Sweet_Dreams
                     break;
 
                 case CandyType.CandyCorn:
-                    // More damage
+                    // bullet pickups
                     
                     break;
 
@@ -348,6 +348,17 @@ namespace Sweet_Dreams
                     playerHealth++;
                     break;
             }
+            /*
+             * BUFFS AND DEBUFFS
+             * 
+             * BUFFS:
+             * More damage
+             * reload timer
+             * 
+             * DEBUFFS
+             * slower speed
+             * 
+             */
         }
     }
 }
