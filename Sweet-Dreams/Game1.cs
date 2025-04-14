@@ -53,7 +53,6 @@ namespace Sweet_Dreams
         private Vector2 worldToScreen;
         private SpriteFont arial12;
         private Button myButton;
-        private bool doorIsReached;
         private Level level1;
         private OrthographicCamera camera;
 
@@ -162,17 +161,14 @@ namespace Sweet_Dreams
                     break;
 
                 case GameState.Game:
-
-                    // Draw game to console
-
-                    // TODO: Initialize fields before uncommenting
-                    /*
-                    // Victory when all enemies are gone and the player is touching the door
-                    // if (enemyManager.IsLevelCleared() && doorIsReached)
+                    
+                    // Victory when all enemies are gone and the player is at the door
+                    if (enemyManager.IsLevelCleared() && 
+                        player.WorldPosition.Contains(new Point(470, 30)))
                     {
                         gameState = GameState.Win;
                     }
-                    */
+                    
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
