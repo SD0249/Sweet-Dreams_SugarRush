@@ -107,7 +107,8 @@ namespace Sweet_Dreams
         {
             health = 6;
             damage = 1;
-            speed = 2;
+            speed = 3;
+            reloadTimer = 1;
             points = 0;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
