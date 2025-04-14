@@ -159,33 +159,33 @@ namespace Sweet_Dreams
             fps = 0.0;
         }
 
-        //public Enemy(EnemyType eType, Texture2D asset,
-        //   int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-        //   : base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
-        //        screenWidth, screenHeight)
-        //{
-        //    this.worldWidth = worldWidth;
-        //    this.worldHeight = worldHeight;
-        //
-        //    // Determines type-specific field values for this enemy
-        //    this.eType = eType;
-        //    CreateEnemy();
-        //
-        //    // Randomizes enemy's position to somewhere on the border
-        //    worldPosition.X = 500;
-        //    worldPosition.Y = 500;
-        //
-        //    // Gives screen position a default value until it is updated in Update()
-        //    screenPosition = worldPosition;
-        //
-        //    // TODO: Change these values
-        //    health = 5;
-        //    speed = 5;
-        //    timer = 0.0;
-        //    spf = 0.0;
-        //    fps = 0.0;
-        //
-        //}
+        /*public Enemy(EnemyType eType, Texture2D asset,
+            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+            :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
+                 screenWidth, screenHeight)
+        {
+            this.worldWidth = worldWidth;
+            this.worldHeight = worldHeight;
+        
+            // Determines type-specific field values for this enemy
+            this.eType = eType;
+            CreateEnemy();
+        
+            // Randomizes enemy's position to somewhere on the border
+            worldPosition.X = 500;
+            worldPosition.Y = 500;
+        
+            // Gives screen position a default value until it is updated in Update()
+            screenPosition = worldPosition;
+        
+            // TODO: Change these values
+            health = 5;
+            speed = 5;
+            timer = 0.0;
+            spf = 0.0;
+            fps = 0.0;
+        
+        } */
 
         // --------------------------------------------------------------
         // Methods
