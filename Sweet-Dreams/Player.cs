@@ -32,6 +32,7 @@ namespace Sweet_Dreams
         private Vector2 velocity;
         private int damage;
         private int points;
+        private int speed;
 
         // Animation fields
         private double timer;
@@ -106,6 +107,7 @@ namespace Sweet_Dreams
         {
             health = 6;
             damage = 1;
+            speed = 2;
             points = 0;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
@@ -155,19 +157,19 @@ namespace Sweet_Dreams
             // TODO: Remove this test movement and use velocity inside of FSM instead
             if (kbState.IsKeyDown(Keys.Right))
             {
-                worldPosition.X += 5;
+                worldPosition.X += speed;
             }
             if (kbState.IsKeyDown(Keys.Left))
             {
-                worldPosition.X -= 5;
+                worldPosition.X -= speed;
             }
             if (kbState.IsKeyDown(Keys.Up))
             {
-                worldPosition.Y -= 5;
+                worldPosition.Y -= speed;
             }
             if (kbState.IsKeyDown(Keys.Down))
             {
-                worldPosition.Y += 5;
+                worldPosition.Y += speed;
             }
 
             // Updates screen position
