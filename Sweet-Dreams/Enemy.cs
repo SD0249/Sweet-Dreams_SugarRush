@@ -307,7 +307,9 @@ namespace Sweet_Dreams
         /// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>
         public bool IsOnScreen(OrthographicCamera camera)
         {
-            return camera.CameraBound.Contains(this.worldPosition);
+            //return camera.CameraBound.Contains(this.worldPosition);
+
+            return camera.CameraBound.Intersects(this.worldPosition);
         }
 
         /// <summary>

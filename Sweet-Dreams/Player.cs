@@ -39,6 +39,7 @@ namespace Sweet_Dreams
         private double fps;
         private double spf;
         private double reloadTimer;
+        private Color tint;
 
         // --------------------------------------------------------------
         // Properties
@@ -91,11 +92,11 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Whether or not the object is visible. Always true for the player.
+        /// The color the player should be tinted
         /// </summary>
-        public bool IsOnScreen
+        public Color Tint
         {
-            get { return true; }
+            get { return tint; }
         }
 
         // --------------------------------------------------------------
@@ -109,6 +110,7 @@ namespace Sweet_Dreams
             damage = 1;
             speed = 2;
             points = 0;
+            tint = Color.White;
             stunTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
             timer = 0.0;                        // Change these values
@@ -266,7 +268,7 @@ namespace Sweet_Dreams
             sb.Draw(asset,
                 worldPosition,
                 new Rectangle(7, 7, 10, 18),
-                Color.White);
+                tint);
         }
 
         /// <summary>
