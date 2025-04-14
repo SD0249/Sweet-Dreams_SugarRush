@@ -70,9 +70,9 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle worldPosition,  Rectangle screenPosition, 
+        public Bullet(Texture2D asset, Rectangle worldPosition, 
             int damage, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-        :base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
+        :base(asset, worldPosition, new Rectangle(1,1,1,1), screenWidth, screenHeight)
         {
             this.asset = asset;
             this.damage = damage;
@@ -167,7 +167,10 @@ namespace Sweet_Dreams
                 SpriteEffects.None,
                 1);
 
-            //DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
+            //if (Game1.GodMode)
+            //{
+            //    DebugLib.DrawRectOutline(sb, screenPosition, 3, Color.Black);
+            //}
         }
 
 
@@ -179,7 +182,7 @@ namespace Sweet_Dreams
         /// <returns>Whether this bullet is on screen; if it is seen by the camera.</returns>
         public bool IsOnScreen(OrthographicCamera camera)
         {
-            return camera.CameraBound.Contains(this.worldPosition);
+            return camera.CameraBound.Intersects(this.worldPosition);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace Sweet_Dreams
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        // -State fields
+        // State fields
         private GameState gameState;
         private PlayerState playerState;
         private KeyboardState currentKbState;
@@ -209,7 +209,8 @@ namespace Sweet_Dreams
                         player.ReloadTimer <= 0)
                     {
                         // Makes a new bullet every time you shoot
-                        bullets.Add(new Bullet(candySprites, player.WorldPosition, player.ScreenPosition, 
+                        bullets.Add(new Bullet(candySprites, 
+                            new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16), 
                             player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight));
 
                         // Resets the timer for reloading the gun 
