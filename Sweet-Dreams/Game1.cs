@@ -463,16 +463,16 @@ namespace Sweet_Dreams
                 new Vector2(10, screenHeight - 24),
                 Color.White);
 
-            ////Draws one enemy's world position
-            //if (enemyManager.WorldPositions.Count > 0)
-            //{
-            //    sb.DrawString(
-            //        arial12,
-            //        $"One enemy's position: ({enemyManager.WorldPositions[0].X}, " +
-            //        $"{enemyManager.WorldPositions[0].Y})",
-            //        new Vector2(460, screenHeight - 24),
-            //        Color.White);
-            //}
+            //Draws one enemy's world position
+            if (enemyManager.WorldPositions.Count > 0)
+            {
+                sb.DrawString(
+                    arial12,
+                    $"One enemy's position: ({enemyManager.WorldPositions[0].X}, " +
+                    $"{enemyManager.WorldPositions[0].Y})",
+                    new Vector2(460, screenHeight - 24),
+                    Color.White);
+            }
 
             //Draws the current state of the game
             sb.DrawString(
