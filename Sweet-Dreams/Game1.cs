@@ -28,7 +28,7 @@ namespace Sweet_Dreams
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        // State fields
+        // -State fields
         private GameState gameState;
         private PlayerState playerState;
         private KeyboardState currentKbState;
@@ -143,21 +143,12 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
-                    // Draw menu to console
-
                     // Updates the play button
                     myButton.Update(mouse);
                     if (myButton.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
                     }
-
-                    // Makes sure that the player doesn't shoot
-                    // when the play button is pressed
-                    //player.ReloadTimer = 0.3;
-
-                    // If button is pressed?
-                    // Need button class
 
                     break;
 
