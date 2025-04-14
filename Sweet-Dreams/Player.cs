@@ -108,7 +108,8 @@ namespace Sweet_Dreams
         {
             health = 6;
             damage = 1;
-            speed = 2;
+            speed = 3;
+            reloadTimer = 1;
             points = 0;
             tint = Color.White;
             stunTimer = 1;
@@ -332,7 +333,7 @@ namespace Sweet_Dreams
                     break;
 
                 case CandyType.CandyCorn:
-                    // More damage
+                    // bullet pickups
                     
                     break;
 
@@ -350,6 +351,17 @@ namespace Sweet_Dreams
                     playerHealth++;
                     break;
             }
+            /*
+             * BUFFS AND DEBUFFS
+             * 
+             * BUFFS:
+             * More damage
+             * reload timer
+             * 
+             * DEBUFFS
+             * slower speed
+             * 
+             */
         }
     }
 }

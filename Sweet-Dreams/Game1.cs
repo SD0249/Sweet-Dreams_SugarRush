@@ -28,7 +28,7 @@ namespace Sweet_Dreams
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        // State fields
+        // -State fields
         private GameState gameState;
         private PlayerState playerState;
         private KeyboardState currentKbState;
@@ -142,21 +142,12 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
-                    // Draw menu to console
-
                     // Updates the play button
                     myButton.Update(mouse);
                     if (myButton.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
                     }
-
-                    // Makes sure that the player doesn't shoot
-                    // when the play button is pressed
-                    player.ReloadTimer = 0.3;
-
-                    // If button is pressed?
-                    // Need button class
 
                     break;
 
@@ -336,16 +327,6 @@ namespace Sweet_Dreams
                     // Draws the play button
                     myButton.Draw(_spriteBatch);
 
-                    /*
-                    if (myButton.Update(mouse) == true)
-                    {
-                        myButton.Draw(_spriteBatch);
-                    }
-                    else
-                    {
-                        myButton.Draw(_spriteBatch);
-                    } */
-
                     _spriteBatch.DrawString(
                         arial12,
                         "         Sweet Dreams\n Press enter to start game",
@@ -365,45 +346,11 @@ namespace Sweet_Dreams
 
                 case GameState.Game:
 
-                    // Draws the level itself
-                    // level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
-
-                    // TODO: Uncomment the following once fields are initialized
-                    /*
-                    // Draws all candies that are on screen
-                    for (int i = 0; i < collectibles.Count; i++)
-                    {
-                        if (collectibles[i].IsOnScreen)
-                        {
-                            collectibles[i].Draw(_spriteBatch);
-                        }
-                    }*/
-
                     
-                    
-
-                    // Draws all bullets
-                    /* for (int i = 0; i < bullets.Count; i++)
-                    {
-                        if (bullets[i].IsOnScreen)
-                        {
-                            bullets[i].Draw(_spriteBatch);
-                        }
-                    } */
-
-                    // Draws the player
-                    // player.Draw(_spriteBatch);
-                    
-                    /* DebugLib.DrawRectOutline(_spriteBatch,
-                        player.WorldPosition,
-                        2,
-                        Color.Black); */
 
                     break;
 
                 case GameState.Win:
-
-                    // GraphicsDevice.Clear(Color.Honeydew);
 
                     _spriteBatch.DrawString(
                         arial12,

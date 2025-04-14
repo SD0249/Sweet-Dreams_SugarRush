@@ -49,7 +49,6 @@ namespace Sweet_Dreams
         public void Update(MouseState mouse)
         {
             Point mousePoint = new Point(mouse.X, mouse.Y);
-            //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
             if (bounds.Contains(mousePoint))
             {
@@ -59,17 +58,6 @@ namespace Sweet_Dreams
             {
                 currentButtonColor = NormalColor;
             }
-
-            // Shouldn't this only need to check if the button is being
-            // hovered over? Also you call the same method in Game1
-            // regardless of what Update returns...
-            /*
-            if (hoveringOverButton)
-            {
-                return true;
-            }
-
-            return false; */
         }
 
         /// <summary>
@@ -81,7 +69,6 @@ namespace Sweet_Dreams
         public bool buttonPressed(MouseState mouse)
         {
             Point mousePoint = new Point(mouse.X, mouse.Y);
-            //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
             if (bounds.Contains(mousePoint) && mouse.LeftButton == ButtonState.Pressed)
             {
