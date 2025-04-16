@@ -39,19 +39,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        /// <summary>
-        /// Whether or not any part of the object is visible on the screen.
-        /// </summary>
-        /* public bool IsOnScreen
-        {
-            get
-            {
-                return !(screenPosition.X + screenPosition.Width < 0
-                    || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight);
-            }
-        } */
 
         /// <summary>
         /// This object's position in the world.
@@ -80,8 +67,8 @@ namespace Sweet_Dreams
             rng = new Random();
 
             // this value will be determine the type of Candy
-            int rngNum = rng.Next(0, 6);
-            switch (rngNum)
+            int randomNum = rng.Next(6);
+            switch (randomNum)
             {
                 case 0:
                     cType = CandyType.SkullCandy;
@@ -119,15 +106,19 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // METHODS
         // --------------------------------------------------------------
-        public override void UpdateAnimation(GameTime gameTime)
-        {
-           
-        }
+        /// <summary>
+        /// No effect (candy has no animation).
+        /// </summary>
+        /// <param name="gameTime">Info from MonoGame about time state.</param>
+        public override void UpdateAnimation(GameTime gameTime) { }
 
+        /// <summary>
+        /// Updates the candy's screen position.
+        /// </summary>
+        /// <param name="gameTime">Info from MonoGame about time state.</param>
+        /// <param name="worldToScreen">World to screen offset vector.</param>
         public override void Update(GameTime gameTime, Vector2 worldToScreen)
         {
-            // Updates world position by moving toward the player
-
             // Updates screen position
             screenPosition = new Rectangle(
                 worldPosition.X + (int)worldToScreen.X,
@@ -148,7 +139,6 @@ namespace Sweet_Dreams
                 sourceRect,
                 Color.White);
         }
-
 
         /// <summary>
         /// Instead of having this as a property, get information from the camera 

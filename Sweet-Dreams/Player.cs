@@ -114,7 +114,6 @@ namespace Sweet_Dreams
             health = 6;
             damage = 1;
             speed = 3;
-            reloadTimer = 1;
             points = 0;
             tint = Color.White;
             stunTimer = 1;
