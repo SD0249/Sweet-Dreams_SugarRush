@@ -219,7 +219,6 @@ namespace Sweet_Dreams
                         }
                     }
 
-
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
                     //player.UpdateAnimation(gameTime);
@@ -240,6 +239,7 @@ namespace Sweet_Dreams
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
                     }
+
                     // Has a 1 second timer between shooting a bullet
                     player.ReloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 

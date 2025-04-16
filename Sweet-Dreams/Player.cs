@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
-using System.Net.Http;
 
 // Sweet Dreams - Sugar Rush
 // A shooter game. Kill all the enemies to survive and collect candies!
@@ -33,6 +32,7 @@ namespace Sweet_Dreams
         private int damage;
         private int points;
         private int speed;
+        private double damageBuffTimer;
 
         // Animation fields
         private double timer;
@@ -109,7 +109,8 @@ namespace Sweet_Dreams
             health = 6;
             damage = 1;
             speed = 3;
-            reloadTimer = 1;
+            reloadTimer = 1.0;
+            damageBuffTimer = 0.0;
             points = 0;
             tint = Color.White;
             stunTimer = 1;
@@ -181,6 +182,20 @@ namespace Sweet_Dreams
                 worldPosition.Y + (int)worldToScreen.Y,
                 worldPosition.Width,
                 worldPosition.Height);
+
+            // If the player has a damage buff, subtracts elapsed time from buff timer
+            if (damageBuffTimer > 0)
+            {
+                damageBuffTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                // If time is up, player's tint and damage go back to normal
+                if (damageBuffTimer < 0)
+                {
+                    damageBuffTimer = 0;
+                    tint = Color.White;
+                    damage = 1;
+                }
+            }
 
             // Player FSM (incomplete)
             switch (playerState)
@@ -325,11 +340,17 @@ namespace Sweet_Dreams
             {
                 case CandyType.SkullCandy:
                     // Deal damage to the player
-                    playerHealth--;
+                    if (!Game1.GodMode)
+                    {
+                        playerHealth--;
+                    }
                     break;
 
                 case CandyType.Peppermint:
-                    // Increase bullet velocity
+                    // Increase bullet damage for five seconds
+                    damageBuffTimer = 10;
+                    damage = 2;
+                    tint = Color.AliceBlue;
                     break;
 
                 case CandyType.CandyCorn:
@@ -348,7 +369,10 @@ namespace Sweet_Dreams
                     break;
                 case CandyType.Chocolate:
                     // Heal player health
-                    playerHealth++;
+                    if (health < 6)
+                    {
+                        playerHealth++;
+                    }
                     break;
             }
             /*
