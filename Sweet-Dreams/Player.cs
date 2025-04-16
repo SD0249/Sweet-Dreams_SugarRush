@@ -183,24 +183,6 @@ namespace Sweet_Dreams
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
 
-            // TODO: Remove this test movement and use velocity inside of FSM instead
-            if (kbState.IsKeyDown(Keys.D))
-            {
-                worldPosition.X += speed;
-            }
-            if (kbState.IsKeyDown(Keys.A))
-            {
-                worldPosition.X -= speed;
-            }
-            if (kbState.IsKeyDown(Keys.W))
-            {
-                worldPosition.Y -= speed;
-            }
-            if (kbState.IsKeyDown(Keys.S))
-            {
-                worldPosition.Y += speed;
-            }
-
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
                                   worldPosition.Y + (currentFrame + 1) % 2,
