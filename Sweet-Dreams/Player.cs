@@ -396,7 +396,7 @@ namespace Sweet_Dreams
             {
                 case CandyType.SkullCandy:
                     // Deal damage to the player
-                    playerHealth--;
+                    health--;
                     break;
 
                 case CandyType.Peppermint:
@@ -419,7 +419,7 @@ namespace Sweet_Dreams
                     break;
                 case CandyType.Chocolate:
                     // Heal player health
-                    playerHealth++;
+                    health++;
                     break;
             }
             /*
