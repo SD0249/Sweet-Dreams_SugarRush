@@ -197,6 +197,11 @@ namespace Sweet_Dreams
                         gameState = GameState.Win;
                     }
                     
+                    // when the player dies???
+                    if (player.Health <= 0)
+                    {
+                        gameState = GameState.Lose;
+                    }
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
