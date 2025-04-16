@@ -67,15 +67,14 @@ namespace Sweet_Dreams
         /// <summary>
         /// TODO: Get rid of this; maybe add IsOnScreen property instead
         /// </summary>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
         /// <returns>Whether or not the tile is at all visible on the screen.</returns>
-        public bool IsOnScreen(Vector2 worldToScreen, int screenWidth, int screenHeight)
+        public bool IsOnScreen(int screenWidth, int screenHeight)
         {
             // Returns false if any of the following out of bounds conditions are true
-            return !(drawnRectangle.X + drawnRectangle.Width < worldToScreen.X      // Too far left
-                || drawnRectangle.X > screenWidth - worldToScreen.X                 // Too far right
-                || drawnRectangle.Y + drawnRectangle.Height < worldToScreen.Y       // Too far up
-                || drawnRectangle.Y > screenHeight - worldToScreen.Y);              // Too far down
+            return !(drawnRectangle.X + drawnRectangle.Width < 0         // Too far left
+                || drawnRectangle.X > screenWidth                        // Too far right
+                || drawnRectangle.Y + drawnRectangle.Height < 0          // Too far up
+                || drawnRectangle.Y > screenHeight);                     // Too far down
         }
     }
 }

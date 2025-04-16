@@ -96,13 +96,12 @@ namespace Sweet_Dreams
         /// if the current wave has finished.
         /// </summary>
         /// <param name="gameTime">Time information from MonoGame.</param>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
-        public void UpdateAll(GameTime gameTime, Vector2 worldToScreen)
+        public void UpdateAll(GameTime gameTime)
         {
             // Updates all enemy positions and states
             for (int i = 0; i < currentEnemies.Count; i++)
             {
-                currentEnemies[i].Update(gameTime, worldToScreen);
+                currentEnemies[i].Update(gameTime);
             }
 
             // Checks for player-enemy collisions unless god mode is on

@@ -57,7 +57,6 @@ namespace Sweet_Dreams
         private Player player;
         private int screenWidth;
         private int screenHeight;
-        private Vector2 worldToScreen;
         private SpriteFont arial12;
         private Button start;
         private Button instruction;
@@ -141,10 +140,6 @@ namespace Sweet_Dreams
                 screenWidth, 
                 screenHeight);
 
-            // Determines world to screen offset vector
-            worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
-                      player.ScreenPosition.Y - player.WorldPosition.Y);
-
             // Loads in level 1 enemy data
             enemyManager = new EnemyManager(rng, "../../../Content/Enemy Data.txt", collectibles, bullets, 
                 player, enemySprites, candySprites, screenWidth, screenHeight, 
@@ -197,6 +192,11 @@ namespace Sweet_Dreams
                         gameState = GameState.Win;
                     }
                     
+                    // when the player dies???
+                    if (player.Health <= 0)
+                    {
+                        gameState = GameState.Lose;
+                    }
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
@@ -206,26 +206,21 @@ namespace Sweet_Dreams
                         GodMode = !GodMode;
                     }
 
-                    // Update the number of Candies
+                    // Checks for player-candy collisions
                     for (int i = 0; i < collectibles.Count; i++)
                     {
                         if (player.CollidesWith(collectibles[i]))
                         {
+                            // If there is a collision, that candy gets collected then deleted
                             player.CollectCandy(collectibles[i].CType);
-
-                            // Remove the candy from the List
                             collectibles.RemoveAt(i);
                             i--;
                         }
                     }
 
-                    // Updates the player
-                    player.Update(gameTime, worldToScreen);
-                    //player.UpdateAnimation(gameTime);
-
-                    // Updates world to screen offset vector
-                    worldToScreen = new Vector2(player.ScreenPosition.X - player.WorldPosition.X,
-                      player.ScreenPosition.Y - player.WorldPosition.Y);
+                    // Updates the player & its animation
+                    player.UpdateAnimation(gameTime);
+                    player.Update(gameTime);
 
                     // Checks for a left click and bullet timer to shoot
                     if (mouse.LeftButton == ButtonState.Pressed &&
@@ -246,7 +241,7 @@ namespace Sweet_Dreams
                     // Updates all bullets
                     for (int i = 0; i < bullets.Count; i++)
                     {
-                        bullets[i].Update(gameTime, worldToScreen);
+                        bullets[i].Update(gameTime);
 
                         // Removes the bullet from the list if it is out of bounds
                         if (bullets[i].OutOfBounds(level1.WorldWidth, level1.WorldHeight))
@@ -259,7 +254,7 @@ namespace Sweet_Dreams
                     // Updates all enemies unless the level has been cleared
                     if (!enemyManager.IsLevelCleared())
                     {
-                        enemyManager.UpdateAll(gameTime, worldToScreen);
+                        enemyManager.UpdateAll(gameTime);
                     }
                     
                     // If the player is dead the game state changes to lose
@@ -269,7 +264,7 @@ namespace Sweet_Dreams
                     }
 
                     // Update ALL the camera related stuff
-                    camera.Update(worldToScreen, 
+                    camera.Update(
                                   player.WorldPosition, 
                                   level1.WorldWidth, 
                                   level1.WorldHeight);
@@ -321,7 +316,7 @@ namespace Sweet_Dreams
             _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
 
                 // Draws the level itself
-                level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+                level1.DisplayTiles(_spriteBatch, screenWidth, screenHeight);
 
                 // Draws all candy
                 for (int i = 0; i < collectibles.Count; i++)
@@ -385,13 +380,18 @@ namespace Sweet_Dreams
                     // : Nice chance to play with events and delegates.
                     if (instruction.IsHovered == true)
                     {
+                        DebugLib.DrawRectFill(
+                            _spriteBatch,
+                            new Rectangle(20, screenHeight - 85, 535, 65),
+                            Color.Black);
+                        
                         _spriteBatch.DrawString(
                         arial12,
                         "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
                         "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
                         "Toggle 'god mode' (and debug information) with the G key.",
                         new Vector2(30, screenHeight - 80),
-                        Color.Black);
+                        Color.White);
                     }
                     break;
 
@@ -506,7 +506,8 @@ namespace Sweet_Dreams
             //Draws worldToScreen vector components
             sb.DrawString(
                 arial12,
-                $"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
+                //$"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
+                "We didn't need worldToScreen lol",
                 new Vector2(10, screenHeight - 176),
                 Color.White);
 

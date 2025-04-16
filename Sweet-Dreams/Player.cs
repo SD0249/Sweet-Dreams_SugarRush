@@ -26,6 +26,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         private PlayerState playerState;
         private int health;
+        private double reloadTimer;
         private double stunTimer;
         private int playerHealth;
         private bool isAlive;
@@ -35,10 +36,14 @@ namespace Sweet_Dreams
         private int speed;
 
         // Animation fields
+        private List<Rectangle> idleAnim;
+        private List<Rectangle> walkingAnim;
+        private List<Rectangle> damageAnim;
+        private List<Rectangle> deathAnim;
+        private Rectangle walkingWP;
         private double timer;
         private double fps;
         private double spf;
-        private double reloadTimer;
         private Color tint;
 
         // --------------------------------------------------------------
@@ -112,10 +117,37 @@ namespace Sweet_Dreams
             points = 0;
             tint = Color.White;
             stunTimer = 1;
+            reloadTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
             timer = 0.0;                        // Change these values
-            spf = 0.0;
-            fps = 0.0;
+            spf = 0.2;
+            fps = 5.0;
+            walkingWP = worldPosition;
+
+            // Making animation lists
+            idleAnim = new List<Rectangle>(2);
+            idleAnim.Add(new Rectangle(7, 7, 10, 17));
+            idleAnim.Add(new Rectangle(7, 7, 10, 17));
+            idleAnim.Add(new Rectangle(31, 8, 10, 16));
+            idleAnim.Add(new Rectangle(31, 8, 10, 16));
+
+            walkingAnim = new List<Rectangle>(4);
+            walkingAnim.Add(new Rectangle(7, 32, 10, 16));
+            walkingAnim.Add(new Rectangle(31, 31, 10, 17));
+            walkingAnim.Add(new Rectangle(55, 32, 10, 16));
+            walkingAnim.Add(new Rectangle(79, 31, 10, 17));
+
+            damageAnim = new List<Rectangle>(2);
+            damageAnim.Add(new Rectangle(150, 7, 11, 17));
+            damageAnim.Add(new Rectangle(150, 7, 11, 17));
+            damageAnim.Add(new Rectangle(175, 7, 10, 17));
+            damageAnim.Add(new Rectangle(175, 7, 10, 17));
+
+            deathAnim = new List<Rectangle>(4);
+            deathAnim.Add(new Rectangle(103, 103, 10, 17));
+            deathAnim.Add(new Rectangle(128, 104, 10, 16));
+            deathAnim.Add(new Rectangle(152, 108, 13, 12));
+            deathAnim.Add(new Rectangle(176, 112, 15, 8));
         }
 
         // --------------------------------------------------------------
@@ -137,7 +169,7 @@ namespace Sweet_Dreams
             {
                 // Change which frame is active, ensuring the frame is reset back to the first 
                 currentFrame++;
-                if (currentFrame >= 3)
+                if (currentFrame >= 4)
                 {
                     currentFrame = 0;
                 }
@@ -151,7 +183,7 @@ namespace Sweet_Dreams
         /// Updates the players position based on what keys are pressed
         /// </summary>
         /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
@@ -175,11 +207,13 @@ namespace Sweet_Dreams
             }
 
             // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width,
-                worldPosition.Height);
+            screenPosition = worldPosition;
+
+            // Updates the walking world position (so the player's head bobs)
+            walkingWP = new Rectangle(worldPosition.X,
+                                  worldPosition.Y + (currentFrame + 1) % 2,
+                                  worldPosition.Width,
+                                  walkingAnim[currentFrame].Height * 3);
 
             // Player FSM (incomplete)
             switch (playerState)
@@ -265,10 +299,59 @@ namespace Sweet_Dreams
         public override void Draw(SpriteBatch sb)
         {
             // Draws the player
-            sb.Draw(asset,
+            /* sb.Draw(asset,
                 worldPosition,
                 new Rectangle(7, 7, 10, 18),
-                tint);
+                tint); */
+
+            // Player FSM (incomplete)
+            switch (playerState)
+            {
+
+                case PlayerState.WalkLeft:
+                    sb.Draw(asset,
+                            walkingWP,
+                            walkingAnim[currentFrame],
+                            tint,
+                            0,
+                            new Vector2(0,0),
+                            SpriteEffects.FlipHorizontally,
+                            0);
+                    break;
+
+                case PlayerState.WalkRight:
+                    sb.Draw(asset,
+                            walkingWP,
+                            walkingAnim[currentFrame],
+                            tint);
+                    break;
+
+                case PlayerState.FaceLeft:
+                    sb.Draw(asset,
+                            worldPosition, // WP for idle is not correct
+                            idleAnim[currentFrame],
+                            tint,
+                            0,
+                            new Vector2(0, 0),
+                            SpriteEffects.FlipHorizontally,
+                            0);
+                    break;
+
+                case PlayerState.FaceRight:
+                    sb.Draw(asset,
+                           worldPosition,
+                           idleAnim[currentFrame],
+                           tint);
+                    break;
+
+                case PlayerState.Hit:
+                    
+                    break;
+
+                // Change Game1 to wait 1 second before displaying the game over screen
+                case PlayerState.Dead:
+                    break;
+            }
         }
 
         /// <summary>

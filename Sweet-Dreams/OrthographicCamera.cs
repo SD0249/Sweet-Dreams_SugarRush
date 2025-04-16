@@ -94,17 +94,12 @@ namespace Sweet_Dreams
         /// The Orthographic Camera has its own Update method. 
         /// This will be the only method of the class that will be able to accessed.
         /// </summary>
-        /// <param name="worldToScreenOffSet">World to Screen Offset
-        /// (i.e. worldPosition + this.OffSet = screenPosition)</param>
         /// <param name="worldPosition">
         /// The world position of the object to follow(e.g. usually player)</param>
         /// <param name="worldWidth">World Width; Num of columns * Size of a tile</param>
         /// <param name="worldHeight">World Height; Num of rows * Size of a tile</param>
-        public void Update(Vector2 worldToScreenOffSet, Rectangle worldPosition, int worldWidth, int worldHeight)
+        public void Update(Rectangle worldPosition, int worldWidth, int worldHeight)
         {
-            // Update the Camera Matrix
-            UpdateCameraMatrix(worldToScreenOffSet);
-
             // Ensure that the camera only rendering the drawn world
             CameraRendering(worldPosition, worldWidth, worldHeight);
         }
@@ -113,11 +108,9 @@ namespace Sweet_Dreams
         /// <summary>
         /// Update the Camera's Matrix each frame.
         /// </summary>
-        /// <param name="worldToScreenOffSet">World to Screen Offset
-        /// (i.e. worldPosition + this.OffSet = screenPosition)</param>
-        private void UpdateCameraMatrix(Vector2 worldToScreenOffSet)
+        private void UpdateCameraMatrix()
         {
-            cameraMatrix = Matrix.CreateTranslation(worldToScreenOffSet.X, worldToScreenOffSet.Y, 0);
+            cameraMatrix = Matrix.CreateTranslation(0, 0, 0);
         }
 
 
