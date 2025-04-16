@@ -411,7 +411,9 @@ namespace Sweet_Dreams
                     break;
 
                 case CandyType.Peppermint:
-                    // Increase bullet velocity
+                    // Decrease reload time
+
+                    
                     break;
 
                 case CandyType.CandyCorn:

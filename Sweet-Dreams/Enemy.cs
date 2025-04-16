@@ -313,6 +313,7 @@ namespace Sweet_Dreams
             //Initializes the Enemy fields based on the Enemy type
             switch (eType)
             {
+                // CHASERS
                 case EnemyType.Imp:
                     health = 1;
                     damage = 1;
@@ -322,24 +323,26 @@ namespace Sweet_Dreams
 
                     break;
                 case EnemyType.MouthDemon:
-                    health = 1;
-                    damage = 1;
+                    health = 5;
+                    damage = 2;
                     candyNum = 3;
                     speed = 2;
                     sourceRect = new Rectangle(5, 107, 23, 30);
 
                     break;
+                //
                 case EnemyType.HornDemon:
-                    health = 1;
+                    health = 3;
                     damage = 1;
                     candyNum = 2;
                     speed = 3;
                     sourceRect = new Rectangle(3, 60, 11, 18);
 
                     break;
+                //SHOOTERS
                 case EnemyType.Cloak:
-                    health = 1;
-                    damage = 1;
+                    health = 2;
+                    damage = 2;
                     speed = 3;
                     candyNum = 2;
                     sourceRect = new Rectangle(1, 40, 13, 15);

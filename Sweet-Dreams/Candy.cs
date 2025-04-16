@@ -97,7 +97,7 @@ namespace Sweet_Dreams
 					break;
                 case 5:
                     cType = CandyType.Chocolate;
-                    sourceRect = new Rectangle(0, 129, 16, 16);
+                    sourceRect = new Rectangle(0, 113, 16, 16);
 
 					break;
             }
