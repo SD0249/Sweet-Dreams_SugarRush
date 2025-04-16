@@ -220,7 +220,8 @@ namespace Sweet_Dreams
                     }
 
 
-                    // Updates the player
+                    // Updates the player & its animation
+                    player.UpdateAnimation(gameTime);
                     player.Update(gameTime, worldToScreen);
                     //player.UpdateAnimation(gameTime);
 
@@ -385,13 +386,18 @@ namespace Sweet_Dreams
                     // : Nice chance to play with events and delegates.
                     if (instruction.IsHovered == true)
                     {
+                        DebugLib.DrawRectFill(
+                            _spriteBatch,
+                            new Rectangle(20, screenHeight - 85, 535, 65),
+                            Color.Black);
+                        
                         _spriteBatch.DrawString(
                         arial12,
                         "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
                         "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
                         "Toggle 'god mode' (and debug information) with the G key.",
                         new Vector2(30, screenHeight - 80),
-                        Color.Black);
+                        Color.White);
                     }
                     break;
 
