@@ -104,16 +104,6 @@ namespace Sweet_Dreams
             CameraRendering(worldPosition, worldWidth, worldHeight);
         }
 
-
-        /// <summary>
-        /// Update the Camera's Matrix each frame.
-        /// </summary>
-        private void UpdateCameraMatrix()
-        {
-            cameraMatrix = Matrix.CreateTranslation(0, 0, 0);
-        }
-
-
         /// <summary>
         /// Keeps the camera bounds to render only the drawn world,
         /// centering the camera position using the player's position.

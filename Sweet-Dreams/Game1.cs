@@ -184,7 +184,7 @@ namespace Sweet_Dreams
                     break;
 
                 case GameState.Game:
-                    
+
                     // Victory when all enemies are gone and the player is at the door
                     if (enemyManager.IsLevelCleared() && 
                         player.WorldPosition.Contains(new Point(470, 30)))
@@ -264,8 +264,7 @@ namespace Sweet_Dreams
                     }
 
                     // Update ALL the camera related stuff
-                    camera.Update(
-                                  player.WorldPosition, 
+                    camera.Update(player.WorldPosition, 
                                   level1.WorldWidth, 
                                   level1.WorldHeight);
 

@@ -104,6 +104,7 @@ namespace Sweet_Dreams
             get { return tint; }
         }
 
+
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
@@ -207,7 +208,7 @@ namespace Sweet_Dreams
             }
 
             // Updates screen position
-            screenPosition = worldPosition;
+            // screenPosition = worldPosition;
 
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
