@@ -117,6 +117,7 @@ namespace Sweet_Dreams
             points = 0;
             tint = Color.White;
             stunTimer = 1;
+            reloadTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
             timer = 0.0;                        // Change these values
             spf = 0.2;

@@ -206,19 +206,17 @@ namespace Sweet_Dreams
                         GodMode = !GodMode;
                     }
 
-                    // Update the number of Candies
+                    // Checks for player-candy collisions
                     for (int i = 0; i < collectibles.Count; i++)
                     {
                         if (player.CollidesWith(collectibles[i]))
                         {
+                            // If there is a collision, that candy gets collected then deleted
                             player.CollectCandy(collectibles[i].CType);
-
-                            // Remove the candy from the List
                             collectibles.RemoveAt(i);
                             i--;
                         }
                     }
-
 
                     // Updates the player & its animation
                     player.UpdateAnimation(gameTime);
