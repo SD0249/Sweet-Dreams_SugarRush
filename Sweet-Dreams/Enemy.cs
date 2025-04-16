@@ -221,8 +221,7 @@ namespace Sweet_Dreams
         /// move towards the player
         /// </summary>
         /// <param name="gameTime">Info from MonoGame about the time state.</param>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position by moving toward the player
 
@@ -244,13 +243,6 @@ namespace Sweet_Dreams
             // Updates world position by moving toward the player
             worldPosition.X += (int)(direction.X * speed);
             worldPosition.Y += (int)(direction.Y * speed);
-
-            // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width, 
-                worldPosition.Height);
         }
 
         /// <summary>

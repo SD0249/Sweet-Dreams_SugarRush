@@ -183,7 +183,7 @@ namespace Sweet_Dreams
         /// Updates the players position based on what keys are pressed
         /// </summary>
         /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
@@ -207,11 +207,7 @@ namespace Sweet_Dreams
             }
 
             // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width,
-                worldPosition.Height);
+            screenPosition = worldPosition;
 
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
