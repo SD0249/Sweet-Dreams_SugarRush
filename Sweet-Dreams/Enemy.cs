@@ -73,19 +73,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Properties
         // --------------------------------------------------------------
-        /// <summary>
-        /// Whether or not any part of the object is visible on the screen.
-        /// </summary>
-        /* public bool IsOnScreen
-        {
-            get
-            {
-                return !(screenPosition.X + screenPosition.Width < 0
-                    || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight);
-            }
-        } */
 
         /// <summary>
         /// This object's position in the world.
@@ -135,8 +122,7 @@ namespace Sweet_Dreams
         /// <param name="screenHeight">Screen's height.</param>
         public Enemy(EnemyType eType, Random rng, Texture2D asset, Player player,
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-            :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1), 
-                 screenWidth, screenHeight)
+            :base(asset, new Rectangle(0, 0, 1, 1), screenWidth, screenHeight)
         {
             this.rng = rng;
             this.worldWidth = worldWidth;
@@ -149,9 +135,6 @@ namespace Sweet_Dreams
 
             // Positions the enemy on the world's border
             GoToWorldEdge();
-            
-            // Gives screen position a default value until it is updated in Update()
-            screenPosition = worldPosition;
 
             // TODO: Change these values
             timer = 0.0;
@@ -221,8 +204,7 @@ namespace Sweet_Dreams
         /// move towards the player
         /// </summary>
         /// <param name="gameTime">Info from MonoGame about the time state.</param>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position by moving toward the player
 
@@ -244,13 +226,6 @@ namespace Sweet_Dreams
             // Updates world position by moving toward the player
             worldPosition.X += (int)(direction.X * speed);
             worldPosition.Y += (int)(direction.Y * speed);
-
-            // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width, 
-                worldPosition.Height);
         }
 
         /// <summary>

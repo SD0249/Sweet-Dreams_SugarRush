@@ -37,20 +37,6 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Whether or not any part of the object is visible on the screen.
-        /// </summary>
-        /* public bool IsOnScreen
-        {
-            get
-            {
-                return !(screenPosition.X + screenPosition.Width < 0
-                    || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight);
-            }
-        } */
-
-        /// <summary>
         /// Whether or not this bullet has hit an enemy.
         /// </summary>
         public bool HitEnemy
@@ -72,7 +58,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         public Bullet(Texture2D asset, Rectangle worldPosition, 
             int damage, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-        :base(asset, worldPosition, new Rectangle(1,1,1,1), screenWidth, screenHeight)
+        :base(asset, worldPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
             this.damage = damage;
@@ -134,21 +120,14 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Updates the bullet's world & screen position
+        /// Updates the bullet's position
         /// </summary>
         /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Changing the bullets position
             worldPosition.X += (int)Math.Round(direction.X * speed);
             worldPosition.Y += (int)Math.Round(direction.Y * speed);
-
-            // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width,
-                worldPosition.Height);
         }
 
         /// <summary>

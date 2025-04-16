@@ -60,7 +60,7 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public Candy(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
-            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+            : base(asset, worldPosition, screenWidth, screenHeight)
         {
             // Only used here in the constructor
             // TODO: Maybe use a reference one generator instead of a new one for each object?
@@ -113,18 +113,11 @@ namespace Sweet_Dreams
         public override void UpdateAnimation(GameTime gameTime) { }
 
         /// <summary>
-        /// Updates the candy's screen position.
+        /// No effect
         /// </summary>
         /// <param name="gameTime">Info from MonoGame about time state.</param>
-        /// <param name="worldToScreen">World to screen offset vector.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
-            // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width,
-                worldPosition.Height);
         }
 
         /// <summary>

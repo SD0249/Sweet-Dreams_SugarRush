@@ -56,14 +56,6 @@ namespace Sweet_Dreams
         {
             get { return worldPosition; }
         }
-
-        /// <summary>
-        /// The player's position on the screen.
-        /// </summary>
-        public Rectangle ScreenPosition
-        {
-            get { return screenPosition; }
-        }
         
         /// <summary>
         /// The current animation state of the player.
@@ -104,12 +96,13 @@ namespace Sweet_Dreams
             get { return tint; }
         }
 
+
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Player(Texture2D asset, Rectangle worldPosition, Rectangle screenPosition,
+        public Player(Texture2D asset, Rectangle worldPosition,
             int screenWidth, int screenHeight)
-            : base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
+            : base(asset, worldPosition, screenWidth, screenHeight)
         {
             health = 6;
             damage = 1;
@@ -117,6 +110,7 @@ namespace Sweet_Dreams
             points = 0;
             tint = Color.White;
             stunTimer = 1;
+            reloadTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
             timer = 0.0;                        // Change these values
             spf = 0.2;
@@ -182,7 +176,7 @@ namespace Sweet_Dreams
         /// Updates the players position based on what keys are pressed
         /// </summary>
         /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void Update(GameTime gameTime, Vector2 worldToScreen)
+        public override void Update(GameTime gameTime)
         {
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
@@ -204,13 +198,6 @@ namespace Sweet_Dreams
             {
                 worldPosition.Y += speed;
             }
-
-            // Updates screen position
-            screenPosition = new Rectangle(
-                worldPosition.X + (int)worldToScreen.X,
-                worldPosition.Y + (int)worldToScreen.Y,
-                worldPosition.Width,
-                worldPosition.Height);
 
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
@@ -410,7 +397,7 @@ namespace Sweet_Dreams
             {
                 case CandyType.SkullCandy:
                     // Deal damage to the player
-                    playerHealth--;
+                    health--;
                     break;
 
                 case CandyType.Peppermint:
@@ -433,7 +420,7 @@ namespace Sweet_Dreams
                     break;
                 case CandyType.Chocolate:
                     // Heal player health
-                    playerHealth++;
+                    health++;
                     break;
             }
             /*

@@ -21,7 +21,6 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         protected Texture2D asset;
         protected Rectangle worldPosition;
-        protected Rectangle screenPosition;
         protected int screenWidth;
         protected int screenHeight;
         protected int currentFrame;
@@ -38,13 +37,12 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public GameObject(Texture2D asset, Rectangle worldPosition,
-            Rectangle screenPosition, int screenWidth, int screenHeight)
+            int screenWidth, int screenHeight)
         {
             this.asset = asset;
             this.worldPosition = worldPosition;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
-            this.screenPosition = screenPosition;
         }
 
         // --------------------------------------------------------------
@@ -60,7 +58,7 @@ namespace Sweet_Dreams
         /// Requires child classes to have their own update method
         /// </summary>
         /// <param name="gameTime">Info about time from MonoGame.</param>
-        public abstract void Update(GameTime gameTime, Vector2 worldToScreen);
+        public abstract void Update(GameTime gameTime);
 
         /// <summary>
         /// Requires child classes to have their own draw method
