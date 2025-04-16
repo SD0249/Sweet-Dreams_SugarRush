@@ -28,12 +28,19 @@ namespace Sweet_Dreams
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        // State fields
+        // -State fields
         private GameState gameState;
         private PlayerState playerState;
         private KeyboardState currentKbState;
         private KeyboardState previousKbState;
         private MouseState mouse;
+
+        // Main Screen Textures
+        private Texture2D background;
+        private Texture2D title;
+        private Texture2D startButton;
+        private Texture2D instructionButton;
+        private Texture2D quitButton;
 
         // Game textures
         private Texture2D playerAnimation;
@@ -52,8 +59,9 @@ namespace Sweet_Dreams
         private int screenHeight;
         private Vector2 worldToScreen;
         private SpriteFont arial12;
-        private Button myButton;
-        private bool doorIsReached;
+        private Button start;
+        private Button instruction;
+        private Button quit;
         private Level level1;
         private OrthographicCamera camera;
 
@@ -99,13 +107,28 @@ namespace Sweet_Dreams
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
-            tempButton = Content.Load<Texture2D>("ShitButton");
-
-            myButton = new Button(tempButton,
-                new Rectangle(340, 250, 100, 50));
 
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
             enemySprites = Content.Load<Texture2D>("DemonSprites");
+
+            background = Content.Load<Texture2D>("StartScreenbg");
+            startButton = Content.Load<Texture2D>("StartButton");
+            instructionButton = Content.Load<Texture2D>("InstructionsButton");
+            quitButton = Content.Load<Texture2D>("QuitButton");
+            title = Content.Load<Texture2D>("GameTitle");
+
+            // Initialize Buttons here after loading the assets
+            start = new Button(startButton,
+                               new Rectangle(205, 115, 300, 150),
+                               new Rectangle(263, 179, 411, 210));
+
+            instruction = new Button(instructionButton,
+                                     new Rectangle(5, 5, 56, 50),
+                                     new Rectangle(29, 10, 97, 91));
+
+            quit = new Button(quitButton,
+                              new Rectangle(screenWidth - 152, screenHeight - 120, 150, 120),
+                              new Rectangle(881, 544, 194, 169));
 
             // Load the Level
             level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
@@ -143,36 +166,37 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
-                    // Draw menu to console
+                    // TO DO: Maybe since we have various buttons that does different stuff,
+                    //        it might be useful to make a manager for the UIs.
 
-                    // Updates the play button
-                    myButton.Update(mouse);
-                    if (myButton.buttonPressed(mouse) == true)
+                    // Updates the buttons:
+                    // Checks hovering and clicking
+                    start.Update(mouse);
+                    if (start.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
                     }
 
-                    // Makes sure that the player doesn't shoot
-                    // when the play button is pressed
-                    player.ReloadTimer = 0.3;
+                    // Checks hovering
+                    instruction.Update(mouse);
 
-                    // If button is pressed?
-                    // Need button class
-
+                    // Checks hovering and clicking
+                    quit.Update(mouse);
+                    if(quit.buttonPressed(mouse) == true)
+                    {
+                        Exit();
+                    }
                     break;
 
                 case GameState.Game:
-
-                    // Draw game to console
-
-                    // TODO: Initialize fields before uncommenting
-                    /*
-                    // Victory when all enemies are gone and the player is touching the door
-                    // if (enemyManager.IsLevelCleared() && doorIsReached)
+                    
+                    // Victory when all enemies are gone and the player is at the door
+                    if (enemyManager.IsLevelCleared() && 
+                        player.WorldPosition.Contains(new Point(470, 30)))
                     {
                         gameState = GameState.Win;
                     }
-                    */
+                    
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
@@ -195,7 +219,6 @@ namespace Sweet_Dreams
                         }
                     }
 
-
                     // Updates the player
                     player.Update(gameTime, worldToScreen);
                     //player.UpdateAnimation(gameTime);
@@ -216,6 +239,7 @@ namespace Sweet_Dreams
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
                     }
+
                     // Has a 1 second timer between shooting a bullet
                     player.ReloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -335,79 +359,49 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
-                    GraphicsDevice.Clear(Color.Black);
+                    _spriteBatch.Draw(background,
+                                      new Rectangle(0, 0, screenWidth, screenHeight),
+                                      Color.White);
 
-                    // Draws the play button
-                    myButton.Draw(_spriteBatch);
+                    _spriteBatch.Draw(title,
+                                      new Rectangle(85, 20, screenWidth - 150, 90),
+                                      new Rectangle(205, 63, 705, 92),
+                                      Color.White);
 
-                    /*
-                    if (myButton.Update(mouse) == true)
-                    {
-                        myButton.Draw(_spriteBatch);
-                    }
-                    else
-                    {
-                        myButton.Draw(_spriteBatch);
-                    } */
+                    // Draws the buttons
+                    start.Draw(_spriteBatch);
+                    instruction.Draw(_spriteBatch);
+                    quit.Draw(_spriteBatch);
 
-                    _spriteBatch.DrawString(
+                    // We can alter this or delete it
+                    /* _spriteBatch.DrawString(
                         arial12,
                         "         Sweet Dreams\n Press enter to start game",
                         new Vector2(300, 200),
-                        Color.White);
+                        Color.White); */
 
                     // Draws placeholder instructions
-                    _spriteBatch.DrawString(
+                    // : Maybe this should be toggled on and off by mouse hovering over.
+                    // : Nice chance to play with events and delegates.
+                    if (instruction.IsHovered == true)
+                    {
+                        _spriteBatch.DrawString(
                         arial12,
                         "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
                         "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
                         "Toggle 'god mode' (and debug information) with the G key.",
                         new Vector2(30, screenHeight - 80),
-                        Color.White);
-
+                        Color.Black);
+                    }
                     break;
 
                 case GameState.Game:
 
-                    // Draws the level itself
-                    // level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
-
-                    // TODO: Uncomment the following once fields are initialized
-                    /*
-                    // Draws all candies that are on screen
-                    for (int i = 0; i < collectibles.Count; i++)
-                    {
-                        if (collectibles[i].IsOnScreen)
-                        {
-                            collectibles[i].Draw(_spriteBatch);
-                        }
-                    }*/
-
                     
-                    
-
-                    // Draws all bullets
-                    /* for (int i = 0; i < bullets.Count; i++)
-                    {
-                        if (bullets[i].IsOnScreen)
-                        {
-                            bullets[i].Draw(_spriteBatch);
-                        }
-                    } */
-
-                    // Draws the player
-                    // player.Draw(_spriteBatch);
-                    
-                    /* DebugLib.DrawRectOutline(_spriteBatch,
-                        player.WorldPosition,
-                        2,
-                        Color.Black); */
 
                     break;
 
                 case GameState.Win:
-
-                    // GraphicsDevice.Clear(Color.Honeydew);
 
                     _spriteBatch.DrawString(
                         arial12,

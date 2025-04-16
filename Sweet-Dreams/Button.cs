@@ -14,8 +14,10 @@ namespace Sweet_Dreams
         // Felids :)
         // --------------------------------------------------------------
         private Rectangle bounds;
+        private Rectangle sourceRec;
         private Texture2D texture;
         private MouseState mouse;
+        private bool isHovered;
 
         // These two can totally be changed depending on the real
         // Button we use and the vibe of the game :)
@@ -25,12 +27,22 @@ namespace Sweet_Dreams
         private Color currentButtonColor;
 
         // --------------------------------------------------------------
+        // Property
+        // --------------------------------------------------------------
+        public bool IsHovered
+        {
+            get { return isHovered; }
+        }
+
+
+        // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Button(Texture2D texture, Rectangle bounds)
+        public Button(Texture2D texture, Rectangle bounds, Rectangle sourceRec)
         {
             this.texture = texture;
             this.bounds = bounds;
+            this.sourceRec = sourceRec;
 
             // Sets the normal, not hovering over the button with the mouse,
             // color to the default C:
@@ -49,27 +61,17 @@ namespace Sweet_Dreams
         public void Update(MouseState mouse)
         {
             Point mousePoint = new Point(mouse.X, mouse.Y);
-            //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
             if (bounds.Contains(mousePoint))
             {
                 currentButtonColor = HoveredOverColor;
+                isHovered = true;
             }
             else
             {
                 currentButtonColor = NormalColor;
+                isHovered = false;
             }
-
-            // Shouldn't this only need to check if the button is being
-            // hovered over? Also you call the same method in Game1
-            // regardless of what Update returns...
-            /*
-            if (hoveringOverButton)
-            {
-                return true;
-            }
-
-            return false; */
         }
 
         /// <summary>
@@ -81,7 +83,6 @@ namespace Sweet_Dreams
         public bool buttonPressed(MouseState mouse)
         {
             Point mousePoint = new Point(mouse.X, mouse.Y);
-            //bool hoveringOverButton = Bounds.Contains(mousePoint);
 
             if (bounds.Contains(mousePoint) && mouse.LeftButton == ButtonState.Pressed)
             {
@@ -100,6 +101,7 @@ namespace Sweet_Dreams
             spriteBatch.Draw(
                 texture,
                 bounds, 
+                sourceRec,
                 currentButtonColor);
         }
 

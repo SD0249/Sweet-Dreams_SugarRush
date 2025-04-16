@@ -356,7 +356,7 @@ namespace Sweet_Dreams
             }
 
             // Changes the enemy worldPosition based on the enemy's sourceRect
-            worldPosition = new Rectangle(0, 0, sourceRect.Width * 4, sourceRect.Height * 4);
+            worldPosition = new Rectangle(0, 0, sourceRect.Width * 3, sourceRect.Height * 3);
         }
 
         /// <summary>
