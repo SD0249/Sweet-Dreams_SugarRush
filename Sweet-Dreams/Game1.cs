@@ -166,6 +166,8 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
+                    player.Health = 5;
+
                     // TO DO: Maybe since we have various buttons that does different stuff,
                     //        it might be useful to make a manager for the UIs.
 
@@ -320,45 +322,6 @@ namespace Sweet_Dreams
         {
             GraphicsDevice.Clear(Color.Black);
             
-            // If in Game mode, the following is drawn translated with respect to
-            // the player's world position
-            if (gameState == GameState.Game)
-            {
-            // Draws everything whose position needs to be translated
-            _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
-
-                // Draws the level itself
-                level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
-
-                // Draws all candy
-                for (int i = 0; i < collectibles.Count; i++)
-                {
-                    // TODO: Uncomment IsOnScreen once it works
-                    if (collectibles[i].IsOnScreen(camera))
-                    {
-                    collectibles[i].Draw(_spriteBatch);
-                    }
-                }
-
-                // Draws all bullets
-                for (int i = 0; i < bullets.Count; i++)
-                {
-                    if (bullets[i].IsOnScreen(camera))
-                    {
-                        bullets[i].Draw(_spriteBatch);
-                    }
-                }                
-
-                // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch, camera);
-
-                // Draws the player
-                player.Draw(_spriteBatch);
-
-            
-            _spriteBatch.End();
-            }
-            
             // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
             
@@ -404,12 +367,46 @@ namespace Sweet_Dreams
                         "Toggle 'god mode' (and debug information) with the G key.",
                         new Vector2(30, screenHeight - 80),
                         Color.White);
+
                     }
                     break;
 
                 case GameState.Game:
 
-                    
+                    _spriteBatch.End();
+                    // If in Game mode, the following is drawn translated with respect to
+                    // the player's world position
+
+                    // Draws everything whose position needs to be translated
+                    _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
+
+                    // Draws the level itself
+                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+
+                    // Draws all candy
+                    for (int i = 0; i < collectibles.Count; i++)
+                    {
+                        // TODO: Uncomment IsOnScreen once it works
+                        if (collectibles[i].IsOnScreen(camera))
+                        {
+                            collectibles[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws all bullets
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        if (bullets[i].IsOnScreen(camera))
+                        {
+                            bullets[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws all enemies that are on screen
+                    enemyManager.DrawAll(_spriteBatch, camera);
+
+                    // Draws the player
+                    player.Draw(_spriteBatch);
 
                     break;
 
