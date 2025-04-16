@@ -219,8 +219,7 @@ namespace Sweet_Dreams
                         }
                     }
 
-                    // Updates the player & its animation
-                    player.UpdateAnimation(gameTime);
+                    // Updates the player
                     player.Update(gameTime);
 
                     // Checks for a left click and bullet timer to shoot
@@ -308,8 +307,7 @@ namespace Sweet_Dreams
         {
             GraphicsDevice.Clear(Color.Black);
             
-<<<<<<< HEAD
-=======
+
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
             if (gameState == GameState.Game)
@@ -349,7 +347,6 @@ namespace Sweet_Dreams
             _spriteBatch.End();
             }
             
->>>>>>> ca9dc280dee7e66ca8704fca0386f2abd594c98a
             // Draws everything that should be stationary on the screen
             _spriteBatch.Begin();
             
@@ -409,7 +406,7 @@ namespace Sweet_Dreams
                     _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
 
                     // Draws the level itself
-                    level1.DisplayTiles(_spriteBatch, worldToScreen, screenWidth, screenHeight);
+                    level1.DisplayTiles(_spriteBatch, screenWidth, screenHeight);
 
                     // Draws all candy
                     for (int i = 0; i < collectibles.Count; i++)
@@ -467,6 +464,7 @@ namespace Sweet_Dreams
                     "God mode enabled. Enemies will not damage you in this state.",
                     new Vector2(10, 10),
                     Color.White);
+
                 DrawDebugInfo(_spriteBatch);
             }
 

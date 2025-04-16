@@ -178,23 +178,25 @@ namespace Sweet_Dreams
         /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void Update(GameTime gameTime)
         {
+            UpdateAnimation(gameTime);
+
             // Updates world position based on keyboard input
             KeyboardState kbState = Keyboard.GetState();
 
             // TODO: Remove this test movement and use velocity inside of FSM instead
-            if (kbState.IsKeyDown(Keys.Right))
+            if (kbState.IsKeyDown(Keys.D))
             {
                 worldPosition.X += speed;
             }
-            if (kbState.IsKeyDown(Keys.Left))
+            if (kbState.IsKeyDown(Keys.A))
             {
                 worldPosition.X -= speed;
             }
-            if (kbState.IsKeyDown(Keys.Up))
+            if (kbState.IsKeyDown(Keys.W))
             {
                 worldPosition.Y -= speed;
             }
-            if (kbState.IsKeyDown(Keys.Down))
+            if (kbState.IsKeyDown(Keys.S))
             {
                 worldPosition.Y += speed;
             }
@@ -210,15 +212,15 @@ namespace Sweet_Dreams
             {
 
                 case PlayerState.WalkLeft:
-                    if (kbState.IsKeyUp(Keys.Left))
+                    if (kbState.GetPressedKeyCount() == 0)
                     {
                         playerState = PlayerState.FaceLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.Right))
+                    /*if (kbState.IsKeyDown(Keys.D))
                     {
                         playerState = PlayerState.WalkRight;
 
-                    }
+                    }*/
                     if (health <= 0)
                     {
                         playerState = PlayerState.Dead;
@@ -226,11 +228,11 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.WalkRight:
-                    if (kbState.IsKeyDown(Keys.Left))
+                    /*if (kbState.IsKeyDown(Keys.A))
                     {
                         playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyUp(Keys.Right))
+                    }*/
+                    if (kbState.GetPressedKeyCount() == 0)
                     {
                         playerState = PlayerState.FaceRight;
                     }
@@ -241,11 +243,16 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.FaceLeft:
-                    if (kbState.IsKeyDown(Keys.Left))
+                    if (kbState.IsKeyDown(Keys.A))
                     {
                         playerState = PlayerState.WalkLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.Right))
+                    if (kbState.IsKeyDown(Keys.S) ||
+                        kbState.IsKeyDown(Keys.W))
+                    {
+                        playerState = PlayerState.WalkLeft;
+                    }
+                    if (kbState.IsKeyDown(Keys.D))
                     {
                         playerState = PlayerState.WalkRight;
                     }
@@ -256,11 +263,16 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.FaceRight:
-                    if (kbState.IsKeyDown(Keys.Left))
+                    if (kbState.IsKeyDown(Keys.A))
                     {
                         playerState = PlayerState.WalkLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.Right))
+                    if (kbState.IsKeyDown(Keys.S) ||
+                        kbState.IsKeyDown(Keys.W))
+                    {
+                        playerState = PlayerState.WalkLeft;
+                    }
+                    if (kbState.IsKeyDown(Keys.D))
                     {
                         playerState = PlayerState.WalkRight;
                     }
