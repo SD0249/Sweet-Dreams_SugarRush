@@ -60,7 +60,7 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public Candy(Texture2D asset, Rectangle worldPosition, int screenWidth, int screenHeight)
-            : base(asset, worldPosition, worldPosition, screenWidth, screenHeight)
+            : base(asset, worldPosition, screenWidth, screenHeight)
         {
             // Only used here in the constructor
             // TODO: Maybe use a reference one generator instead of a new one for each object?

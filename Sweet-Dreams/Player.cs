@@ -56,14 +56,6 @@ namespace Sweet_Dreams
         {
             get { return worldPosition; }
         }
-
-        /// <summary>
-        /// The player's position on the screen.
-        /// </summary>
-        public Rectangle ScreenPosition
-        {
-            get { return screenPosition; }
-        }
         
         /// <summary>
         /// The current animation state of the player.
@@ -107,9 +99,9 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Player(Texture2D asset, Rectangle worldPosition, Rectangle screenPosition,
+        public Player(Texture2D asset, Rectangle worldPosition,
             int screenWidth, int screenHeight)
-            : base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
+            : base(asset, worldPosition, screenWidth, screenHeight)
         {
             health = 6;
             damage = 1;
@@ -205,9 +197,6 @@ namespace Sweet_Dreams
             {
                 worldPosition.Y += speed;
             }
-
-            // Updates screen position
-            screenPosition = worldPosition;
 
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,

@@ -136,7 +136,6 @@ namespace Sweet_Dreams
             // Creates the player at its starting world and screen positions
             player = new Player(playerAnimation, 
                 new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
-                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
                 screenWidth, 
                 screenHeight);
 
@@ -492,7 +491,8 @@ namespace Sweet_Dreams
             //Draws the player's screen position
             sb.DrawString(
                 arial12,
-                $"Player Screen Position: {player.ScreenPosition.X}, {player.ScreenPosition.Y}",
+                //$"Player Screen Position: {player.ScreenPosition.X}, {player.ScreenPosition.Y}",
+                "Player.ScreenPosition no longer has a purpose.",
                 new Vector2(10,screenHeight - 124),
                 Color.White);
 
