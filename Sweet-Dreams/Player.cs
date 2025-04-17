@@ -32,10 +32,10 @@ namespace Sweet_Dreams
         private double stunTimer;
         private int playerHealth;
         private bool isAlive;
-        private Vector2 velocity;
         private int damage;
         private int points;
         private int speed;
+        private Vector2 direction;
 
         // Animation fields
         private List<Rectangle> idleAnim;
@@ -121,8 +121,8 @@ namespace Sweet_Dreams
             tint = Color.White;
             stunTimer = 0.6;
             reloadTimer = 1;
-            velocity = new Vector2(0, 0);       // Placeholder velocity
-            timer = 0.0;                        // Change these values
+            direction = Vector2.Zero;
+            timer = 0.0;
             spf = 0.2;
             fps = 5.0;
             walkingWP = worldPosition;
@@ -190,9 +190,6 @@ namespace Sweet_Dreams
         {
             UpdateAnimation(gameTime);
 
-            // Updates world position based on keyboard input
-            KeyboardState kbState = Keyboard.GetState();
-
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
                                   worldPosition.Y + (currentFrame + 1) % 2,
@@ -210,61 +207,49 @@ namespace Sweet_Dreams
             {
                 playerState = PlayerState.Dead;
             }
+            // Moves the player based on keyboard input
+            MoveOnKeyPress();
 
             // Player FSM (incomplete)
             switch (playerState)
             {
-
                 case PlayerState.WalkLeft:
-                    /*if (kbState.IsKeyDown(Keys.D))
+                    if (direction == Vector2.Zero)
+                    {
+                        playerState = PlayerState.FaceLeft;
+                    }
+                    if (direction.X > 0)
                     {
                         playerState = PlayerState.WalkRight;
-
-                    }*/
-                    if (kbState.GetPressedKeyCount() == 0)
+                    }
+                    if (health <= 0)
                     {
                         playerState = PlayerState.FaceLeft;
                     }
                     break;
 
                 case PlayerState.WalkRight:
-                    /*if (kbState.IsKeyDown(Keys.A))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }*/
-                    if (kbState.GetPressedKeyCount() == 0)
+                    if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceRight;
+                    }
+                    if (direction.X < 0)
+                    {
+                        playerState = PlayerState.WalkLeft;
+                    }
+                    if (health <= 0)
+                    {
+                        playerState = PlayerState.Dead;
                     }
                     break;
 
                 case PlayerState.FaceLeft:
-                    if (kbState.IsKeyDown(Keys.A))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.S) ||
-                        kbState.IsKeyDown(Keys.W))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.D))
-                    {
-                        playerState = PlayerState.WalkRight;
-                    }
-                    break;
-
                 case PlayerState.FaceRight:
-                    if (kbState.IsKeyDown(Keys.A))
+                    if (direction.X < 0)
                     {
                         playerState = PlayerState.WalkLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.S) ||
-                        kbState.IsKeyDown(Keys.W))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.D))
+                    if (direction.X > 0)
                     {
                         playerState = PlayerState.WalkRight;
                     }
@@ -440,6 +425,49 @@ namespace Sweet_Dreams
              * slower speed
              * 
              */
+        }
+
+        /// <summary>
+        /// Moves the player based on which arrows are pressed.
+        /// </summary>
+        private void MoveOnKeyPress()
+        {
+            // Gets the current keyboard state
+            KeyboardState kbState = Keyboard.GetState();
+
+            // Zeros the direction vector
+            direction = Vector2.Zero;
+
+            // Adds 1 unit of movement in each appropriate direction based on arrow keys
+            if (kbState.IsKeyDown(Keys.Left))
+            {
+                direction.X -= 1;
+            }
+            if (kbState.IsKeyDown(Keys.Right))
+            {
+                direction.X += 1;
+            }
+            if (kbState.IsKeyDown(Keys.Up))
+            {
+                direction.Y -= 1;
+            }
+            if (kbState.IsKeyDown(Keys.Down))
+            {
+                direction.Y += 1;
+            }
+
+            // Normalizes the direction vector
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
+
+            // Moves the player using its constant speed
+            worldPosition = new Rectangle(
+                worldPosition.X + (int)(direction.X * speed),
+                worldPosition.Y + (int)(direction.Y * speed),
+                worldPosition.Width,
+                worldPosition.Height);
         }
     }
 }

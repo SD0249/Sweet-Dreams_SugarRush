@@ -185,7 +185,22 @@ namespace Sweet_Dreams
         /// in the level, false otherwise.</returns>
         public bool IsLevelCleared()
         {
-            return currentEnemies.Count == 0 && allEnemies.Count == 0;
+            if (currentEnemies.Count == 0 && allEnemies.Count == 0)
+            {
+                return true;
+            }
+            if (player.Health <=0 && currentEnemies.Count !=0)
+            {
+                currentEnemies.Clear();
+                return false;
+            }
+            if (player.Health == 5)
+            {
+                // ReadEnemyData();
+                return false;
+            }
+
+            return false;
         }
 
         // --------------------------------------------------------------
