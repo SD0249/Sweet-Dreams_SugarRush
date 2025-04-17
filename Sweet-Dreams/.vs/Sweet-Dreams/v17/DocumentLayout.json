@@ -88,6 +88,18 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "Candy.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
+              "RelativeDocumentMoniker": "Candy.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
+              "RelativeToolTip": "Candy.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAAD4AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T01:33:54.022Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "EnemyManager.cs",
               "DocumentMoniker": "Z:\\IGMProfile\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
               "RelativeDocumentMoniker": "EnemyManager.cs",
@@ -95,8 +107,44 @@
               "RelativeToolTip": "EnemyManager.cs",
               "ViewState": "AQIAAGAAAAAAAAAAAAAowHMAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-09T22:17:36.089Z",
+              "WhenOpened": "2025-04-12T01:33:54.027Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Button.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
+              "RelativeDocumentMoniker": "Button.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
+              "RelativeToolTip": "Button.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T01:33:54.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Enemy.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
+              "RelativeDocumentMoniker": "Enemy.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
+              "RelativeToolTip": "Enemy.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAgwEoAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T01:33:54.032Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Bullet.cs",
+              "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
+              "RelativeDocumentMoniker": "Bullet.cs",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
+              "RelativeToolTip": "Bullet.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJYAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T01:33:54.035Z"
             },
             {
               "$type": "Document",

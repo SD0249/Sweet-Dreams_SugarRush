@@ -365,7 +365,6 @@ namespace Sweet_Dreams
             }
             
             // Draws everything that should be stationary on the screen
-            
             switch (gameState)
             {
                 case GameState.Menu:
