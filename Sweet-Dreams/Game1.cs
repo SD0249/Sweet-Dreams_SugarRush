@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Transactions;
@@ -63,6 +64,7 @@ namespace Sweet_Dreams
         private Button quit;
         private Level level1;
         private OrthographicCamera camera;
+        private double deathTimer;
 
         // Whether or not the game is currently in god/debug mode
         public static bool GodMode;
@@ -93,6 +95,7 @@ namespace Sweet_Dreams
             // Initialize Camera
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
 
+            deathTimer = 0.6;
             mouse = Mouse.GetState();
 
             base.Initialize();
@@ -198,9 +201,13 @@ namespace Sweet_Dreams
                     // when the player dies???
                     if (player.Health <= 0)
                     {
-                        gameState = GameState.Lose;
-                        NewGame();
-
+                        if (deathTimer <= 0)
+                        {
+                            gameState = GameState.Lose;
+                            NewGame();
+                            deathTimer = 1;
+                        }
+                        deathTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     }
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
@@ -316,9 +323,7 @@ namespace Sweet_Dreams
         {
             GraphicsDevice.Clear(Color.Black);
             
-<<<<<<< HEAD
 
-=======
 
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
@@ -359,7 +364,6 @@ namespace Sweet_Dreams
             _spriteBatch.End();
             }
             
->>>>>>> 6f28cb05182855aa89dfed7a5ae277a25c42ddd1
             // Draws everything that should be stationary on the screen
             
             switch (gameState)

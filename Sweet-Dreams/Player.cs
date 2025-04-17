@@ -266,6 +266,7 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.Dead:
+                    speed = 0;
                     break;
             }
         }
@@ -276,12 +277,6 @@ namespace Sweet_Dreams
         /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
-            // Draws the player
-            /* sb.Draw(asset,
-                worldPosition,
-                new Rectangle(7, 7, 10, 18),
-                tint); */
-
             // Player FSM (incomplete)
             switch (playerState)
             {
@@ -331,6 +326,10 @@ namespace Sweet_Dreams
 
                 // Change Game1 to wait 1 second before displaying the game over screen
                 case PlayerState.Dead:
+                    sb.Draw(asset,
+                            worldPosition,
+                            deathAnim[currentFrame],
+                            tint);
                     break;
             }
         }
