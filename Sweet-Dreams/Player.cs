@@ -106,7 +106,7 @@ namespace Sweet_Dreams
         {
             health = 6;
             damage = 1;
-            speed = 3;
+            speed = 2;
             points = 0;
             tint = Color.White;
             stunTimer = 1;
@@ -365,7 +365,10 @@ namespace Sweet_Dreams
             {
                 case CandyType.SkullCandy:
                     // Deal damage to the player
-                    health--;
+                    if (!Game1.GodMode)
+                    {
+                        health--;
+                    }
                     break;
 
                 case CandyType.Peppermint:
@@ -388,7 +391,10 @@ namespace Sweet_Dreams
                     break;
                 case CandyType.Chocolate:
                     // Heal player health
-                    health++;
+                    if (health < 6)
+                    {
+                        health++;
+                    }
                     break;
             }
             /*
@@ -415,20 +421,20 @@ namespace Sweet_Dreams
             // Zeros the direction vector
             direction = Vector2.Zero;
 
-            // Adds 1 unit of movement in each appropriate direction based on arrow keys
-            if (kbState.IsKeyDown(Keys.Left))
+            // Changes direction based on arrow and WASD key presses
+            if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
             {
                 direction.X -= 1;
             }
-            if (kbState.IsKeyDown(Keys.Right))
+            if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
             {
                 direction.X += 1;
             }
-            if (kbState.IsKeyDown(Keys.Up))
+            if (kbState.IsKeyDown(Keys.Up) || kbState.IsKeyDown(Keys.W))
             {
                 direction.Y -= 1;
             }
-            if (kbState.IsKeyDown(Keys.Down))
+            if (kbState.IsKeyDown(Keys.Down) || kbState.IsKeyDown(Keys.S))
             {
                 direction.Y += 1;
             }
@@ -439,10 +445,17 @@ namespace Sweet_Dreams
                 direction.Normalize();
             }
 
-            // Moves the player using its constant speed
+            // Speed scalar used for movement calculation is faster if in god mode
+            int speedScalar = speed;
+            if (Game1.GodMode)
+            {
+                speedScalar = 4;
+            }
+
+            // Moves the player by scaling its direction vector by its speed stat
             worldPosition = new Rectangle(
-                worldPosition.X + (int)(direction.X * speed),
-                worldPosition.Y + (int)(direction.Y * speed),
+                worldPosition.X + (int)Math.Round(direction.X * speedScalar),
+                worldPosition.Y + (int)Math.Round(direction.Y * speedScalar),
                 worldPosition.Width,
                 worldPosition.Height);
         }

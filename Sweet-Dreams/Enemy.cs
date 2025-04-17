@@ -43,9 +43,6 @@ namespace Sweet_Dreams
         // the amount of damage that the Enemy can deal to the player
         private int damage;
 
-        // the enemy's speed and direction
-        private Vector2 velocity;
-
         // Reference to the game's randomizer
         private Random rng;
 
@@ -224,8 +221,8 @@ namespace Sweet_Dreams
             }
 
             // Updates world position by moving toward the player
-            worldPosition.X += (int)(direction.X * speed);
-            worldPosition.Y += (int)(direction.Y * speed);
+            worldPosition.X += (int)Math.Round(direction.X * speed);
+            worldPosition.Y += (int)Math.Round(direction.Y * speed);
         }
 
         /// <summary>
@@ -300,7 +297,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 1;
-                    speed = 4;
+                    speed = 3;
                     sourceRect = new Rectangle(4, 4, 10, 12);
 
                     break;
@@ -308,7 +305,7 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 3;
-                    speed = 2;
+                    speed = 1;
                     sourceRect = new Rectangle(5, 107, 23, 30);
 
                     break;
@@ -316,14 +313,14 @@ namespace Sweet_Dreams
                     health = 1;
                     damage = 1;
                     candyNum = 2;
-                    speed = 3;
+                    speed = 2;
                     sourceRect = new Rectangle(3, 60, 11, 18);
 
                     break;
                 case EnemyType.Cloak:
                     health = 1;
                     damage = 1;
-                    speed = 3;
+                    speed = 2;
                     candyNum = 2;
                     sourceRect = new Rectangle(1, 40, 13, 15);
 

@@ -64,8 +64,10 @@ namespace Sweet_Dreams
         private Level level1;
         private OrthographicCamera camera;
 
-        // Whether or not the game is currently in god/debug mode
-        public static bool GodMode;
+        /// <summary>
+        /// Whether or not the game is currently in god/debug mode.
+        /// </summary>
+        public static bool GodMode { get; private set; }
 
         public Game1()
         {
@@ -226,7 +228,7 @@ namespace Sweet_Dreams
                     // Updates the player
                     player.Update(gameTime);
 
-                    // Checks for a left click and bullet timer to shoot
+                    // Checks for a left click and bullet timer or god mode to shoot
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         player.ReloadTimer <= 0)
                     {
@@ -315,10 +317,6 @@ namespace Sweet_Dreams
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            
-<<<<<<< HEAD
-
-=======
 
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
@@ -359,7 +357,6 @@ namespace Sweet_Dreams
             _spriteBatch.End();
             }
             
->>>>>>> 6f28cb05182855aa89dfed7a5ae277a25c42ddd1
             // Draws everything that should be stationary on the screen
             
             switch (gameState)
