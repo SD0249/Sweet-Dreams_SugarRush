@@ -113,6 +113,7 @@ namespace Sweet_Dreams
                     {
                         // Player takes damage
                         player.Health -= currentEnemies[i].Damage;
+                        player.Hurt = true;
 
                         // Teleports the enemy back to the walls
                         currentEnemies[i].GoToWorldEdge();
