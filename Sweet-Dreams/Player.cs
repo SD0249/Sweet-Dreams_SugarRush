@@ -25,6 +25,8 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         private PlayerState playerState;
+        private PlayerState prevPS;
+        private bool hurt;
         private int health;
         private double reloadTimer;
         private double stunTimer;
@@ -64,7 +66,15 @@ namespace Sweet_Dreams
         {
             get { return playerState; }
         }
-        
+
+        /// <summary>
+        /// Keeps track of whether the player has been hurt
+        /// </summary>
+        public bool Hurt
+        {
+            set { hurt = value; }
+        }
+
         /// <summary>
         /// The player's remaining health.
         /// </summary>
@@ -109,7 +119,7 @@ namespace Sweet_Dreams
             speed = 3;
             points = 0;
             tint = Color.White;
-            stunTimer = 1;
+            stunTimer = 0.6;
             reloadTimer = 1;
             velocity = new Vector2(0, 0);       // Placeholder velocity
             timer = 0.0;                        // Change these values
@@ -189,23 +199,31 @@ namespace Sweet_Dreams
                                   worldPosition.Width,
                                   walkingAnim[currentFrame].Height * 3);
 
+            if (hurt)
+            {
+                
+                //prevPS = PlayerState.[(int)playerState];
+                playerState = PlayerState.Hit;
+            }
+
+            if (health <= 0)
+            {
+                playerState = PlayerState.Dead;
+            }
+
             // Player FSM (incomplete)
             switch (playerState)
             {
 
                 case PlayerState.WalkLeft:
-                    if (kbState.GetPressedKeyCount() == 0)
-                    {
-                        playerState = PlayerState.FaceLeft;
-                    }
                     /*if (kbState.IsKeyDown(Keys.D))
                     {
                         playerState = PlayerState.WalkRight;
 
                     }*/
-                    if (health <= 0)
+                    if (kbState.GetPressedKeyCount() == 0)
                     {
-                        playerState = PlayerState.Dead;
+                        playerState = PlayerState.FaceLeft;
                     }
                     break;
 
@@ -217,10 +235,6 @@ namespace Sweet_Dreams
                     if (kbState.GetPressedKeyCount() == 0)
                     {
                         playerState = PlayerState.FaceRight;
-                    }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
                     }
                     break;
 
@@ -238,10 +252,6 @@ namespace Sweet_Dreams
                     {
                         playerState = PlayerState.WalkRight;
                     }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
                     break;
 
                 case PlayerState.FaceRight:
@@ -258,17 +268,16 @@ namespace Sweet_Dreams
                     {
                         playerState = PlayerState.WalkRight;
                     }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
                     break;
 
                 case PlayerState.Hit:
-                    if (health <= 0)
+                    if (stunTimer <= 0)
                     {
-                        playerState = PlayerState.Dead;
+                        playerState = PlayerState.WalkRight;
+                        hurt = false;
+                        stunTimer = 1;
                     }
+                    stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     break;
 
                 case PlayerState.Dead:
@@ -329,7 +338,10 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.Hit:
-                    
+                    sb.Draw(asset,
+                           worldPosition,
+                           damageAnim[currentFrame],
+                           tint);
                     break;
 
                 // Change Game1 to wait 1 second before displaying the game over screen
