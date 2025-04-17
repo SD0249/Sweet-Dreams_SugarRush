@@ -30,10 +30,10 @@ namespace Sweet_Dreams
         private double stunTimer;
         private int playerHealth;
         private bool isAlive;
-        private Vector2 velocity;
         private int damage;
         private int points;
         private int speed;
+        private Vector2 direction;
 
         // Animation fields
         private List<Rectangle> idleAnim;
@@ -110,8 +110,8 @@ namespace Sweet_Dreams
             tint = Color.White;
             stunTimer = 1;
             reloadTimer = 1;
-            velocity = new Vector2(0, 0);       // Placeholder velocity
-            timer = 0.0;                        // Change these values
+            direction = Vector2.Zero;
+            timer = 0.0;
             spf = 0.2;
             fps = 5.0;
             walkingWP = worldPosition;
@@ -177,46 +177,26 @@ namespace Sweet_Dreams
         /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void Update(GameTime gameTime)
         {
-            // Updates world position based on keyboard input
-            KeyboardState kbState = Keyboard.GetState();
-
-            // TODO: Remove this test movement and use velocity inside of FSM instead
-            if (kbState.IsKeyDown(Keys.Right))
-            {
-                worldPosition.X += speed;
-            }
-            if (kbState.IsKeyDown(Keys.Left))
-            {
-                worldPosition.X -= speed;
-            }
-            if (kbState.IsKeyDown(Keys.Up))
-            {
-                worldPosition.Y -= speed;
-            }
-            if (kbState.IsKeyDown(Keys.Down))
-            {
-                worldPosition.Y += speed;
-            }
-
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
                                   worldPosition.Y + (currentFrame + 1) % 2,
                                   worldPosition.Width,
                                   walkingAnim[currentFrame].Height * 3);
 
+            // Moves the player based on keyboard input
+            MoveOnKeyPress();
+
             // Player FSM (incomplete)
             switch (playerState)
             {
-
                 case PlayerState.WalkLeft:
-                    if (kbState.IsKeyUp(Keys.Left))
+                    if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.Right))
+                    if (direction.X > 0)
                     {
                         playerState = PlayerState.WalkRight;
-
                     }
                     if (health <= 0)
                     {
@@ -225,13 +205,13 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.WalkRight:
-                    if (kbState.IsKeyDown(Keys.Left))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyUp(Keys.Right))
+                    if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceRight;
+                    }
+                    if (direction.X < 0)
+                    {
+                        playerState = PlayerState.WalkLeft;
                     }
                     if (health <= 0)
                     {
@@ -240,26 +220,12 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.FaceLeft:
-                    if (kbState.IsKeyDown(Keys.Left))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.Right))
-                    {
-                        playerState = PlayerState.WalkRight;
-                    }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
-                    break;
-
                 case PlayerState.FaceRight:
-                    if (kbState.IsKeyDown(Keys.Left))
+                    if (direction.X < 0)
                     {
                         playerState = PlayerState.WalkLeft;
                     }
-                    if (kbState.IsKeyDown(Keys.Right))
+                    if (direction.X > 0)
                     {
                         playerState = PlayerState.WalkRight;
                     }
@@ -433,6 +399,49 @@ namespace Sweet_Dreams
              * slower speed
              * 
              */
+        }
+
+        /// <summary>
+        /// Moves the player based on which arrows are pressed.
+        /// </summary>
+        private void MoveOnKeyPress()
+        {
+            // Gets the current keyboard state
+            KeyboardState kbState = Keyboard.GetState();
+
+            // Zeros the direction vector
+            direction = Vector2.Zero;
+
+            // Adds 1 unit of movement in each appropriate direction based on arrow keys
+            if (kbState.IsKeyDown(Keys.Left))
+            {
+                direction.X -= 1;
+            }
+            if (kbState.IsKeyDown(Keys.Right))
+            {
+                direction.X += 1;
+            }
+            if (kbState.IsKeyDown(Keys.Up))
+            {
+                direction.Y -= 1;
+            }
+            if (kbState.IsKeyDown(Keys.Down))
+            {
+                direction.Y += 1;
+            }
+
+            // Normalizes the direction vector
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
+
+            // Moves the player using its constant speed
+            worldPosition = new Rectangle(
+                worldPosition.X + (int)(direction.X * speed),
+                worldPosition.Y + (int)(direction.Y * speed),
+                worldPosition.Width,
+                worldPosition.Height);
         }
     }
 }
