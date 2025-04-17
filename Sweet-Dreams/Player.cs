@@ -25,6 +25,8 @@ namespace Sweet_Dreams
         // Fields
         // --------------------------------------------------------------
         private PlayerState playerState;
+        private PlayerState prevPS;
+        private bool hurt;
         private int health;
         private double reloadTimer;
         private double stunTimer;
@@ -64,7 +66,15 @@ namespace Sweet_Dreams
         {
             get { return playerState; }
         }
-        
+
+        /// <summary>
+        /// Keeps track of whether the player has been hurt
+        /// </summary>
+        public bool Hurt
+        {
+            set { hurt = value; }
+        }
+
         /// <summary>
         /// The player's remaining health.
         /// </summary>
@@ -109,7 +119,7 @@ namespace Sweet_Dreams
             speed = 2;
             points = 0;
             tint = Color.White;
-            stunTimer = 1;
+            stunTimer = 0.6;
             reloadTimer = 1;
             direction = Vector2.Zero;
             timer = 0.0;
@@ -186,6 +196,17 @@ namespace Sweet_Dreams
                                   worldPosition.Width,
                                   walkingAnim[currentFrame].Height * 3);
 
+            if (hurt)
+            {
+                
+                //prevPS = PlayerState.[(int)playerState];
+                playerState = PlayerState.Hit;
+            }
+
+            if (health <= 0)
+            {
+                playerState = PlayerState.Dead;
+            }
             // Moves the player based on keyboard input
             MoveOnKeyPress();
 
@@ -203,7 +224,7 @@ namespace Sweet_Dreams
                     }
                     if (health <= 0)
                     {
-                        playerState = PlayerState.Dead;
+                        playerState = PlayerState.FaceLeft;
                     }
                     break;
 
@@ -232,20 +253,20 @@ namespace Sweet_Dreams
                     {
                         playerState = PlayerState.WalkRight;
                     }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
                     break;
 
                 case PlayerState.Hit:
-                    if (health <= 0)
+                    if (stunTimer <= 0)
                     {
-                        playerState = PlayerState.Dead;
+                        playerState = PlayerState.WalkRight;
+                        hurt = false;
+                        stunTimer = 1;
                     }
+                    stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     break;
 
                 case PlayerState.Dead:
+                    speed = 0;
                     break;
             }
         }
@@ -256,12 +277,6 @@ namespace Sweet_Dreams
         /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
-            // Draws the player
-            /* sb.Draw(asset,
-                worldPosition,
-                new Rectangle(7, 7, 10, 18),
-                tint); */
-
             // Player FSM (incomplete)
             switch (playerState)
             {
@@ -303,11 +318,18 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.Hit:
-                    
+                    sb.Draw(asset,
+                           worldPosition,
+                           damageAnim[currentFrame],
+                           tint);
                     break;
 
                 // Change Game1 to wait 1 second before displaying the game over screen
                 case PlayerState.Dead:
+                    sb.Draw(asset,
+                            worldPosition,
+                            deathAnim[currentFrame],
+                            tint);
                     break;
             }
         }

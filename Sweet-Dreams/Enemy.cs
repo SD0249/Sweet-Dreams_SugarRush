@@ -139,34 +139,6 @@ namespace Sweet_Dreams
             fps = 0.0;
         }
 
-        /*public Enemy(EnemyType eType, Texture2D asset,
-            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-            :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
-                 screenWidth, screenHeight)
-        {
-            this.worldWidth = worldWidth;
-            this.worldHeight = worldHeight;
-        
-            // Determines type-specific field values for this enemy
-            this.eType = eType;
-            CreateEnemy();
-        
-            // Randomizes enemy's position to somewhere on the border
-            worldPosition.X = 500;
-            worldPosition.Y = 500;
-        
-            // Gives screen position a default value until it is updated in Update()
-            screenPosition = worldPosition;
-        
-            // TODO: Change these values
-            health = 5;
-            speed = 5;
-            timer = 0.0;
-            spf = 0.0;
-            fps = 0.0;
-        
-        } */
-
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
@@ -203,15 +175,9 @@ namespace Sweet_Dreams
         /// <param name="gameTime">Info from MonoGame about the time state.</param>
         public override void Update(GameTime gameTime)
         {
-            // Updates world position by moving toward the player
-
-            // rotation = (float)Math.Atan2(worldPosition.Y - player.WorldPosition.Y,
-            //     worldPosition.X - player.WorldPosition.X);
-            // direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
-
             // Creates a direction vector pointing toward the player
             direction = new Vector2(player.WorldPosition.X - worldPosition.X,
-                player.WorldPosition.Y - worldPosition.Y);
+                                    player.WorldPosition.Y - worldPosition.Y);
 
             // As long as the direction is not the zero vector, it is normalized so 
             // the enemy will have the same displacement every movement frame
