@@ -315,53 +315,8 @@ namespace Sweet_Dreams
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            
-<<<<<<< HEAD
-
-=======
-
-            // If in Game mode, the following is drawn translated with respect to
-            // the player's world position
-            if (gameState == GameState.Game)
-            {
-            // Draws everything whose position needs to be translated
-            _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
-
-                // Draws the level itself
-                level1.DisplayTiles(_spriteBatch, screenWidth, screenHeight);
-
-                // Draws all candy
-                for (int i = 0; i < collectibles.Count; i++)
-                {
-                    // TODO: Uncomment IsOnScreen once it works
-                    if (collectibles[i].IsOnScreen(camera))
-                    {
-                    collectibles[i].Draw(_spriteBatch);
-                    }
-                }
-
-                // Draws all bullets
-                for (int i = 0; i < bullets.Count; i++)
-                {
-                    if (bullets[i].IsOnScreen(camera))
-                    {
-                        bullets[i].Draw(_spriteBatch);
-                    }
-                }                
-
-                // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch, camera);
-
-                // Draws the player
-                player.Draw(_spriteBatch);
-
-            
-            _spriteBatch.End();
-            }
-            
->>>>>>> 6f28cb05182855aa89dfed7a5ae277a25c42ddd1
+        
             // Draws everything that should be stationary on the screen
-            
             switch (gameState)
             {
                 case GameState.Menu:
