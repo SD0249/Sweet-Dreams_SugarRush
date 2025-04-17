@@ -96,6 +96,7 @@ namespace Sweet_Dreams
             get { return tint; }
         }
 
+
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
@@ -177,6 +178,8 @@ namespace Sweet_Dreams
         /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void Update(GameTime gameTime)
         {
+            UpdateAnimation(gameTime);
+
             // Updates the walking world position (so the player's head bobs)
             walkingWP = new Rectangle(worldPosition.X,
                                   worldPosition.Y + (currentFrame + 1) % 2,

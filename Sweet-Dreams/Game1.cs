@@ -160,6 +160,8 @@ namespace Sweet_Dreams
             {
                 case GameState.Menu:
 
+                    player.Health = 5;
+
                     // TO DO: Maybe since we have various buttons that does different stuff,
                     //        it might be useful to make a manager for the UIs.
 
@@ -183,18 +185,22 @@ namespace Sweet_Dreams
                     break;
 
                 case GameState.Game:
-                    
+
                     // Victory when all enemies are gone and the player is at the door
                     if (enemyManager.IsLevelCleared() && 
                         player.WorldPosition.Contains(new Point(470, 30)))
                     {
                         gameState = GameState.Win;
+                        NewGame();
+
                     }
-                    
+
                     // when the player dies???
                     if (player.Health <= 0)
                     {
                         gameState = GameState.Lose;
+                        NewGame();
+
                     }
 
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
@@ -217,8 +223,7 @@ namespace Sweet_Dreams
                         }
                     }
 
-                    // Updates the player & its animation
-                    player.UpdateAnimation(gameTime);
+                    // Updates the player
                     player.Update(gameTime);
 
                     // Checks for a left click and bullet timer to shoot
@@ -255,16 +260,16 @@ namespace Sweet_Dreams
                     {
                         enemyManager.UpdateAll(gameTime);
                     }
-                    
+
                     // If the player is dead the game state changes to lose
                     if (playerState == PlayerState.Dead)
                     {
                         gameState = GameState.Lose;
+                        NewGame();
                     }
 
                     // Update ALL the camera related stuff
-                    camera.Update(
-                                  player.WorldPosition, 
+                    camera.Update(player.WorldPosition, 
                                   level1.WorldWidth, 
                                   level1.WorldHeight);
 
@@ -282,6 +287,8 @@ namespace Sweet_Dreams
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
                         gameState = GameState.Menu;
+                        NewGame();
+
                     }
 
                     break;
@@ -294,6 +301,8 @@ namespace Sweet_Dreams
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {
                         gameState = GameState.Menu;
+                        NewGame();
+
                     }
 
                     break;
@@ -307,6 +316,10 @@ namespace Sweet_Dreams
         {
             GraphicsDevice.Clear(Color.Black);
             
+<<<<<<< HEAD
+
+=======
+
             // If in Game mode, the following is drawn translated with respect to
             // the player's world position
             if (gameState == GameState.Game)
@@ -346,12 +359,13 @@ namespace Sweet_Dreams
             _spriteBatch.End();
             }
             
+>>>>>>> 6f28cb05182855aa89dfed7a5ae277a25c42ddd1
             // Draws everything that should be stationary on the screen
-            _spriteBatch.Begin();
             
             switch (gameState)
             {
                 case GameState.Menu:
+                    _spriteBatch.Begin();
 
                     _spriteBatch.Draw(background,
                                       new Rectangle(0, 0, screenWidth, screenHeight),
@@ -391,26 +405,68 @@ namespace Sweet_Dreams
                         "Toggle 'god mode' (and debug information) with the G key.",
                         new Vector2(30, screenHeight - 80),
                         Color.White);
+
                     }
+
+                    _spriteBatch.End();
                     break;
 
                 case GameState.Game:
 
-                    
+
+
+                    // If in Game mode, the following is drawn translated with respect to
+                    // the player's world position
+
+                    // Draws everything whose position needs to be translated
+                    _spriteBatch.Begin(transformMatrix: camera.CameraMatrix);
+
+                    // Draws the level itself
+                    level1.DisplayTiles(_spriteBatch, screenWidth, screenHeight);
+
+                    // Draws all candy
+                    for (int i = 0; i < collectibles.Count; i++)
+                    {
+                        // TODO: Uncomment IsOnScreen once it works
+                        if (collectibles[i].IsOnScreen(camera))
+                        {
+                            collectibles[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws all bullets
+                    for (int i = 0; i < bullets.Count; i++)
+                    {
+                        if (bullets[i].IsOnScreen(camera))
+                        {
+                            bullets[i].Draw(_spriteBatch);
+                        }
+                    }
+
+                    // Draws all enemies that are on screen
+                    enemyManager.DrawAll(_spriteBatch, camera);
+
+                    // Draws the player
+                    player.Draw(_spriteBatch);
+
+                    _spriteBatch.End();
 
                     break;
 
                 case GameState.Win:
+                    _spriteBatch.Begin();
 
                     _spriteBatch.DrawString(
                         arial12,
                         "#YouWon",
                         new Vector2(300, 200),
                         Color.White);
+                    _spriteBatch.End();
 
                     break;
 
                 case GameState.Lose:
+                    _spriteBatch.Begin();
 
                     _spriteBatch.DrawString(
                         arial12,
@@ -418,21 +474,27 @@ namespace Sweet_Dreams
                         new Vector2(300, 200),
                         Color.White);
 
+                    _spriteBatch.End();
+
                     break;
             }
 
             // Draws the Debug Information if debug mode is on
             if (GodMode)
             {
+                _spriteBatch.Begin();
+
                 _spriteBatch.DrawString(
                     arial12,
                     "God mode enabled. Enemies will not damage you in this state.",
                     new Vector2(10, 10),
                     Color.White);
+
                 DrawDebugInfo(_spriteBatch);
+
+                _spriteBatch.End();
             }
 
-            _spriteBatch.End();
             base.Draw(gameTime);
         }
 
@@ -527,6 +589,75 @@ namespace Sweet_Dreams
         private bool SingleKeyPress(Keys key)
         {
             return currentKbState.IsKeyDown(key) && previousKbState.IsKeyUp(key);
+        }
+
+        private void NewGame()
+        {
+            // Random
+            rng = new Random();
+
+            // Screen dimensions
+            screenHeight = _graphics.GraphicsDevice.Viewport.Height;
+            screenWidth = _graphics.GraphicsDevice.Viewport.Width;
+
+            // Lists to hold all candies and bullets currently in the world
+            bullets = new List<Bullet>();
+            collectibles = new List<Candy>();
+
+            // Debug mode is on for testing
+            GodMode = false;
+
+            // Initialize Camera
+            camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
+
+            mouse = Mouse.GetState();
+
+            base.Initialize();
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Loads assets
+            playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
+            purpleDungeon = Content.Load<Texture2D>("Full");
+            arial12 = Content.Load<SpriteFont>("arial12");
+
+            candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
+            enemySprites = Content.Load<Texture2D>("DemonSprites");
+
+            background = Content.Load<Texture2D>("StartScreenbg");
+            startButton = Content.Load<Texture2D>("StartButton");
+            instructionButton = Content.Load<Texture2D>("InstructionsButton");
+            quitButton = Content.Load<Texture2D>("QuitButton");
+            title = Content.Load<Texture2D>("GameTitle");
+
+            // Initialize Buttons here after loading the assets
+            start = new Button(startButton,
+                               new Rectangle(205, 115, 300, 150),
+                               new Rectangle(263, 179, 411, 210));
+
+            instruction = new Button(instructionButton,
+                                     new Rectangle(5, 5, 56, 50),
+                                     new Rectangle(29, 10, 97, 91));
+
+            quit = new Button(quitButton,
+                              new Rectangle(screenWidth - 152, screenHeight - 120, 150, 120),
+                              new Rectangle(881, 544, 194, 169));
+
+            // Load the Level
+            level1 = new Level(purpleDungeon, "../../../Content/purpleDungeonTextureMapping.txt", _spriteBatch);
+            level1.LoadLevel("../../../Content/Level1.txt");
+
+            // Creates the player at its starting world and screen positions
+            player = new Player(playerAnimation,
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
+                screenWidth,
+                screenHeight);
+
+            // Loads in level 1 enemy data
+            enemyManager = new EnemyManager(rng, "../../../Content/Enemy Data.txt", collectibles, bullets,
+                player, enemySprites, candySprites, screenWidth, screenHeight,
+                level1.WorldWidth, level1.WorldHeight);
+
         }
     }
 }
