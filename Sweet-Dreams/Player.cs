@@ -47,6 +47,7 @@ namespace Sweet_Dreams
         private double fps;
         private double spf;
         private Color tint;
+        private double effectTimer;
 
         // --------------------------------------------------------------
         // Properties
@@ -126,6 +127,7 @@ namespace Sweet_Dreams
             spf = 0.2;
             fps = 5.0;
             walkingWP = worldPosition;
+            effectTimer = 1.0;
 
             // Making animation lists
             idleAnim = new List<Rectangle>(2);
@@ -214,6 +216,22 @@ namespace Sweet_Dreams
             switch (playerState)
             {
                 case PlayerState.WalkLeft:
+                    // Color Update
+                    if(tint != Color.White)
+                    {
+                        // Ensure the effect from the candy is consistent in walking/idle states.
+                        if(effectTimer > 0)
+                        {
+                            effectTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        // Change back after this amount of time.
+                        else
+                        {
+                            tint = Color.White;
+                            effectTimer = 1.0;
+                        }
+                    }
+
                     if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceLeft;
@@ -229,6 +247,22 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.WalkRight:
+                    // Color Update
+                    if (tint != Color.White)
+                    {
+                        // Ensure the effect from the candy is consistent in walking/idle states.
+                        if (effectTimer > 0)
+                        {
+                            effectTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        // Change back after this amount of time.
+                        else
+                        {
+                            tint = Color.White;
+                            effectTimer = 1.0;
+                        }
+                    }
+
                     if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceRight;
@@ -245,6 +279,22 @@ namespace Sweet_Dreams
 
                 case PlayerState.FaceLeft:
                 case PlayerState.FaceRight:
+                    // Color Update
+                    if (tint != Color.White)
+                    {
+                        // Ensure the effect from the candy is consistent in walking/idle states.
+                        if (effectTimer > 0)
+                        {
+                            effectTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        // Change back after this amount of time.
+                        else
+                        {
+                            tint = Color.White;
+                            effectTimer = 1.0;
+                        }
+                    }
+
                     if (direction.X < 0)
                     {
                         playerState = PlayerState.WalkLeft;
@@ -256,7 +306,6 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.Hit:
-
                     // Update the color tint
                     tint = Color.Red;
 
@@ -272,6 +321,7 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.Dead:
+                    tint = Color.White;
                     speed = 0;
                     break;
             }
@@ -286,8 +336,9 @@ namespace Sweet_Dreams
             // Player FSM (incomplete)
             switch (playerState)
             {
-
                 case PlayerState.WalkLeft:
+
+
                     sb.Draw(asset,
                             walkingWP,
                             walkingAnim[currentFrame],
@@ -392,15 +443,20 @@ namespace Sweet_Dreams
             switch (candyType)
             {
                 case CandyType.SkullCandy:
+                    // TO DO: I do think it would be nice to implement the color tint here too with the power-ups.
+                    //        However, since the frame change is quite quick, the tint change doesn't show :(
+
                     // Deal damage to the player
                     if (!Game1.GodMode)
                     {
                         health--;
+                        tint = Color.DarkRed;
                     }
                     break;
 
                 case CandyType.Peppermint:
                     // Increase bullet velocity
+                    tint = Color.Blue;
                     break;
 
                 case CandyType.CandyCorn:
@@ -409,19 +465,23 @@ namespace Sweet_Dreams
                     break;
 
                 case CandyType.GreenCandy:
+                    // TO DO: Maybe add sound effect for these guys too?
                     // Add 5 points to player points
                     points += 5;
+                    tint = Color.Yellow;
                     break;
 
                 case CandyType.YellowCandy:
                     // Add 10 points to player points
                     points += 10;
+                    tint = Color.Yellow;
                     break;
                 case CandyType.Chocolate:
                     // Heal player health
                     if (health < 6)
                     {
                         health++;
+                        tint = Color.Green;
                     }
                     break;
             }
