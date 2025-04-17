@@ -256,11 +256,17 @@ namespace Sweet_Dreams
                     break;
 
                 case PlayerState.Hit:
+
+                    // Update the color tint
+                    tint = Color.Red;
+
                     if (stunTimer <= 0)
                     {
+                        // Reset the player state as well as the player tint
                         playerState = PlayerState.WalkRight;
                         hurt = false;
                         stunTimer = 1;
+                        tint = Color.White;
                     }
                     stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     break;
