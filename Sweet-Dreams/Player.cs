@@ -100,13 +100,21 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// The color the player should be tinted
+        /// The color the player should be tinted.
         /// </summary>
         public Color Tint
         {
             get { return tint; }
         }
 
+        /// <summary>
+        /// The number of points the player has earned.
+        /// </summary>
+        public int Points
+        {
+            get { return points; }
+            set { points = value; }
+        }
 
         // --------------------------------------------------------------
         // Constructor
