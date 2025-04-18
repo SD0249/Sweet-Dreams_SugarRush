@@ -143,7 +143,7 @@ namespace Sweet_Dreams
 
             // Creates the player at its starting position
             player = new Player(playerAnimation, 
-                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 51),
                 screenWidth, 
                 screenHeight);
 
@@ -204,7 +204,7 @@ namespace Sweet_Dreams
                         if (deathTimer <= 0)
                         {
                             gameState = GameState.Lose;
-                            deathTimer = 1;
+                            deathTimer = 0.6;
                         }
                         deathTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     }
@@ -547,7 +547,7 @@ namespace Sweet_Dreams
 
             // Creates the player at its starting world and screen positions
             player = new Player(playerAnimation,
-                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 54),
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 51),
                 screenWidth,
                 screenHeight);
 
