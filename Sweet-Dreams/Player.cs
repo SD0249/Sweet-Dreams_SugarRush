@@ -42,9 +42,10 @@ namespace Sweet_Dreams
         private List<Rectangle> walkingAnim;
         private List<Rectangle> damageAnim;
         private List<Rectangle> deathAnim;
-        private Rectangle walkingWP;
+        private int currentAnim;
+        private int prevAnim;
+        private Rectangle animationWP;
         private double timer;
-        private double fps;
         private double spf;
         private Color tint;
         private double effectTimer;
@@ -70,6 +71,7 @@ namespace Sweet_Dreams
 
         /// <summary>
         /// Keeps track of whether the player has been hurt
+        /// (so there doesn't have to be a 'set' for PlayerState)
         /// </summary>
         public bool Hurt
         {
@@ -84,6 +86,10 @@ namespace Sweet_Dreams
             get { return health; }
             set { health = value; }
         }
+
+        /// <summary>
+        /// The time between the player's shots
+        /// </summary>
         public double ReloadTimer
         {
             get { return reloadTimer; }
@@ -133,8 +139,6 @@ namespace Sweet_Dreams
             direction = Vector2.Zero;
             timer = 0.0;
             spf = 0.2;
-            fps = 5.0;
-            walkingWP = worldPosition;
             effectTimer = 1.0;
 
             // Making animation lists
@@ -161,15 +165,20 @@ namespace Sweet_Dreams
             deathAnim.Add(new Rectangle(128, 104, 10, 16));
             deathAnim.Add(new Rectangle(152, 108, 13, 12));
             deathAnim.Add(new Rectangle(176, 112, 15, 8));
+
+            animationWP = new Rectangle(worldPosition.X,
+                                  worldPosition.Y + (currentFrame + 1) % 2,
+                                  worldPosition.Width,
+                                  walkingAnim[currentFrame].Height * 3);
+            currentAnim = 0;
+            prevAnim = currentAnim;
         }
 
         // --------------------------------------------------------------
         // Methods
         // --------------------------------------------------------------
         /// <summary>
-        /// 
-        // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
-        ///
+        /// Updates the 'current frame' for the player's animation
         /// </summary>
         /// <param name="gameTime">Info from Monogame about the time state.</param>
         public override void UpdateAnimation(GameTime gameTime)
@@ -190,6 +199,57 @@ namespace Sweet_Dreams
                 // Reset the time counter, keeping remaining elapsed time
                 timer -= spf;
             }
+
+            if (currentAnim == 4)
+            {
+                if (currentFrame == 1)
+                {
+                    if (prevPS == PlayerState.FaceRight ||
+                        prevPS == PlayerState.WalkRight)
+                    {
+                        animationWP.X = worldPosition.X + 3;
+                    }
+                    else
+                    {
+                        animationWP.X = worldPosition.X - 3;
+                    }
+
+                    animationWP.Y = worldPosition.Y + 2;
+                    animationWP.Height = 48;
+                }
+                if (currentFrame == 2)
+                {
+                    if (prevPS == PlayerState.FaceRight ||
+                        prevPS == PlayerState.WalkRight)
+                    {
+                        animationWP.X = worldPosition.X + 3;
+                    }
+                    else
+                    {
+                        animationWP.X = worldPosition.X - 12;
+                    }
+
+                    animationWP.Y = worldPosition.Y + 10;
+                    animationWP.Width = 39;
+                    animationWP.Height = 36;
+                }
+                if (currentFrame == 3)
+                {
+                    if (prevPS == PlayerState.FaceRight ||
+                        prevPS == PlayerState.WalkRight)
+                    {
+                        animationWP.X = worldPosition.X + 5;
+                    }
+                    else
+                    {
+                        animationWP.X = worldPosition.X - 15;
+                    }
+
+                    animationWP.Y = worldPosition.Y + 18;
+                    animationWP.Width = 45;
+                    animationWP.Height = 32;
+                }
+            }
         }
 
         /// <summary>
@@ -199,28 +259,33 @@ namespace Sweet_Dreams
         public override void Update(GameTime gameTime)
         {
             UpdateAnimation(gameTime);
+            prevAnim = currentAnim;
 
-            // Updates the walking world position (so the player's head bobs)
-            walkingWP = new Rectangle(worldPosition.X,
-                                  worldPosition.Y + (currentFrame + 1) % 2,
-                                  worldPosition.Width,
-                                  walkingAnim[currentFrame].Height * 3);
-
+            // If the player is hurt
             if (hurt)
             {
-                
-                //prevPS = PlayerState.[(int)playerState];
+                hurt = false;
+                // Save the previous player state
+                if (playerState != PlayerState.Hit)
+                {
+                    prevPS = playerState;
+                }
+
+                // Then change the player state to hit
+                playerState = new PlayerState();
                 playerState = PlayerState.Hit;
             }
 
+            // If the player dies, they're dead ;)
             if (health <= 0)
             {
                 playerState = PlayerState.Dead;
             }
+
             // Moves the player based on keyboard input
             MoveOnKeyPress();
 
-            // Player FSM (incomplete)
+            // Player FSM
             switch (playerState)
             {
                 case PlayerState.WalkLeft:
@@ -240,6 +305,12 @@ namespace Sweet_Dreams
                         }
                     }
 
+                    // Updates the walking world position (so the player's head bobs)
+                    animationWP.X = worldPosition.X;
+                    animationWP.Y = worldPosition.Y + 2*((currentFrame + 1) % 2);
+                    currentAnim = 1;
+
+                    // Updates player state
                     if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceLeft;
@@ -252,6 +323,7 @@ namespace Sweet_Dreams
                     {
                         playerState = PlayerState.FaceLeft;
                     }
+
                     break;
 
                 case PlayerState.WalkRight:
@@ -271,6 +343,12 @@ namespace Sweet_Dreams
                         }
                     }
 
+                    // Updates the walking world position
+                    animationWP.X = worldPosition.X;
+                    animationWP.Y = worldPosition.Y + 2*((currentFrame + 1) % 2);
+                    currentAnim = 2;
+
+                    // Updates player state
                     if (direction == Vector2.Zero)
                     {
                         playerState = PlayerState.FaceRight;
@@ -303,11 +381,33 @@ namespace Sweet_Dreams
                         }
                     }
 
-                    if (direction.X < 0)
+                    // Updates the animation world position
+                    animationWP.X = worldPosition.X;
+                    if (currentFrame == 0 || currentFrame == 1)
+                    {
+                        animationWP.Y = worldPosition.Y;
+                    }
+                    else
+                    {
+                        animationWP.Y = worldPosition.Y + 2;
+                    }
+                    if (playerState == PlayerState.FaceRight)
+                    {
+                        currentAnim = 0;
+                    }
+                    else
+                    {
+                        currentAnim = 5;
+                    }
+
+                    // Updates player state
+                    if (direction.X < 0 || (direction.Y != 0 &&
+                        playerState == PlayerState.FaceLeft))
                     {
                         playerState = PlayerState.WalkLeft;
                     }
-                    if (direction.X > 0)
+                    if (direction.X > 0 || (direction.Y != 0 &&
+                        playerState == PlayerState.FaceRight))
                     {
                         playerState = PlayerState.WalkRight;
                     }
@@ -317,12 +417,17 @@ namespace Sweet_Dreams
                     // Update the color tint
                     tint = Color.Red;
 
+                    // Updates the walking world position
+                    animationWP.X = worldPosition.X;
+                    animationWP.Y = worldPosition.Y + 2 * ((currentFrame + 1) % 2);
+                    currentAnim = 3;
+
                     if (stunTimer <= 0)
                     {
                         // Reset the player state as well as the player tint
-                        playerState = PlayerState.WalkRight;
-                        hurt = false;
-                        stunTimer = 1;
+                        playerState = prevPS;
+                        prevPS = new PlayerState();
+                        stunTimer = 0.8;
                         tint = Color.White;
                     }
                     stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -330,8 +435,14 @@ namespace Sweet_Dreams
 
                 case PlayerState.Dead:
                     tint = Color.White;
+                    currentAnim = 4;
                     speed = 0;
                     break;
+            }
+
+            if (currentAnim != prevAnim)
+            {
+                currentFrame = 0;
             }
         }
 
@@ -341,14 +452,14 @@ namespace Sweet_Dreams
         /// <param name="sb"> SpriteBatch to draw with </param>
         public override void Draw(SpriteBatch sb)
         {
-            // Player FSM (incomplete)
+            // Player FSM
             switch (playerState)
             {
                 case PlayerState.WalkLeft:
 
 
                     sb.Draw(asset,
-                            walkingWP,
+                            animationWP,
                             walkingAnim[currentFrame],
                             tint,
                             0,
@@ -359,14 +470,14 @@ namespace Sweet_Dreams
 
                 case PlayerState.WalkRight:
                     sb.Draw(asset,
-                            walkingWP,
+                            animationWP,
                             walkingAnim[currentFrame],
                             tint);
                     break;
 
                 case PlayerState.FaceLeft:
                     sb.Draw(asset,
-                            worldPosition, // WP for idle is not correct
+                            animationWP, 
                             idleAnim[currentFrame],
                             tint,
                             0,
@@ -377,24 +488,56 @@ namespace Sweet_Dreams
 
                 case PlayerState.FaceRight:
                     sb.Draw(asset,
-                           worldPosition,
+                           animationWP,
                            idleAnim[currentFrame],
                            tint);
                     break;
 
                 case PlayerState.Hit:
-                    sb.Draw(asset,
+                    // Checks if the player's anim needs to be flipped
+                    if (prevPS == PlayerState.FaceRight ||
+                        prevPS == PlayerState.WalkRight)
+                    {
+                        sb.Draw(asset,
                            worldPosition,
                            damageAnim[currentFrame],
                            tint);
+                    }
+                    else
+                    {
+                        sb.Draw(asset,
+                            worldPosition,
+                            damageAnim[currentFrame],
+                            tint,
+                            0,
+                            new Vector2(0, 0),
+                            SpriteEffects.FlipHorizontally,
+                            0);
+                    }
                     break;
 
                 // Change Game1 to wait 1 second before displaying the game over screen
                 case PlayerState.Dead:
-                    sb.Draw(asset,
-                            worldPosition,
+                    // Checks if the player's anim needs to be flipped
+                    if (prevPS == PlayerState.FaceRight ||
+                        prevPS == PlayerState.WalkRight)
+                    {
+                        sb.Draw(asset,
+                           animationWP,
+                           deathAnim[currentFrame],
+                           tint);
+                    }
+                    else
+                    {
+                        sb.Draw(asset,
+                            animationWP,
                             deathAnim[currentFrame],
-                            tint);
+                            tint,
+                            0,
+                            new Vector2(0, 0),
+                            SpriteEffects.FlipHorizontally,
+                            0);
+                    }
                     break;
             }
         }
