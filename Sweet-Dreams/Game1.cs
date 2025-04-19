@@ -37,12 +37,13 @@ namespace Sweet_Dreams
         private KeyboardState previousKbState;
         private MouseState mouse;
 
-        // Main Screen Textures
+        // Interface Textures
         private Texture2D background;
         private Texture2D title;
         private Texture2D startButton;
         private Texture2D instructionButton;
         private Texture2D quitButton;
+        private Texture2D gameOverScreen;
 
         // Game textures
         private Texture2D playerAnimation;
@@ -123,6 +124,7 @@ namespace Sweet_Dreams
             instructionButton = Content.Load<Texture2D>("InstructionsButton");
             quitButton = Content.Load<Texture2D>("QuitButton");
             title = Content.Load<Texture2D>("GameTitle");
+            gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
 
             // Initialize Buttons here after loading the assets
             start = new Button(startButton,
@@ -427,11 +429,16 @@ namespace Sweet_Dreams
 
                 case GameState.Lose:
 
+                    _spriteBatch.Draw(
+                        gameOverScreen,
+                        new Rectangle(0, 0, screenWidth, screenHeight),
+                        Color.White);
+
                     _spriteBatch.DrawString(
                         arial12,
-                        "#YouGetNoSweetDreams",
-                        new Vector2(300, 200),
-                        Color.White);
+                        "Press ENTER to return to the menu screen.",
+                        new Vector2(250, screenHeight - 50),
+                        Color.LightGray);
 
                     break;
             }
@@ -507,11 +514,10 @@ namespace Sweet_Dreams
                 new Vector2(10, screenHeight - 150),
                 Color.White);
 
-            //Draws worldToScreen vector components
+            // Screen dimensions
             sb.DrawString(
                 arial12,
-                //$"World-to-Screen Offset: {worldToScreen.X}, {worldToScreen.Y}",
-                "We didn't need worldToScreen lol",
+                $"Screen Size: {screenWidth} x {screenHeight}",
                 new Vector2(10, screenHeight - 176),
                 Color.White);
 
