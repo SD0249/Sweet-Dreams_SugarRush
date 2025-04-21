@@ -54,8 +54,7 @@
               "RelativeToolTip": "Candy.cs",
               "ViewState": "AgIAAIEAAAAAAAAAAAAuwBAAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T01:33:54.022Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T01:33:54.022Z"
             },
             {
               "$type": "Document",
@@ -135,9 +134,9 @@
               "Title": "Game1.cs",
               "DocumentMoniker": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
               "RelativeDocumentMoniker": "Game1.cs",
-              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs*",
-              "RelativeToolTip": "Game1.cs*",
-              "ViewState": "AgIAAKIBAAAAAAAAAAAtwLcBAAAnAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\ayvin\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
+              "RelativeToolTip": "Game1.cs",
+              "ViewState": "AgIAAJMBAAAAAAAAAAAtwJgBAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-12T01:33:54.043Z",
               "EditorCaption": ""

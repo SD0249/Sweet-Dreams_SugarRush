@@ -44,6 +44,7 @@ namespace Sweet_Dreams
         private Texture2D instructionButton;
         private Texture2D quitButton;
         private Texture2D gameOverScreen;
+        private Texture2D lifeHeart;
 
         // Game textures
         private Texture2D playerAnimation;
@@ -125,6 +126,7 @@ namespace Sweet_Dreams
             quitButton = Content.Load<Texture2D>("QuitButton");
             title = Content.Load<Texture2D>("GameTitle");
             gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
+            lifeHeart = Content.Load<Texture2D>("heart");
 
             // Initialize Buttons here after loading the assets
             start = new Button(startButton,
@@ -389,7 +391,7 @@ namespace Sweet_Dreams
                             _spriteBatch,
                             new Rectangle(20, screenHeight - 85, 535, 65),
                             Color.Black);
-                        
+
                         _spriteBatch.DrawString(
                         arial12,
                         "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
@@ -402,6 +404,18 @@ namespace Sweet_Dreams
                     break;
 
                 case GameState.Game:
+
+                    // Draws a heart for each of the player's remaining lives
+                    Rectangle heartRect = new Rectangle(screenWidth - 80, screenHeight - 80, 80, 80);
+                    for (int i = 0; i < player.Health; i++)
+                    {
+                        _spriteBatch.Draw(
+                            lifeHeart,
+                            heartRect,
+                            Color.White);
+
+                        heartRect.X -= 60;
+                    }
 
                     // Draws the Debug Information if debug mode is on
                     if (GodMode)
