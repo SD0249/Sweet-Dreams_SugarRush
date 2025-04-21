@@ -55,8 +55,9 @@ namespace Sweet_Dreams
 
         // values needed for the enemy's animation
         private double timer;
-        private double fps;
         private double spf;
+        private List<Rectangle> enemyAnim;
+        private Rectangle animationWP;
 
         // Unit direction vector
         private Vector2 direction;
@@ -128,15 +129,14 @@ namespace Sweet_Dreams
 
             // Determines type-specific field values for this enemy
             this.eType = eType;
-            CreateEnemy();
+            CreateEnemy(asset);
 
             // Positions the enemy on the world's border
             GoToWorldEdge();
 
             // TODO: Change these values
             timer = 0.0;
-            spf = 0.0;
-            fps = 0.0;
+            spf = 0.2;
         }
 
         // --------------------------------------------------------------
@@ -166,6 +166,19 @@ namespace Sweet_Dreams
                 // Reset the time counter, keeping remaining elapsed time
                 timer -= spf;
             }
+
+            // Updates the enemy's rectangles so they move properly
+            animationWP.X = worldPosition.X;
+            animationWP.Y = worldPosition.Y;
+            animationWP.Height = enemyAnim[currentFrame].Height * 3;
+
+             if (eType == EnemyType.Imp)
+            {
+                if (currentFrame == 2)
+                {
+                    animationWP.Y = worldPosition.Y - 2;
+                }
+            } 
         }
 
         /// <summary>
@@ -189,6 +202,10 @@ namespace Sweet_Dreams
             // Updates world position by moving toward the player
             worldPosition.X += (int)Math.Round(direction.X * speed);
             worldPosition.Y += (int)Math.Round(direction.Y * speed);
+
+            // Updates the enemy's animation
+            UpdateAnimation(gameTime);
+            
         }
 
         /// <summary>
@@ -198,11 +215,48 @@ namespace Sweet_Dreams
         public override void Draw(SpriteBatch sb)
         {
             // Draws the enemy
-            sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-                Color.White);
+            if (eType == EnemyType.Imp)
+            {
+                if (direction.X > 0)
+                {
+                    sb.Draw(asset,
+                            animationWP,
+                            enemyAnim[currentFrame],
+                            Color.White);
+                }
+                else
+                {
+                    sb.Draw(asset,
+                            animationWP,
+                            enemyAnim[currentFrame],
+                            Color.White,
+                            0,
+                            new Vector2(0, 0),
+                            SpriteEffects.FlipHorizontally,
+                            0);
+                }
+            }
+            else
+            {
+                if (direction.X > 0)
+                {
+                    sb.Draw(asset,
+                            worldPosition,
+                            enemyAnim[currentFrame],
+                            Color.White);
+                }
+                else
+                {
+                    sb.Draw(asset,
+                            worldPosition,
+                            enemyAnim[currentFrame],
+                            Color.White,
+                            0,
+                            new Vector2(0, 0),
+                            SpriteEffects.FlipHorizontally,
+                            0);
+                }
+            }
         }
 
         /// <summary>
@@ -254,7 +308,7 @@ namespace Sweet_Dreams
         /// A helper method used when loading the enemies in order to
         /// set their damage, source rectangle, and how many candies they drop.
         /// </summary>
-        private void CreateEnemy()
+        private void CreateEnemy(Texture2D asset)
         {
             //Initializes the Enemy fields based on the Enemy type
             switch (eType)
@@ -264,37 +318,49 @@ namespace Sweet_Dreams
                     damage = 1;
                     candyNum = 1;
                     speed = 3;
-                    sourceRect = new Rectangle(4, 4, 10, 12);
-
+                    animationWP = new Rectangle(0, 0, 30, 36);
+                    enemyAnim = new List<Rectangle>(4);
+                    enemyAnim.Add(new Rectangle(4, 20, 10, 12));
+                    enemyAnim.Add(new Rectangle(20, 20, 10, 12));
+                    enemyAnim.Add(new Rectangle(36, 19, 10, 12));
                     break;
                 case EnemyType.MouthDemon:
                     health = 1;
                     damage = 1;
                     candyNum = 3;
                     speed = 1;
-                    sourceRect = new Rectangle(5, 107, 23, 30);
-
+                    enemyAnim = new List<Rectangle>(4);
+                    enemyAnim.Add(new Rectangle(5, 107, 22, 30));
+                    enemyAnim.Add(new Rectangle(5, 107, 22, 30));
+                    enemyAnim.Add(new Rectangle(36, 106, 23, 31));
+                    enemyAnim.Add(new Rectangle(36, 106, 23, 31));
                     break;
                 case EnemyType.HornDemon:
                     health = 1;
                     damage = 1;
                     candyNum = 2;
                     speed = 2;
-                    sourceRect = new Rectangle(3, 60, 11, 18);
-
+                    enemyAnim = new List<Rectangle>(4);
+                    enemyAnim.Add(new Rectangle(3, 60, 11, 18));
+                    enemyAnim.Add(new Rectangle(3, 60, 11, 18));
+                    enemyAnim.Add(new Rectangle(35, 63, 11, 15));
+                    enemyAnim.Add(new Rectangle(35, 63, 11, 15));
                     break;
                 case EnemyType.Cloak:
                     health = 1;
                     damage = 1;
                     speed = 2;
                     candyNum = 2;
-                    sourceRect = new Rectangle(1, 40, 13, 15);
-
+                    enemyAnim = new List<Rectangle>(4);
+                    enemyAnim.Add(new Rectangle(1, 40, 13, 15));
+                    enemyAnim.Add(new Rectangle(18, 38, 12, 17));
+                    enemyAnim.Add(new Rectangle(33, 39, 13, 16));
+                    enemyAnim.Add(new Rectangle(48, 41, 14, 14));
                     break;
             }
 
             // Changes the enemy worldPosition based on the enemy's sourceRect
-            worldPosition = new Rectangle(0, 0, sourceRect.Width * 3, sourceRect.Height * 3);
+            worldPosition = new Rectangle(0, 0, enemyAnim[0].Width * 3, enemyAnim[0].Height * 3);
         }
 
         /// <summary>

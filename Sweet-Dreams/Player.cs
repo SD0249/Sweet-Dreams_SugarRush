@@ -142,7 +142,7 @@ namespace Sweet_Dreams
             effectTimer = 1.0;
 
             // Making animation lists
-            idleAnim = new List<Rectangle>(2);
+            idleAnim = new List<Rectangle>(4);
             idleAnim.Add(new Rectangle(7, 7, 10, 17));
             idleAnim.Add(new Rectangle(7, 7, 10, 17));
             idleAnim.Add(new Rectangle(31, 8, 10, 16));
@@ -154,7 +154,7 @@ namespace Sweet_Dreams
             walkingAnim.Add(new Rectangle(55, 32, 10, 16));
             walkingAnim.Add(new Rectangle(79, 31, 10, 17));
 
-            damageAnim = new List<Rectangle>(2);
+            damageAnim = new List<Rectangle>(4);
             damageAnim.Add(new Rectangle(150, 7, 11, 17));
             damageAnim.Add(new Rectangle(150, 7, 11, 17));
             damageAnim.Add(new Rectangle(175, 7, 10, 17));
