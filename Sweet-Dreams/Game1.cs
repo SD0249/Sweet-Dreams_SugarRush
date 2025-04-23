@@ -71,6 +71,9 @@ namespace Sweet_Dreams
         private int screenHeight;
         private SpriteFont arial12;
         private double deathTimer;
+        float rotation;
+        float startingX;
+        float startingY;
 
         /// <summary>
         /// Whether or not the game is currently in god/debug mode.
@@ -104,6 +107,9 @@ namespace Sweet_Dreams
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
 
             deathTimer = 0.98;
+            rotation = 0;
+            startingX = 385;
+            startingY = 213;
             mouse = Mouse.GetState();
 
             base.Initialize();
@@ -242,10 +248,42 @@ namespace Sweet_Dreams
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         player.ReloadTimer <= 0)
                     {
+                        // If the player is left of the center...
+                        if (player.WorldPosition.X < 385)
+                        {
+                            // Match the bullets startingX to the player's X
+                            startingX = player.WorldPosition.X;
+                        }
+                        // If the player is right of the center...
+                        if (player.WorldPosition.X > level1.WorldWidth - 385)
+                        {
+                            // Match the bullets startingX to the center
+                            // plus how far right of the center the player is 
+                            startingX = Math.Abs(385 + (player.WorldPosition.X - level1.WorldWidth + 385));
+                        }
+
+                        // If the player is above the center...
+                        if (player.WorldPosition.Y < 213)
+                        {
+                            // Match the bullets startingY to the player's Y
+                            startingY = player.WorldPosition.Y;
+                        }
+                        // If the player is below the center...
+                        if (player.WorldPosition.Y > level1.WorldWidth - 213)
+                        {
+                            // Match the bullets startingY to the center
+                            // plus how far below the center the player is 
+                            startingY = Math.Abs(213 + (player.WorldPosition.Y - level1.WorldWidth + 213));
+                        }
+
+                        // Finding the rotation of the bullet based off the mouse
+                        rotation = (float)Math.Atan2(startingY - mouse.Y,
+                                                     startingX - mouse.X);
+
                         // Makes a new bullet every time you shoot
                         bullets.Add(new Bullet(candySprites, 
                             new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16), 
-                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight));
+                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight, rotation));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -408,7 +446,7 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     // Draws a heart for each of the player's remaining lives
-                    Rectangle heartRect = new Rectangle(screenWidth - 80, screenHeight - 80, 80, 80);
+                    Rectangle heartRect = new Rectangle(-10, -10, 80, 80);
                     for (int i = 0; i < player.Health; i++)
                     {
                         _spriteBatch.Draw(
@@ -416,7 +454,7 @@ namespace Sweet_Dreams
                             heartRect,
                             Color.White);
 
-                        heartRect.X -= 60;
+                        heartRect.X += 50;
                     }
 
                     // Draws the Debug Information if debug mode is on
