@@ -603,14 +603,9 @@ namespace Sweet_Dreams
 					break;
 
 				case CandyType.Peppermint:
-<<<<<<< HEAD
 					// Increase bullet reload time to half
 					reloadTimer *= 0.5;
-					tint = Color.Blue;
-=======
-					// Increase bullet velocity
 					tint = Color.Cyan;
->>>>>>> 989ed48e7c81af22d045e00a4eb7a4dac5a832ca
 					break;
 
 				case CandyType.CandyCorn:
