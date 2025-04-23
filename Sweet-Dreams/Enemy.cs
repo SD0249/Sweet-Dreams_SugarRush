@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 // Sweet Dreams - Sugar Rush
@@ -19,413 +18,384 @@ using System.Threading.Tasks;
 // -------------------------------
 namespace Sweet_Dreams
 {
-    public enum EnemyType
-    {
-        Imp,
-        MouthDemon,
-        HornDemon,
-        Cloak
-    }
+	public enum EnemyType
+	{
+		Imp,
+		MouthDemon,
+		HornDemon,
+		Cloak
+	}
 
-    public enum EnemyState
-    {
-        Idle,
-        Walk,
-        Dead
-    }
+	public class Enemy : GameObject
+	{
+		// --------------------------------------------------------------
+		// Fields
+		// --------------------------------------------------------------
+		// the type of Enemy
+		private EnemyType eType;
 
-    public class Enemy : GameObject
-    {
-        // --------------------------------------------------------------
-        // Fields
-        // --------------------------------------------------------------
-        // the type of Enemy
-        private EnemyType eType;
+		// the hit points of the Enemy
+		private int health;
 
-        // the hit points of the Enemy
-        private int health;
+		// how many candies the enemy will drop when it dies
+		private int candyNum;
 
-        // how many candies the enemy will drop when it dies
-        private int candyNum;
+		// the amount of damage that the Enemy can deal to the player
+		private int damage;
 
-        // the amount of damage that the Enemy can deal to the player
-        private int damage;
+		// Reference to the game's randomizer
+		private Random rng;
 
-        // the enemy's speed and direction
-        private Vector2 velocity;
+		// Bounds of the world map
+		private int worldWidth;
+		private int worldHeight;
 
-        // Reference to the game's randomizer
-        private Random rng;
+		// Source Rectangle for animations
+		Rectangle sourceRect;
 
-        // Bounds of the world map
-        private int worldWidth;
-        private int worldHeight;
+		// values needed for the enemy's animation
+		private double timer;
+		private double spf;
+		private List<Rectangle> enemyAnim;
+		private Rectangle animationWP;
 
-        // Source Rectangle for animations
-        Rectangle sourceRect;
+		// Unit direction vector
+		private Vector2 direction;
 
-        // values needed for the enemy's animation
-        private double timer;
-        private double fps;
-        private double spf;
+		// Speed scalar 
+		private int speed;
 
-        // values needed for the Enemy AI
-        private bool isWalking;
-        private EnemyState currentState;
+		// Reference to the player
+		Player player;
 
-        // Unit direction vector
-        private Vector2 direction;
+		// --------------------------------------------------------------
+		// Properties
+		// --------------------------------------------------------------
 
-        // Speed scalar 
-        private int speed;
+		/// <summary>
+		/// This object's position in the world.
+		/// </summary>
+		public override Rectangle WorldPosition
+		{
+			get { return worldPosition; }
+		}
 
-        // Reference to the player
-        Player player;
+		/// <summary>
+		/// The amount of damage this enemy does to the player.
+		/// </summary>
+		public int Damage
+		{
+			get { return damage; }
+		}
 
-        // --------------------------------------------------------------
-        // Properties
-        // --------------------------------------------------------------
-        /// <summary>
-        /// Whether or not any part of the object is visible on the screen.
-        /// </summary>
-        /* public bool IsOnScreen
-        {
-            get
-            {
-                return !(screenPosition.X + screenPosition.Width < 0
-                    || screenPosition.X > screenWidth
-                    || screenPosition.Y + screenPosition.Height < 0
-                    || screenPosition.Y > screenHeight);
-            }
-        } */
+		/// <summary>
+		/// Whether or not this enemy has any health remaining.
+		/// </summary>
+		public bool IsAlive
+		{
+			get { return health > 0; }
+		}
 
-        /// <summary>
-        /// This object's position in the world.
-        /// </summary>
-        public override Rectangle WorldPosition
-        {
-            get { return worldPosition; }
-        }
+		/// <summary>
+		/// How much health the player has left.
+		/// </summary>
+		public int Health
+		{
+			get { return health; }
+			set { health = value; }
 
-        /// <summary>
-        /// The amount of damage this enemy does to the player.
-        /// </summary>
-        public int Damage
-        {
-            get { return damage; }
-        }
+		}
 
-        /// <summary>
-        /// Whether or not this enemy has any health remaining.
-        /// </summary>
-        public bool IsAlive
-        {
-            get { return health > 0; }
-        }
+		// --------------------------------------------------------------
+		// Constructors
+		// --------------------------------------------------------------
+		/// <summary>
+		/// Generates a randomly positioned enemy of a given type.
+		/// </summary>
+		/// <param name="eType">The type of enemy.</param>
+		/// <param name="rng">Reference to the game's randomizer.</param>
+		/// <param name="asset">Spritesheet of enemies.</param>
+		/// Position will be randomized in the constructor.</param>
+		/// <param name="screenWidth">Screen's width.</param>
+		/// <param name="screenHeight">Screen's height.</param>
+		public Enemy(EnemyType eType, Random rng, Texture2D asset, Player player,
+			int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+			: base(asset, new Rectangle(0, 0, 1, 1), screenWidth, screenHeight)
+		{
+			this.rng = rng;
+			this.worldWidth = worldWidth;
+			this.worldHeight = worldHeight;
+			this.player = player;
 
-        /// <summary>
-        /// How much health the player has left.
-        /// </summary>
-        public int Health
-        {
-            get { return health; }
-            set { health = value; }
+			// Determines type-specific field values for this enemy
+			this.eType = eType;
+			CreateEnemy(asset);
 
-        }
+			// Positions the enemy on the world's border
+			GoToWorldEdge();
 
-        // --------------------------------------------------------------
-        // Constructors
-        // --------------------------------------------------------------
-        /// <summary>
-        /// Generates a randomly positioned enemy of a given type.
-        /// </summary>
-        /// <param name="eType">The type of enemy.</param>
-        /// <param name="rng">Reference to the game's randomizer.</param>
-        /// <param name="asset">Spritesheet of enemies.</param>
-        /// Position will be randomized in the constructor.</param>
-        /// <param name="screenWidth">Screen's width.</param>
-        /// <param name="screenHeight">Screen's height.</param>
-        public Enemy(EnemyType eType, Random rng, Texture2D asset, Player player,
-            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-            :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1), 
-                 screenWidth, screenHeight)
-        {
-            this.rng = rng;
-            this.worldWidth = worldWidth;
-            this.worldHeight = worldHeight;
-            this.player = player;
+			// TODO: Change these values
+			timer = 0.0;
+			spf = 0.2;
+		}
 
-            // Determines type-specific field values for this enemy
-            this.eType = eType;
-            CreateEnemy();
+		// --------------------------------------------------------------
+		// Methods
+		// --------------------------------------------------------------
+		/// <summary>
+		/// 
+		// THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
+		///
+		/// </summary>
+		/// <param name="gameTime"></param>
+		public override void UpdateAnimation(GameTime gameTime)
+		{
+			// ElapsedGameTime is the duration of the last GAME frame
+			timer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Positions the enemy on the world's border
-            GoToWorldEdge();
-            
-            // Gives screen position a default value until it is updated in Update()
-            screenPosition = worldPosition;
+			// Has enough time passed to flip to the next frame?
+			if (timer >= spf)
+			{
+				// Change which frame is active, ensuring the frame is reset back to the first 
+				currentFrame++;
+				if (currentFrame >= 3)
+				{
+					currentFrame = 0;
+				}
 
-            // TODO: Change these values
-            timer = 0.0;
-            spf = 0.0;
-            fps = 0.0;
-        }
+				// Reset the time counter, keeping remaining elapsed time
+				timer -= spf;
+			}
 
-        /*public Enemy(EnemyType eType, Texture2D asset,
-            int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-            :base(asset, new Rectangle(0, 0, 1, 1), new Rectangle(0, 0, 1, 1),
-                 screenWidth, screenHeight)
-        {
-            this.worldWidth = worldWidth;
-            this.worldHeight = worldHeight;
-        
-            // Determines type-specific field values for this enemy
-            this.eType = eType;
-            CreateEnemy();
-        
-            // Randomizes enemy's position to somewhere on the border
-            worldPosition.X = 500;
-            worldPosition.Y = 500;
-        
-            // Gives screen position a default value until it is updated in Update()
-            screenPosition = worldPosition;
-        
-            // TODO: Change these values
-            health = 5;
-            speed = 5;
-            timer = 0.0;
-            spf = 0.0;
-            fps = 0.0;
-        
-        } */
+			// Updates the enemy's rectangles so they move properly
+			animationWP.X = worldPosition.X;
+			animationWP.Y = worldPosition.Y;
+			animationWP.Height = enemyAnim[currentFrame].Height * 3;
 
-        // --------------------------------------------------------------
-        // Methods
-        // --------------------------------------------------------------
-        /// <summary>
-        /// 
-        // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
-        ///
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public override void UpdateAnimation(GameTime gameTime)
-        {
-            // ElapsedGameTime is the duration of the last GAME frame
-            timer += gameTime.ElapsedGameTime.TotalSeconds;
+			if (eType == EnemyType.Imp)
+			{
+				if (currentFrame == 2)
+				{
+					animationWP.Y = worldPosition.Y - 2;
+				}
+			}
+		}
 
-            // Has enough time passed to flip to the next frame?
-            if (timer >= spf)
-            {
-                // Change which frame is active, ensuring the frame is reset back to the first 
-                currentFrame++;
-                if (currentFrame >= 3)
-                {
-                    currentFrame = 0;
-                }
+		/// <summary>
+		/// Updates the enemies position to always 
+		/// move towards the player
+		/// </summary>
+		/// <param name="gameTime">Info from MonoGame about the time state.</param>
+		public override void Update(GameTime gameTime)
+		{
+			// Creates a direction vector pointing toward the player
+			direction = new Vector2(player.WorldPosition.X - worldPosition.X,
+									player.WorldPosition.Y - worldPosition.Y);
 
-                // Reset the time counter, keeping remaining elapsed time
-                timer -= spf;
-            }
-        }
+			// As long as the direction is not the zero vector, it is normalized so 
+			// the enemy will have the same displacement every movement frame
+			if (direction != Vector2.Zero)
+			{
+				direction.Normalize();
+			}
 
-        /// <summary>
-        /// Updates the enemies position to always 
-        /// move towards the player
-        /// </summary>
-        /// <param name="gameTime">Info from MonoGame about the time state.</param>
-        public override void Update(GameTime gameTime)
-        {
-            // Updates world position by moving toward the player
+			// Updates world position by moving toward the player
+			worldPosition.X += (int)Math.Round(direction.X * speed);
+			worldPosition.Y += (int)Math.Round(direction.Y * speed);
 
-            // rotation = (float)Math.Atan2(worldPosition.Y - player.WorldPosition.Y,
-            //     worldPosition.X - player.WorldPosition.X);
-            // direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
+			// Updates the enemy's animation
+			UpdateAnimation(gameTime);
 
-            // Creates a direction vector pointing toward the player
-            direction = new Vector2(player.WorldPosition.X - worldPosition.X,
-                player.WorldPosition.Y - worldPosition.Y);
+		}
 
-            // As long as the direction is not the zero vector, it is normalized so 
-            // the enemy will have the same displacement every movement frame
-            if (direction != Vector2.Zero)
-            {
-                direction.Normalize();
-            }
+		/// <summary>
+		/// Draws the enemy based on its enemy type
+		/// </summary>
+		/// <param name="sb"></param>
+		public override void Draw(SpriteBatch sb)
+		{
+			// Draws the enemy
+			if (eType == EnemyType.Imp)
+			{
+				if (direction.X > 0)
+				{
+					sb.Draw(asset,
+							animationWP,
+							enemyAnim[currentFrame],
+							Color.White);
+				}
+				else
+				{
+					sb.Draw(asset,
+							animationWP,
+							enemyAnim[currentFrame],
+							Color.White,
+							0,
+							new Vector2(0, 0),
+							SpriteEffects.FlipHorizontally,
+							0);
+				}
+			}
+			else
+			{
+				if (direction.X > 0)
+				{
+					sb.Draw(asset,
+							worldPosition,
+							enemyAnim[currentFrame],
+							Color.White);
+				}
+				else
+				{
+					sb.Draw(asset,
+							worldPosition,
+							enemyAnim[currentFrame],
+							Color.White,
+							0,
+							new Vector2(0, 0),
+							SpriteEffects.FlipHorizontally,
+							0);
+				}
+			}
+		}
 
-            // Updates world position by moving toward the player
-            worldPosition.X += (int)(direction.X * speed);
-            worldPosition.Y += (int)(direction.Y * speed);
-        }
+		/// <summary>
+		/// If this object is colliding with another given object.
+		/// </summary>
+		/// <param name="gameObject">The object to check collisions with.</param>
+		/// <returns>Whether or not the objects' position rectangles intersect.</returns>
+		public bool CollidesWith(GameObject gameObject)
+		{
+			return worldPosition.Intersects(gameObject.WorldPosition);
+		}
 
-        /// <summary>
-        /// Draws the enemy based on its enemy type
-        /// </summary>
-        /// <param name="sb"></param>
-        public override void Draw(SpriteBatch sb)
-        {
-            // Draws the enemy
-            sb.Draw(
-                asset,
-                worldPosition,
-                sourceRect,
-                Color.White);
-        }
+		/// <summary>
+		/// When the enemy dies, Candy will be drawn near the enemy position
+		/// </summary>
+		/// <param name="collectibles"> List of dropped candies </param>
+		public void DropCandy(List<Candy> collectibles, Texture2D candyAsset)
+		{
+			// Add all the dropped candies to the collectibles list
+			for (int i = 0; i < candyNum; i++)
+			{
+				// Position is randomized close to the enemy
+				collectibles.Add(new Candy(
+					candyAsset,
+					new Rectangle(
+						worldPosition.X + rng.Next(-32, 41),
+						worldPosition.Y + rng.Next(-32, 41),
+						24,
+						24),
+					screenWidth,
+					screenHeight));
+			}
+		}
 
-        /// <summary>
-        /// If this object is colliding with another given object.
-        /// </summary>
-        /// <param name="gameObject">The object to check collisions with.</param>
-        /// <returns>Whether or not the objects' position rectangles intersect.</returns>
-        public bool CollidesWith(GameObject gameObject)
-        {
-            return worldPosition.Intersects(gameObject.WorldPosition);
-        }
+		/// <summary>
+		/// Instead of having this as a property, get information from the camera 
+		/// to get the accurate bounds to determine whether the enemy is on screen.
+		/// </summary>
+		/// <param name="camera">The current camera created and used in Game1</param>
+		/// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>
+		public bool IsOnScreen(OrthographicCamera camera)
+		{
+			//return camera.CameraBound.Contains(this.worldPosition);
 
-        /// <summary>
-        /// When the enemy dies, Candy will be drawn near the enemy position
-        /// </summary>
-        /// <param name="collectibles"> List of dropped candies </param>
-        public void DropCandy(List<Candy> collectibles, Texture2D candyAsset)
-        {
-            // Add all the dropped candies to the collectibles list
-            for (int i = 0; i < candyNum; i++)
-            {
-                // Position is randomized close to the enemy
-                collectibles.Add(new Candy(
-                    candyAsset, 
-                    new Rectangle(
-                        worldPosition.X + rng.Next(-32, 41),
-                        worldPosition.Y + rng.Next(-32, 41),
-                        24,
-                        24),
-                    screenWidth, 
-                    screenHeight));
-            }
-        }
+			return camera.CameraBound.Intersects(this.worldPosition);
+		}
 
-        /// <summary>
-        /// Instead of having this as a property, get information from the camera 
-        /// to get the accurate bounds to determine whether the enemy is on screen.
-        /// </summary>
-        /// <param name="camera">The current camera created and used in Game1</param>
-        /// <returns>Whether this enemy is on screen; if it is seen by the camera.</returns>
-        public bool IsOnScreen(OrthographicCamera camera)
-        {
-            //return camera.CameraBound.Contains(this.worldPosition);
+		/// <summary>
+		/// A helper method used when loading the enemies in order to
+		/// set their damage, source rectangle, and how many candies they drop.
+		/// </summary>
+		private void CreateEnemy(Texture2D asset)
+		{
+			//Initializes the Enemy fields based on the Enemy type
+			switch (eType)
+			{
+				case EnemyType.Imp:
+					health = 1;
+					damage = 1;
+					candyNum = 1;
+					speed = 3;
+					animationWP = new Rectangle(0, 0, 30, 36);
+					enemyAnim = new List<Rectangle>(4);
+					enemyAnim.Add(new Rectangle(4, 20, 10, 12));
+					enemyAnim.Add(new Rectangle(20, 20, 10, 12));
+					enemyAnim.Add(new Rectangle(36, 19, 10, 12));
+					break;
+				case EnemyType.MouthDemon:
+					health = 1;
+					damage = 1;
+					candyNum = 3;
+					speed = 1;
+					enemyAnim = new List<Rectangle>(4);
+					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
+					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
+					enemyAnim.Add(new Rectangle(36, 106, 23, 31));
+					enemyAnim.Add(new Rectangle(36, 106, 23, 31));
+					break;
+				case EnemyType.HornDemon:
+					health = 1;
+					damage = 1;
+					candyNum = 2;
+					speed = 2;
+					enemyAnim = new List<Rectangle>(4);
+					enemyAnim.Add(new Rectangle(3, 60, 11, 18));
+					enemyAnim.Add(new Rectangle(3, 60, 11, 18));
+					enemyAnim.Add(new Rectangle(35, 63, 11, 15));
+					enemyAnim.Add(new Rectangle(35, 63, 11, 15));
+					break;
+				case EnemyType.Cloak:
+					health = 1;
+					damage = 1;
+					speed = 2;
+					candyNum = 2;
+					enemyAnim = new List<Rectangle>(4);
+					enemyAnim.Add(new Rectangle(1, 40, 13, 15));
+					enemyAnim.Add(new Rectangle(18, 38, 12, 17));
+					enemyAnim.Add(new Rectangle(33, 39, 13, 16));
+					enemyAnim.Add(new Rectangle(48, 41, 14, 14));
+					break;
+			}
 
-            return camera.CameraBound.Intersects(this.worldPosition);
-        }
+			// Changes the enemy worldPosition based on the enemy's sourceRect
+			worldPosition = new Rectangle(0, 0, enemyAnim[0].Width * 3, enemyAnim[0].Height * 3);
+		}
 
-        /// <summary>
-        /// A helper method used when loading the enemies in order to
-        /// set their damage, source rectangle, and how many candies they drop.
-        /// </summary>
-        private void CreateEnemy()
-        {
-            //Initializes the Enemy fields based on the Enemy type
-            switch (eType)
-            {
-                // CHASERS
-                case EnemyType.Imp:
-                    health = 1;
-                    damage = 1;
-                    candyNum = 1;
-                    speed = 4;
-                    sourceRect = new Rectangle(4, 4, 10, 12);
+		/// <summary>
+		/// Randomizes the enemy's position to somewhere on the border
+		/// </summary>
+		public void GoToWorldEdge()
+		{
+			// Randomizes enemy's position to somewhere on the border
+			int edge = rng.Next(4);
+			switch (edge)
+			{
+				// Left edge, random height
+				case 0:
+					worldPosition.X = -worldPosition.Width;
+					worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
+					break;
 
-                    break;
-                case EnemyType.MouthDemon:
-                    health = 5;
-                    damage = 2;
-                    candyNum = 3;
-                    speed = 2;
-                    sourceRect = new Rectangle(5, 107, 23, 30);
+				// Right edge, random height
+				case 1:
+					worldPosition.X = worldWidth;
+					worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
+					break;
 
-                    break;
-                //
-                case EnemyType.HornDemon:
-                    health = 3;
-                    damage = 1;
-                    candyNum = 2;
-                    speed = 3;
-                    sourceRect = new Rectangle(3, 60, 11, 18);
+				// Top edge, random X value
+				case 2:
+					worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
+					worldPosition.Y = -worldPosition.Height;
+					break;
 
-                    break;
-                //SHOOTERS
-                case EnemyType.Cloak:
-                    health = 2;
-                    damage = 2;
-                    speed = 3;
-                    candyNum = 2;
-                    sourceRect = new Rectangle(1, 40, 13, 15);
-
-                    break;
-            }
-
-            // Changes the enemy worldPosition based on the enemy's sourceRect
-            worldPosition = new Rectangle(0, 0, sourceRect.Width * 3, sourceRect.Height * 3);
-        }
-
-        /// <summary>
-        /// Randomizes the enemy's position to somewhere on the border
-        /// </summary>
-        public void GoToWorldEdge()
-        {
-            // Randomizes enemy's position to somewhere on the border
-            int edge = rng.Next(4);
-            switch (edge)
-            {
-                // Left edge, random height
-                case 0:
-                    worldPosition.X = -worldPosition.Width;
-                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
-                    break;
-
-                // Right edge, random height
-                case 1:
-                    worldPosition.X = worldWidth;
-                    worldPosition.Y = rng.Next(-worldPosition.Height, worldHeight);
-                    break;
-
-                // Top edge, random X value
-                case 2:
-                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
-                    worldPosition.Y = -worldPosition.Height;
-                    break;
-
-                // Bottom edge, random X value
-                case 3:
-                    worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
-                    worldPosition.Y = worldHeight;
-                    break;
-            }
-        }
-
-        //-----------------------------
-        // ENEMY AI METHODS
-        //-----------------------------
-        private void CurrentAIState()
-        {
-            switch (currentState)
-            {
-                case EnemyState.Idle:
-                    if (!isWalking)
-                    {
-
-                    }
-                    break;
-                case EnemyState.Walk:
-                    if (health < 0)
-                    {
-
-                    }
-                    break;
-                case EnemyState.Dead:
-                    break;
-            }
-        }
-
-        
-
-    }
+				// Bottom edge, random X value
+				case 3:
+					worldPosition.X = rng.Next(-worldPosition.Width, worldWidth);
+					worldPosition.Y = worldHeight;
+					break;
+			}
+		}
+	}
 }

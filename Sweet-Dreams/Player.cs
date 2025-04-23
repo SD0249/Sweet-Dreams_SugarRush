@@ -9,443 +9,694 @@ using System.Net.Http;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
-    public enum PlayerState
-    {
-        WalkRight,
-        WalkLeft,
-        FaceRight,
-        FaceLeft,
-        Dead,
-        Hit
-    }
+	public enum PlayerState
+	{
+		WalkRight,
+		WalkLeft,
+		FaceRight,
+		FaceLeft,
+		Dead,
+		Hit
+	}
 
-    public class Player : GameObject
-    {
-        // --------------------------------------------------------------
-        // Fields
-        // --------------------------------------------------------------
-        private PlayerState playerState;
-        private int health;
-        private double reloadTimer;
-        private double stunTimer;
-        private int playerHealth;
-        private bool isAlive;
-        private Vector2 velocity;
-        private int damage;
-        private int points;
-        private int speed;
+	public class Player : GameObject
+	{
+		// --------------------------------------------------------------
+		// Fields
+		// --------------------------------------------------------------
+		private PlayerState playerState;
+		private PlayerState prevPS;
+		private bool hurt;
+		private int health;
+		private double reloadTimer;
+		private double stunTimer;
+		private int playerHealth;
+		private bool isAlive;
+		private int damage;
+		private int points;
+		private int speed;
+		private Vector2 direction;
 
-        // Animation fields
-        private List<Rectangle> idleAnim;
-        private List<Rectangle> walkingAnim;
-        private List<Rectangle> damageAnim;
-        private List<Rectangle> deathAnim;
-        private Rectangle walkingWP;
-        private double timer;
-        private double fps;
-        private double spf;
-        private Color tint;
+		// Animation fields
+		private List<Rectangle> idleAnim;
+		private List<Rectangle> walkingAnim;
+		private List<Rectangle> damageAnim;
+		private List<Rectangle> deathAnim;
+		private int currentAnim;
+		private int prevAnim;
+		private Rectangle animationWP;
+		private double timer;
+		private double spf;
+		private Color tint;
+		private double effectTimer;
 
-        // --------------------------------------------------------------
-        // Properties
-        // --------------------------------------------------------------
-        /// <summary>
-        /// This object's position in the world.
-        /// </summary>
-        public override Rectangle WorldPosition
-        {
-            get { return worldPosition; }
-        }
+		// --------------------------------------------------------------
+		// Properties
+		// --------------------------------------------------------------
+		/// <summary>
+		/// This object's position in the world.
+		/// </summary>
+		public override Rectangle WorldPosition
+		{
+			get { return worldPosition; }
+		}
 
-        /// <summary>
-        /// The player's position on the screen.
-        /// </summary>
-        public Rectangle ScreenPosition
-        {
-            get { return screenPosition; }
-        }
-        
-        /// <summary>
-        /// The current animation state of the player.
-        /// </summary>
-        public PlayerState PlayerState
-        {
-            get { return playerState; }
-        }
-        
-        /// <summary>
-        /// The player's remaining health.
-        /// </summary>
-        public int Health
-        {
-            get { return health; }
-            set { health = value; }
-        }
-        public double ReloadTimer
-        {
-            get { return reloadTimer; }
-            set { reloadTimer = value; }
-        }
+		/// <summary>
+		/// The current animation state of the player.
+		/// </summary>
+		public PlayerState PlayerState
+		{
+			get { return playerState; }
+		}
 
-        /// <summary>
-        /// How much damage the player's bullets deal.
-        /// </summary>
-        public int Damage
-        {
-            get { return damage; }
-            set { damage = value; }
-        }
+		/// <summary>
+		/// Keeps track of whether the player has been hurt
+		/// (so there doesn't have to be a 'set' for PlayerState)
+		/// </summary>
+		public bool Hurt
+		{
+			set { hurt = value; }
+		}
 
-        /// <summary>
-        /// The color the player should be tinted
-        /// </summary>
-        public Color Tint
-        {
-            get { return tint; }
-        }
+		/// <summary>
+		/// The player's remaining health.
+		/// </summary>
+		public int Health
+		{
+			get { return health; }
+			set { health = value; }
+		}
 
-        // --------------------------------------------------------------
-        // Constructor
-        // --------------------------------------------------------------
-        public Player(Texture2D asset, Rectangle worldPosition, Rectangle screenPosition,
-            int screenWidth, int screenHeight)
-            : base(asset, worldPosition, screenPosition, screenWidth, screenHeight)
-        {
-            health = 6;
-            damage = 1;
-            speed = 3;
-            points = 0;
-            tint = Color.White;
-            stunTimer = 1;
-            reloadTimer = 1;
-            velocity = new Vector2(0, 0);       // Placeholder velocity
-            timer = 0.0;                        // Change these values
-            spf = 0.2;
-            fps = 5.0;
-            walkingWP = worldPosition;
+		/// <summary>
+		/// The time between the player's shots
+		/// </summary>
+		public double ReloadTimer
+		{
+			get { return reloadTimer; }
+			set { reloadTimer = value; }
+		}
 
-            // Making animation lists
-            idleAnim = new List<Rectangle>(2);
-            idleAnim.Add(new Rectangle(7, 7, 10, 17));
-            idleAnim.Add(new Rectangle(7, 7, 10, 17));
-            idleAnim.Add(new Rectangle(31, 8, 10, 16));
-            idleAnim.Add(new Rectangle(31, 8, 10, 16));
+		/// <summary>
+		/// How much damage the player's bullets deal.
+		/// </summary>
+		public int Damage
+		{
+			get { return damage; }
+			set { damage = value; }
+		}
 
-            walkingAnim = new List<Rectangle>(4);
-            walkingAnim.Add(new Rectangle(7, 32, 10, 16));
-            walkingAnim.Add(new Rectangle(31, 31, 10, 17));
-            walkingAnim.Add(new Rectangle(55, 32, 10, 16));
-            walkingAnim.Add(new Rectangle(79, 31, 10, 17));
+		/// <summary>
+		/// The color the player should be tinted.
+		/// </summary>
+		public Color Tint
+		{
+			get { return tint; }
+		}
 
-            damageAnim = new List<Rectangle>(2);
-            damageAnim.Add(new Rectangle(150, 7, 11, 17));
-            damageAnim.Add(new Rectangle(150, 7, 11, 17));
-            damageAnim.Add(new Rectangle(175, 7, 10, 17));
-            damageAnim.Add(new Rectangle(175, 7, 10, 17));
+		/// <summary>
+		/// The number of points the player has earned.
+		/// </summary>
+		public int Points
+		{
+			get { return points; }
+			set { points = value; }
+		}
 
-            deathAnim = new List<Rectangle>(4);
-            deathAnim.Add(new Rectangle(103, 103, 10, 17));
-            deathAnim.Add(new Rectangle(128, 104, 10, 16));
-            deathAnim.Add(new Rectangle(152, 108, 13, 12));
-            deathAnim.Add(new Rectangle(176, 112, 15, 8));
-        }
+		// --------------------------------------------------------------
+		// Constructor
+		// --------------------------------------------------------------
+		public Player(Texture2D asset, Rectangle worldPosition,
+			int screenWidth, int screenHeight)
+			: base(asset, worldPosition, screenWidth, screenHeight)
+		{
+			health = 6;
+			damage = 1;
+			speed = 2;
+			points = 0;
+			tint = Color.White;
+			stunTimer = 0.6;
+			reloadTimer = 1;
+			direction = Vector2.Zero;
+			timer = 0.0;
+			spf = 0.2;
+			effectTimer = 1.0;
 
-        // --------------------------------------------------------------
-        // Methods
-        // --------------------------------------------------------------
-        /// <summary>
-        /// 
-        // THIS IS TEMPORARY RIGHT NOW MAKE SURE TO CHANGE IF NEEDED
-        ///
-        /// </summary>
-        /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void UpdateAnimation(GameTime gameTime)
-        {
-            // ElapsedGameTime is the duration of the last GAME frame
-            timer += gameTime.ElapsedGameTime.TotalSeconds;
+			// Making animation lists
+			idleAnim = new List<Rectangle>(4);
+			idleAnim.Add(new Rectangle(7, 7, 10, 17));
+			idleAnim.Add(new Rectangle(7, 7, 10, 17));
+			idleAnim.Add(new Rectangle(31, 8, 10, 16));
+			idleAnim.Add(new Rectangle(31, 8, 10, 16));
 
-            // Has enough time passed to flip to the next frame?
-            if (timer >= spf)
-            {
-                // Change which frame is active, ensuring the frame is reset back to the first 
-                currentFrame++;
-                if (currentFrame >= 4)
-                {
-                    currentFrame = 0;
-                }
+			walkingAnim = new List<Rectangle>(4);
+			walkingAnim.Add(new Rectangle(7, 32, 10, 16));
+			walkingAnim.Add(new Rectangle(31, 31, 10, 17));
+			walkingAnim.Add(new Rectangle(55, 32, 10, 16));
+			walkingAnim.Add(new Rectangle(79, 31, 10, 17));
 
-                // Reset the time counter, keeping remaining elapsed time
-                timer -= spf;
-            }
-        }
+			damageAnim = new List<Rectangle>(4);
+			damageAnim.Add(new Rectangle(150, 7, 11, 17));
+			damageAnim.Add(new Rectangle(150, 7, 11, 17));
+			damageAnim.Add(new Rectangle(175, 7, 10, 17));
+			damageAnim.Add(new Rectangle(175, 7, 10, 17));
 
-        /// <summary>
-        /// Updates the players position based on what keys are pressed
-        /// </summary>
-        /// <param name="gameTime">Info from Monogame about the time state.</param>
-        public override void Update(GameTime gameTime)
-        {
-            // Updates world position based on keyboard input
-            KeyboardState kbState = Keyboard.GetState();
+			deathAnim = new List<Rectangle>(4);
+			deathAnim.Add(new Rectangle(103, 103, 10, 17));
+			deathAnim.Add(new Rectangle(128, 104, 10, 16));
+			deathAnim.Add(new Rectangle(152, 108, 13, 12));
+			deathAnim.Add(new Rectangle(176, 112, 15, 8));
 
-            // TODO: Remove this test movement and use velocity inside of FSM instead
-            if (kbState.IsKeyDown(Keys.Right))
-            {
-                worldPosition.X += speed;
-            }
-            if (kbState.IsKeyDown(Keys.Left))
-            {
-                worldPosition.X -= speed;
-            }
-            if (kbState.IsKeyDown(Keys.Up))
-            {
-                worldPosition.Y -= speed;
-            }
-            if (kbState.IsKeyDown(Keys.Down))
-            {
-                worldPosition.Y += speed;
-            }
+			animationWP = new Rectangle(worldPosition.X,
+								  worldPosition.Y + (currentFrame + 1) % 2,
+								  worldPosition.Width,
+								  walkingAnim[currentFrame].Height * 3);
+			currentAnim = 0;
+			prevAnim = currentAnim;
+		}
 
-            // Updates screen position
-            screenPosition = worldPosition;
+		// --------------------------------------------------------------
+		// Methods
+		// --------------------------------------------------------------
+		/// <summary>
+		/// Updates the 'current frame' for the player's animation
+		/// </summary>
+		/// <param name="gameTime">Info from Monogame about the time state.</param>
+		public override void UpdateAnimation(GameTime gameTime)
+		{
+			// ElapsedGameTime is the duration of the last GAME frame
+			timer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Updates the walking world position (so the player's head bobs)
-            walkingWP = new Rectangle(worldPosition.X,
-                                  worldPosition.Y + (currentFrame + 1) % 2,
-                                  worldPosition.Width,
-                                  walkingAnim[currentFrame].Height * 3);
+			// Has enough time passed to flip to the next frame?
+			if (timer >= spf)
+			{
+				// Change which frame is active, ensuring the frame is reset back to the first 
+				currentFrame++;
+				if (currentFrame >= 4)
+				{
+					currentFrame = 0;
+				}
 
-            // Player FSM (incomplete)
-            switch (playerState)
-            {
+				// Reset the time counter, keeping remaining elapsed time
+				timer -= spf;
+			}
 
-                case PlayerState.WalkLeft:
-                    if (kbState.IsKeyUp(Keys.Left))
-                    {
-                        playerState = PlayerState.FaceLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.Right))
-                    {
-                        playerState = PlayerState.WalkRight;
+			if (currentAnim == 4)
+			{
+				if (currentFrame == 1)
+				{
+					if (prevPS == PlayerState.FaceRight ||
+						prevPS == PlayerState.WalkRight)
+					{
+						animationWP.X = worldPosition.X + 3;
+					}
+					else
+					{
+						animationWP.X = worldPosition.X - 3;
+					}
 
-                    }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
-                    break;
+					animationWP.Y = worldPosition.Y + 2;
+					animationWP.Height = 48;
+				}
+				if (currentFrame == 2)
+				{
+					if (prevPS == PlayerState.FaceRight ||
+						prevPS == PlayerState.WalkRight)
+					{
+						animationWP.X = worldPosition.X + 3;
+					}
+					else
+					{
+						animationWP.X = worldPosition.X - 12;
+					}
 
-                case PlayerState.WalkRight:
-                    if (kbState.IsKeyDown(Keys.Left))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyUp(Keys.Right))
-                    {
-                        playerState = PlayerState.FaceRight;
-                    }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
-                    break;
+					animationWP.Y = worldPosition.Y + 10;
+					animationWP.Width = 39;
+					animationWP.Height = 36;
+				}
+				if (currentFrame == 3)
+				{
+					if (prevPS == PlayerState.FaceRight ||
+						prevPS == PlayerState.WalkRight)
+					{
+						animationWP.X = worldPosition.X + 5;
+					}
+					else
+					{
+						animationWP.X = worldPosition.X - 15;
+					}
 
-                case PlayerState.FaceLeft:
-                    if (kbState.IsKeyDown(Keys.Left))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.Right))
-                    {
-                        playerState = PlayerState.WalkRight;
-                    }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
-                    break;
+					animationWP.Y = worldPosition.Y + 18;
+					animationWP.Width = 45;
+					animationWP.Height = 32;
+				}
+			}
+		}
 
-                case PlayerState.FaceRight:
-                    if (kbState.IsKeyDown(Keys.Left))
-                    {
-                        playerState = PlayerState.WalkLeft;
-                    }
-                    if (kbState.IsKeyDown(Keys.Right))
-                    {
-                        playerState = PlayerState.WalkRight;
-                    }
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
-                    break;
+		/// <summary>
+		/// Updates the players position based on what keys are pressed
+		/// </summary>
+		/// <param name="gameTime">Info from Monogame about the time state.</param>
+		public override void Update(GameTime gameTime)
+		{
+			UpdateAnimation(gameTime);
+			prevAnim = currentAnim;
 
-                case PlayerState.Hit:
-                    if (health <= 0)
-                    {
-                        playerState = PlayerState.Dead;
-                    }
-                    break;
+			// If the player is hurt
+			if (hurt)
+			{
+				hurt = false;
+				// Save the previous player state
+				if (playerState != PlayerState.Hit)
+				{
+					prevPS = playerState;
+				}
 
-                case PlayerState.Dead:
-                    break;
-            }
-        }
+				// Then change the player state to hit
+				playerState = new PlayerState();
+				playerState = PlayerState.Hit;
+			}
 
-        /// <summary>
-        /// Draws the player to the screen
-        /// </summary>
-        /// <param name="sb"> SpriteBatch to draw with </param>
-        public override void Draw(SpriteBatch sb)
-        {
-            // Draws the player
-            /* sb.Draw(asset,
-                worldPosition,
-                new Rectangle(7, 7, 10, 18),
-                tint); */
+			// If the player dies, they're dead ;)
+			if (health <= 0)
+			{
+				playerState = PlayerState.Dead;
+			}
 
-            // Player FSM (incomplete)
-            switch (playerState)
-            {
+			// Moves the player based on keyboard input
+			MoveOnKeyPress();
 
-                case PlayerState.WalkLeft:
-                    sb.Draw(asset,
-                            walkingWP,
-                            walkingAnim[currentFrame],
-                            tint,
-                            0,
-                            new Vector2(0,0),
-                            SpriteEffects.FlipHorizontally,
-                            0);
-                    break;
+			// Player FSM
+			switch (playerState)
+			{
+				case PlayerState.WalkLeft:
+					// Color Update
+					if (tint != Color.White)
+					{
+						// Ensure the effect from the candy is consistent in walking/idle states.
+						if (effectTimer > 0)
+						{
+							effectTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+						}
+						// Change back after this amount of time.
+						else
+						{
+							tint = Color.White;
+							effectTimer = 1.0;
+						}
+					}
 
-                case PlayerState.WalkRight:
-                    sb.Draw(asset,
-                            walkingWP,
-                            walkingAnim[currentFrame],
-                            tint);
-                    break;
+					// Updates the walking world position (so the player's head bobs)
+					animationWP.X = worldPosition.X;
+					animationWP.Y = worldPosition.Y + 2 * ((currentFrame + 1) % 2);
+					currentAnim = 1;
 
-                case PlayerState.FaceLeft:
-                    sb.Draw(asset,
-                            worldPosition, // WP for idle is not correct
-                            idleAnim[currentFrame],
-                            tint,
-                            0,
-                            new Vector2(0, 0),
-                            SpriteEffects.FlipHorizontally,
-                            0);
-                    break;
+					// Updates player state
+					if (direction == Vector2.Zero)
+					{
+						playerState = PlayerState.FaceLeft;
+					}
+					if (direction.X > 0)
+					{
+						playerState = PlayerState.WalkRight;
+					}
+					if (health <= 0)
+					{
+						playerState = PlayerState.FaceLeft;
+					}
 
-                case PlayerState.FaceRight:
-                    sb.Draw(asset,
-                           worldPosition,
-                           idleAnim[currentFrame],
-                           tint);
-                    break;
+					break;
 
-                case PlayerState.Hit:
-                    
-                    break;
+				case PlayerState.WalkRight:
+					// Color Update
+					if (tint != Color.White)
+					{
+						// Ensure the effect from the candy is consistent in walking/idle states.
+						if (effectTimer > 0)
+						{
+							effectTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+						}
+						// Change back after this amount of time.
+						else
+						{
+							tint = Color.White;
+							effectTimer = 1.0;
+						}
+					}
 
-                // Change Game1 to wait 1 second before displaying the game over screen
-                case PlayerState.Dead:
-                    break;
-            }
-        }
+					// Updates the walking world position
+					animationWP.X = worldPosition.X;
+					animationWP.Y = worldPosition.Y + 2 * ((currentFrame + 1) % 2);
+					currentAnim = 2;
 
-        /// <summary>
-        /// If this object is colliding with another given object.
-        /// </summary>
-        /// <param name="gameObject">The object to check collisions with.</param>
-        /// <returns>Whether or not the objects' position rectangles intersect.</returns>
-        public bool CollidesWith(GameObject gameObject)
-        {
-            return worldPosition.Intersects(gameObject.WorldPosition);
-        }
+					// Updates player state
+					if (direction == Vector2.Zero)
+					{
+						playerState = PlayerState.FaceRight;
+					}
+					if (direction.X < 0)
+					{
+						playerState = PlayerState.WalkLeft;
+					}
+					if (health <= 0)
+					{
+						playerState = PlayerState.Dead;
+					}
+					break;
 
-        /// <summary>
-        /// In relation to the world width and height, 
-        /// this method ensures that the player doesn't move out the bounds of the drawn map.
-        /// </summary>
-        /// <param name="worldWidth">World Width; Num of columns * Size of a tile</param>
-        /// <param name="worldHeight">World Height; Num of rows * Size of a tile</param>
-        public void KeepPlayerInBounds(int worldWidth, int worldHeight)
-        {
-            // If the player is too FAR LEFT
-            if (worldPosition.X < 0)
-            {
-                worldPosition.X = 0;
-            }
+				case PlayerState.FaceLeft:
+				case PlayerState.FaceRight:
+					// Color Update
+					if (tint != Color.White)
+					{
+						// Ensure the effect from the candy is consistent in walking/idle states.
+						if (effectTimer > 0)
+						{
+							effectTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+						}
+						// Change back after this amount of time.
+						else
+						{
+							tint = Color.White;
+							effectTimer = 1.0;
+						}
+					}
 
-            // If the player is too FAR RIGHT
-            if (worldPosition.X + worldPosition.Width > worldWidth)
-            {
-                worldPosition.X = worldWidth - worldPosition.Width;
-            }
+					// Updates the animation world position
+					animationWP.X = worldPosition.X;
+					if (currentFrame == 0 || currentFrame == 1)
+					{
+						animationWP.Y = worldPosition.Y;
+					}
+					else
+					{
+						animationWP.Y = worldPosition.Y + 2;
+					}
+					if (playerState == PlayerState.FaceRight)
+					{
+						currentAnim = 0;
+					}
+					else
+					{
+						currentAnim = 5;
+					}
 
-            // If the player is too FAR UP
-            if (worldPosition.Y < 0)
-            {
-                worldPosition.Y = 0;
-            }
+					// Updates player state
+					if (direction.X < 0 || (direction.Y != 0 &&
+						playerState == PlayerState.FaceLeft))
+					{
+						playerState = PlayerState.WalkLeft;
+					}
+					if (direction.X > 0 || (direction.Y != 0 &&
+						playerState == PlayerState.FaceRight))
+					{
+						playerState = PlayerState.WalkRight;
+					}
+					break;
 
-            // If the player is too FAR DOWN
-            if (worldPosition.Y + worldPosition.Height > worldHeight)
-            {
-                worldPosition.Y = worldHeight - worldPosition.Height;
-            }
-        }
+				case PlayerState.Hit:
+					// Update the color tint
+					tint = Color.Red;
 
-        /// <summary>
-        /// Gives a buff or debuff to the player based on the type of candy it is collecting.
-        /// </summary>
-        /// <param name="candyType">Type of candy that is being collected.</param>
-        public void CollectCandy(CandyType candyType)
-        {
-            switch (candyType)
-            {
-                case CandyType.SkullCandy:
-                    // Deal damage to the player
-                    health--;
-                    break;
+					// Updates the walking world position
+					animationWP.X = worldPosition.X;
+					animationWP.Y = worldPosition.Y + 2 * ((currentFrame + 1) % 2);
+					currentAnim = 3;
 
-                case CandyType.Peppermint:
-                    // Decrease reload time
+					if (stunTimer <= 0)
+					{
+						// Reset the player state as well as the player tint
+						playerState = prevPS;
+						prevPS = new PlayerState();
+						stunTimer = 0.8;
+						tint = Color.White;
+					}
+					stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+					break;
 
-                    
-                    break;
+				case PlayerState.Dead:
+					tint = Color.White;
+					currentAnim = 4;
+					speed = 0;
+					break;
+			}
 
-                case CandyType.CandyCorn:
-                    // bullet pickups
-                    
-                    break;
+			if (currentAnim != prevAnim)
+			{
+				currentFrame = 0;
+			}
+		}
 
-                case CandyType.GreenCandy:
-                    // Add 5 points to player points
-                    points += 5;
-                    break;
+		/// <summary>
+		/// Draws the player to the screen
+		/// </summary>
+		/// <param name="sb"> SpriteBatch to draw with </param>
+		public override void Draw(SpriteBatch sb)
+		{
+			// Player FSM
+			switch (playerState)
+			{
+				case PlayerState.WalkLeft:
 
-                case CandyType.YellowCandy:
-                    // Add 10 points to player points
-                    points += 10;
-                    break;
-                case CandyType.Chocolate:
-                    // Heal player health
-                    health++;
-                    break;
-            }
-            /*
-             * BUFFS AND DEBUFFS
-             * 
-             * BUFFS:
-             * More damage
-             * reload timer
-             * 
-             * DEBUFFS
-             * slower speed
-             * 
-             */
-        }
-    }
+
+					sb.Draw(asset,
+							animationWP,
+							walkingAnim[currentFrame],
+							tint,
+							0,
+							new Vector2(0, 0),
+							SpriteEffects.FlipHorizontally,
+							0);
+					break;
+
+				case PlayerState.WalkRight:
+					sb.Draw(asset,
+							animationWP,
+							walkingAnim[currentFrame],
+							tint);
+					break;
+
+				case PlayerState.FaceLeft:
+					sb.Draw(asset,
+							animationWP,
+							idleAnim[currentFrame],
+							tint,
+							0,
+							new Vector2(0, 0),
+							SpriteEffects.FlipHorizontally,
+							0);
+					break;
+
+				case PlayerState.FaceRight:
+					sb.Draw(asset,
+						   animationWP,
+						   idleAnim[currentFrame],
+						   tint);
+					break;
+
+				case PlayerState.Hit:
+					// Checks if the player's anim needs to be flipped
+					if (prevPS == PlayerState.FaceRight ||
+						prevPS == PlayerState.WalkRight)
+					{
+						sb.Draw(asset,
+						   worldPosition,
+						   damageAnim[currentFrame],
+						   tint);
+					}
+					else
+					{
+						sb.Draw(asset,
+							worldPosition,
+							damageAnim[currentFrame],
+							tint,
+							0,
+							new Vector2(0, 0),
+							SpriteEffects.FlipHorizontally,
+							0);
+					}
+					break;
+
+				// Change Game1 to wait 1 second before displaying the game over screen
+				case PlayerState.Dead:
+					// Checks if the player's anim needs to be flipped
+					if (prevPS == PlayerState.FaceRight ||
+						prevPS == PlayerState.WalkRight)
+					{
+						sb.Draw(asset,
+						   animationWP,
+						   deathAnim[currentFrame],
+						   tint);
+					}
+					else
+					{
+						sb.Draw(asset,
+							animationWP,
+							deathAnim[currentFrame],
+							tint,
+							0,
+							new Vector2(0, 0),
+							SpriteEffects.FlipHorizontally,
+							0);
+					}
+					break;
+			}
+		}
+
+		/// <summary>
+		/// If this object is colliding with another given object.
+		/// </summary>
+		/// <param name="gameObject">The object to check collisions with.</param>
+		/// <returns>Whether or not the objects' position rectangles intersect.</returns>
+		public bool CollidesWith(GameObject gameObject)
+		{
+			return worldPosition.Intersects(gameObject.WorldPosition);
+		}
+
+		/// <summary>
+		/// In relation to the world width and height, 
+		/// this method ensures that the player doesn't move out the bounds of the drawn map.
+		/// </summary>
+		/// <param name="worldWidth">World Width; Num of columns * Size of a tile</param>
+		/// <param name="worldHeight">World Height; Num of rows * Size of a tile</param>
+		public void KeepPlayerInBounds(int worldWidth, int worldHeight)
+		{
+			// If the player is too FAR LEFT
+			if (worldPosition.X < 0)
+			{
+				worldPosition.X = 0;
+			}
+
+			// If the player is too FAR RIGHT
+			if (worldPosition.X + worldPosition.Width > worldWidth)
+			{
+				worldPosition.X = worldWidth - worldPosition.Width;
+			}
+
+			// If the player is too FAR UP
+			if (worldPosition.Y < 0)
+			{
+				worldPosition.Y = 0;
+			}
+
+			// If the player is too FAR DOWN
+			if (worldPosition.Y + worldPosition.Height > worldHeight)
+			{
+				worldPosition.Y = worldHeight - worldPosition.Height;
+			}
+		}
+
+		/// <summary>
+		/// Gives a buff or debuff to the player based on the type of candy it is collecting.
+		/// </summary>
+		/// <param name="candyType">Type of candy that is being collected.</param>
+		public void CollectCandy(CandyType candyType)
+		{
+			switch (candyType)
+			{
+				case CandyType.SkullCandy:
+					// TO DO: I do think it would be nice to implement the color tint here too with the power-ups.
+					//        However, since the frame change is quite quick, the tint change doesn't show :(
+
+					// Deal damage to the player
+					if (!Game1.GodMode)
+					{
+						health--;
+						tint = Color.DarkRed;
+					}
+					break;
+
+				case CandyType.Peppermint:
+					// Increase bullet velocity
+					tint = Color.Blue;
+					break;
+
+				case CandyType.CandyCorn:
+					// bullet pickups
+
+					break;
+
+				case CandyType.GreenCandy:
+					// TO DO: Maybe add sound effect for these guys too?
+					// Add 5 points to player points
+					points += 5;
+					tint = Color.Yellow;
+					break;
+
+				case CandyType.YellowCandy:
+					// Add 10 points to player points
+					points += 10;
+					tint = Color.Yellow;
+					break;
+				case CandyType.Chocolate:
+					// Heal player health
+					if (health < 6)
+					{
+						health++;
+						tint = Color.Green;
+					}
+					break;
+			}
+			/*
+			 * BUFFS AND DEBUFFS
+			 * 
+			 * BUFFS:
+			 * More damage
+			 * reload timer
+			 * 
+			 * DEBUFFS
+			 * slower speed
+			 * 
+			 */
+		}
+
+		/// <summary>
+		/// Moves the player based on which arrows are pressed.
+		/// </summary>
+		private void MoveOnKeyPress()
+		{
+			// Gets the current keyboard state
+			KeyboardState kbState = Keyboard.GetState();
+
+			// Zeros the direction vector
+			direction = Vector2.Zero;
+
+			// Changes direction based on arrow and WASD key presses
+			if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
+			{
+				direction.X -= 1;
+			}
+			if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
+			{
+				direction.X += 1;
+			}
+			if (kbState.IsKeyDown(Keys.Up) || kbState.IsKeyDown(Keys.W))
+			{
+				direction.Y -= 1;
+			}
+			if (kbState.IsKeyDown(Keys.Down) || kbState.IsKeyDown(Keys.S))
+			{
+				direction.Y += 1;
+			}
+
+			// Normalizes the direction vector
+			if (direction != Vector2.Zero)
+			{
+				direction.Normalize();
+			}
+
+			// Speed scalar used for movement calculation is faster if in god mode
+			int speedScalar = speed;
+			if (Game1.GodMode)
+			{
+				speedScalar = 4;
+			}
+
+			// Moves the player by scaling its direction vector by its speed stat
+			worldPosition = new Rectangle(
+				worldPosition.X + (int)Math.Round(direction.X * speedScalar),
+				worldPosition.Y + (int)Math.Round(direction.Y * speedScalar),
+				worldPosition.Width,
+				worldPosition.Height);
+		}
+	}
 }
