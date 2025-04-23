@@ -44,6 +44,18 @@
 /processorParam:TextureFormat=Compressed
 /build:arial12.spritefont
 
+#begin creditScene.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:creditScene.png
+
 #begin DemonSprites.png
 /importer:TextureImporter
 /processor:TextureProcessor
