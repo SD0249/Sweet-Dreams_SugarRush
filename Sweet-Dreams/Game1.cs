@@ -43,6 +43,7 @@ namespace Sweet_Dreams
         private Texture2D startButton;
         private Texture2D instructionButton;
         private Texture2D quitButton;
+        private Texture2D winningScreen;
         private Texture2D gameOverScreen;
         private Texture2D lifeHeart;
 
@@ -125,6 +126,7 @@ namespace Sweet_Dreams
             instructionButton = Content.Load<Texture2D>("InstructionsButton");
             quitButton = Content.Load<Texture2D>("QuitButton");
             title = Content.Load<Texture2D>("GameTitle");
+            winningScreen = Content.Load<Texture2D>("WinningScreen");
             gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
             lifeHeart = Content.Load<Texture2D>("heart");
 
@@ -433,10 +435,15 @@ namespace Sweet_Dreams
 
                 case GameState.Win:
 
+                    _spriteBatch.Draw(
+                        winningScreen,
+                        new Rectangle(0, 0, screenWidth, screenHeight),
+                        Color.White);
+
                     _spriteBatch.DrawString(
                         arial12,
-                        "#YouWon",
-                        new Vector2(300, 200),
+                        "Press ENTER to return to the menu screen.",
+                        new Vector2(255, 20),
                         Color.White);
 
                     break;
