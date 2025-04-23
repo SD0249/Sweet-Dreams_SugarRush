@@ -57,7 +57,8 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public Bullet(Texture2D asset, Rectangle worldPosition, 
-            int damage, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
+            int damage, int screenWidth, int screenHeight, 
+            int worldWidth, int worldHeight, float rotation)
         :base(asset, worldPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
@@ -66,40 +67,9 @@ namespace Sweet_Dreams
             speed = 3;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
-            float startingX = 385;
-            float startingY = 213;
+            this.rotation = rotation;
 
-            // If the player is left of the center...
-            if (worldPosition.X < 385)
-            {
-                // Match the bullets startingX to the player's X
-                startingX = worldPosition.X;
-            }
-            // If the player is right of the center...
-            if (worldPosition.X > worldWidth - 385)
-            {
-                // Match the bullets startingX to the center
-                // plus how far right of the center the player is 
-                startingX = Math.Abs(385 + (worldPosition.X - worldWidth + 385));
-            }
-
-            // If the player is above the center...
-            if (worldPosition.Y < 213)
-            {
-                // Match the bullets startingY to the player's Y
-                startingY = worldPosition.Y;
-            }
-            // If the player is below the center...
-            if (worldPosition.Y > worldHeight - 213)
-            {
-                // Match the bullets startingY to the center
-                // plus how far below the center the player is 
-                startingY = Math.Abs(213 + (worldPosition.Y - worldHeight + 213));
-            }
-
-            // Finding the rotation of the bullet based off the mouse
-            rotation = (float)Math.Atan2(startingY - mouse.Y,
-                                         startingX - mouse.X);
+            
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
