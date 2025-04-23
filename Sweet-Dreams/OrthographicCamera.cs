@@ -85,7 +85,6 @@ namespace Sweet_Dreams
                                         screenHeight);
         }
 
-
         //---------------------------------------------------------------
         // Class Methods (Behaviors)
         //---------------------------------------------------------------
@@ -103,16 +102,6 @@ namespace Sweet_Dreams
             // Ensure that the camera only rendering the drawn world
             CameraRendering(worldPosition, worldWidth, worldHeight);
         }
-
-
-        /// <summary>
-        /// Update the Camera's Matrix each frame.
-        /// </summary>
-        private void UpdateCameraMatrix()
-        {
-            cameraMatrix = Matrix.CreateTranslation(0, 0, 0);
-        }
-
 
         /// <summary>
         /// Keeps the camera bounds to render only the drawn world,

@@ -113,6 +113,7 @@ namespace Sweet_Dreams
                     {
                         // Player takes damage
                         player.Health -= currentEnemies[i].Damage;
+                        player.Hurt = true;
 
                         // Teleports the enemy back to the walls
                         currentEnemies[i].GoToWorldEdge();
@@ -184,7 +185,22 @@ namespace Sweet_Dreams
         /// in the level, false otherwise.</returns>
         public bool IsLevelCleared()
         {
-            return currentEnemies.Count == 0 && allEnemies.Count == 0;
+            if (currentEnemies.Count == 0 && allEnemies.Count == 0)
+            {
+                return true;
+            }
+            if (player.Health <=0 && currentEnemies.Count !=0)
+            {
+                currentEnemies.Clear();
+                return false;
+            }
+            if (player.Health == 5)
+            {
+                // ReadEnemyData();
+                return false;
+            }
+
+            return false;
         }
 
         // --------------------------------------------------------------
@@ -245,13 +261,6 @@ namespace Sweet_Dreams
                                                  worldWidth,
                                                  worldHeight));
                 }
-                
-                //currentEnemies.Add(new Enemy(EnemyType.Imp,
-                //                                 asset,
-                //                                 screenWidth,
-                //                                 screenHeight,
-                //                                 worldWidth,
-                //                                 worldHeight));
             }
             catch (Exception e)
             {
