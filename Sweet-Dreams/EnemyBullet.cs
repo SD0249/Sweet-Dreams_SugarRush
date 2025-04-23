@@ -13,7 +13,7 @@ namespace Sweet_Dreams
 		// --------------------------------------------------------------
 		// Fields
 		// --------------------------------------------------------------
-		// need playerPosition
+		private Player player;
 		private int speed;
 		private float rotation;
 		private Vector2 direction;
@@ -54,7 +54,7 @@ namespace Sweet_Dreams
 		// --------------------------------------------------------------
 		public EnemyBullet(Texture2D asset, Rectangle worldPosition,
 			int damage, int screenWidth, int screenHeight, int worldWidth, int worldHeight)
-		: base(asset, worldPosition, new Rectangle(1, 1, 1, 1), screenWidth, screenHeight)
+		: base(asset, worldPosition, screenWidth, screenHeight)
 		{
 			this.asset = asset;
 			this.damage = damage;
@@ -94,8 +94,8 @@ namespace Sweet_Dreams
 			}
 
 			// Finding the rotation of the bullet based off the player
-			rotation = (float)Math.Atan2(startingY - mouse.Y,
-										 startingX - mouse.X);
+			rotation = (float)Math.Atan2(startingY - player.WorldPosition.Y,
+										 startingX - player.WorldPosition.X);
 
 			// Finding the direction the bullet need to go based of the rotation
 			direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
@@ -124,9 +124,6 @@ namespace Sweet_Dreams
 			// Changing the bullets position
 			worldPosition.X += (int)Math.Round(direction.X * speed);
 			worldPosition.Y += (int)Math.Round(direction.Y * speed);
-
-			// Updates screen position
-			screenPosition = worldPosition;
 		}
 
 		/// <summary>
