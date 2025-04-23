@@ -37,7 +37,7 @@ namespace Sweet_Dreams
         // Properties
         // --------------------------------------------------------------
         /// <summary>
-        /// List of enemies' world positons as (X,Y) vectors.
+        /// List of enemies' world positons as (X,Y) vectors. Used for testing.
         /// </summary>
         public List<Vector2> WorldPositions
         {

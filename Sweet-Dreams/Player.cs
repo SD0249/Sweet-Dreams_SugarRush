@@ -601,13 +601,13 @@ namespace Sweet_Dreams
 					if (!Game1.GodMode)
 					{
 						health--;
-						tint = Color.DarkRed;
+						tint = Color.Red;
 					}
 					break;
 
 				case CandyType.Peppermint:
 					// Increase bullet velocity
-					tint = Color.Blue;
+					tint = Color.Cyan;
 					break;
 
 				case CandyType.CandyCorn:
@@ -635,7 +635,6 @@ namespace Sweet_Dreams
 					if (health < 6)
 					{
 						health++;
-						tint = Color.Green;
 					}
 					break;
 			}

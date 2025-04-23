@@ -24,6 +24,7 @@ namespace Sweet_Dreams
         private Vector2 origin;
         private bool hitEnemy;
         private int damage;
+        private Rectangle sourceRect;
 
         // --------------------------------------------------------------
         // Properties
@@ -56,7 +57,7 @@ namespace Sweet_Dreams
         // --------------------------------------------------------------
         // Constructor
         // --------------------------------------------------------------
-        public Bullet(Texture2D asset, Rectangle worldPosition, 
+        public Bullet(Texture2D asset, Rectangle worldPosition, Rectangle sourceRect,
             int damage, int screenWidth, int screenHeight, 
             int worldWidth, int worldHeight, float rotation)
         :base(asset, worldPosition, screenWidth, screenHeight)
@@ -68,8 +69,7 @@ namespace Sweet_Dreams
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
             this.rotation = rotation;
-
-            
+            this.sourceRect = sourceRect;
 
             // Finding the direction the bullet need to go based of the rotation
             direction = new Vector2((float)Math.Cos(rotation + 3.14), (float)Math.Sin(rotation + 3.14));
@@ -109,7 +109,7 @@ namespace Sweet_Dreams
             sb.Draw(
                 asset,
                 new Rectangle(worldPosition.X + 15, worldPosition.Y + 10, 16, 16),
-                new Rectangle(0, 0, 16, 16),
+                sourceRect,
                 Color.White,
                 rotation - 0.78f,
                 origin,
