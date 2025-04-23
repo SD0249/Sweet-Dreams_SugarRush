@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 // Sweet Dreams - Sugar Rush
@@ -24,6 +25,13 @@ namespace Sweet_Dreams
         MouthDemon,
         HornDemon,
         Cloak
+    }
+
+    public enum EnemyState
+    {
+        Idle,
+        Walk,
+        Dead
     }
 
     public class Enemy : GameObject
@@ -60,6 +68,10 @@ namespace Sweet_Dreams
         private double timer;
         private double fps;
         private double spf;
+
+        // values needed for the Enemy AI
+        private bool isWalking;
+        private EnemyState currentState;
 
         // Unit direction vector
         private Vector2 direction;
@@ -388,5 +400,32 @@ namespace Sweet_Dreams
                     break;
             }
         }
+
+        //-----------------------------
+        // ENEMY AI METHODS
+        //-----------------------------
+        private void CurrentAIState()
+        {
+            switch (currentState)
+            {
+                case EnemyState.Idle:
+                    if (!isWalking)
+                    {
+
+                    }
+                    break;
+                case EnemyState.Walk:
+                    if (health < 0)
+                    {
+
+                    }
+                    break;
+                case EnemyState.Dead:
+                    break;
+            }
+        }
+
+        
+
     }
 }
