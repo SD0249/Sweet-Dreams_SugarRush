@@ -611,7 +611,10 @@ namespace Sweet_Dreams
 					break;
 
 				case CandyType.CandyCorn:
+					// TEST
 					// bullet pickups
+
+
 
 					break;
 
