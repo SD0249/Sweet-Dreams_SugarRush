@@ -43,6 +43,7 @@ namespace Sweet_Dreams
         private Texture2D startButton;
         private Texture2D instructionButton;
         private Texture2D quitButton;
+        private Texture2D credits;
         private Texture2D winningScreen;
         private Texture2D gameOverScreen;
         private Texture2D lifeHeart;
@@ -71,6 +72,10 @@ namespace Sweet_Dreams
         private int screenHeight;
         private SpriteFont arial12;
         private double deathTimer;
+        private bool credit;
+        float rotation;
+        float startingX;
+        float startingY;
 
         /// <summary>
         /// Whether or not the game is currently in god/debug mode.
@@ -104,7 +109,13 @@ namespace Sweet_Dreams
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
 
             deathTimer = 0.98;
+            rotation = 0;
+            startingX = 385;
+            startingY = 213;
             mouse = Mouse.GetState();
+
+            // Credit is not drawn from the start
+            credit = false;
 
             base.Initialize();
         }
@@ -126,6 +137,7 @@ namespace Sweet_Dreams
             instructionButton = Content.Load<Texture2D>("InstructionsButton");
             quitButton = Content.Load<Texture2D>("QuitButton");
             title = Content.Load<Texture2D>("GameTitle");
+            credits = Content.Load<Texture2D>("creditScene");
             winningScreen = Content.Load<Texture2D>("WinningScreen");
             gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
             lifeHeart = Content.Load<Texture2D>("heart");
@@ -193,6 +205,12 @@ namespace Sweet_Dreams
                     {
                         Exit();
                     }
+
+                    // The credits scene toggle on and off using the 'C' key.
+                    if(SingleKeyPress(Keys.C))
+                    {
+                        credit = !credit;
+                    }
                     break;
 
                 case GameState.Game:
@@ -242,10 +260,42 @@ namespace Sweet_Dreams
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         player.ReloadTimer <= 0)
                     {
+                        // If the player is left of the center...
+                        if (player.WorldPosition.X < 385)
+                        {
+                            // Match the bullets startingX to the player's X
+                            startingX = player.WorldPosition.X;
+                        }
+                        // If the player is right of the center...
+                        if (player.WorldPosition.X > level1.WorldWidth - 385)
+                        {
+                            // Match the bullets startingX to the center
+                            // plus how far right of the center the player is 
+                            startingX = Math.Abs(385 + (player.WorldPosition.X - level1.WorldWidth + 385));
+                        }
+
+                        // If the player is above the center...
+                        if (player.WorldPosition.Y < 213)
+                        {
+                            // Match the bullets startingY to the player's Y
+                            startingY = player.WorldPosition.Y;
+                        }
+                        // If the player is below the center...
+                        if (player.WorldPosition.Y > level1.WorldWidth - 213)
+                        {
+                            // Match the bullets startingY to the center
+                            // plus how far below the center the player is 
+                            startingY = Math.Abs(213 + (player.WorldPosition.Y - level1.WorldWidth + 213));
+                        }
+
+                        // Finding the rotation of the bullet based off the mouse
+                        rotation = (float)Math.Atan2(startingY - mouse.Y,
+                                                     startingX - mouse.X);
+
                         // Makes a new bullet every time you shoot
                         bullets.Add(new Bullet(candySprites, 
                             new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16), 
-                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight));
+                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight, rotation));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -377,13 +427,6 @@ namespace Sweet_Dreams
                     instruction.Draw(_spriteBatch);
                     quit.Draw(_spriteBatch);
 
-                    // We can alter this or delete it
-                    /* _spriteBatch.DrawString(
-                        arial12,
-                        "         Sweet Dreams\n Press enter to start game",
-                        new Vector2(300, 200),
-                        Color.White); */
-
                     // Draws placeholder instructions
                     // : Maybe this should be toggled on and off by mouse hovering over.
                     // : Nice chance to play with events and delegates.
@@ -403,12 +446,24 @@ namespace Sweet_Dreams
                         Color.White);
 
                     }
+
+                    // Draws the credit scene if it is toggled on by the 'C' key
+                    if(credit)
+                    {
+                        DebugLib.DrawRectFill(_spriteBatch, 
+                                              new Rectangle(0, 0, screenWidth, screenHeight), 
+                                              Color.CornflowerBlue);
+
+                        _spriteBatch.Draw(credits,
+                                          new Rectangle(30, 15, (int)(screenWidth * 0.9), (int)(screenHeight * 0.9)),
+                                          Color.White);
+                    }
                     break;
 
                 case GameState.Game:
 
                     // Draws a heart for each of the player's remaining lives
-                    Rectangle heartRect = new Rectangle(screenWidth - 80, screenHeight - 80, 80, 80);
+                    Rectangle heartRect = new Rectangle(-10, -10, 80, 80);
                     for (int i = 0; i < player.Health; i++)
                     {
                         _spriteBatch.Draw(
@@ -416,7 +471,7 @@ namespace Sweet_Dreams
                             heartRect,
                             Color.White);
 
-                        heartRect.X -= 60;
+                        heartRect.X += 50;
                     }
 
                     // Draws the Debug Information if debug mode is on

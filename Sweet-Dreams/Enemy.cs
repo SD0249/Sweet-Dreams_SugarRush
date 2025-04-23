@@ -210,7 +210,6 @@ namespace Sweet_Dreams
 
 			// Updates the enemy's animation
 			UpdateAnimation(gameTime);
-
 		}
 
 		/// <summary>
@@ -404,15 +403,17 @@ namespace Sweet_Dreams
 			}
 		}
 
-		public void Attack()
+		public bool Attack()
 		{
 			if (eType == EnemyType.Cloak)
 			{
 				//check that the enemy is in the screen
-				//if (IsOnScreen())
-				{
-					//check that the enemy bullet collides with player
 
+				//check that the enemy bullet collides with player
+				if (bullet.HitPlayer)
+				{
+					player.Hurt = true;
+					return true;
 				}
 			}
 
@@ -421,9 +422,16 @@ namespace Sweet_Dreams
 				// check the enemy's attack rectangle
 				if (attackRadius.Contains(player.WorldPosition))
 				{
-					player.Hurt = true;
+					if (attackRadius.Intersects(player.WorldPosition))
+					{
+						player.Hurt = true;
+					}
+
+					return true;
 				}
 			}
+
+			return false;
 		}
 	}
 }
