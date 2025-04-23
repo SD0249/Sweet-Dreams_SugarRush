@@ -103,7 +103,7 @@ namespace Sweet_Dreams
             // Initialize Camera
             camera = new OrthographicCamera(_graphics.GraphicsDevice.Viewport);
 
-            deathTimer = 0.6;
+            deathTimer = 0.98;
             mouse = Mouse.GetState();
 
             base.Initialize();
@@ -149,7 +149,7 @@ namespace Sweet_Dreams
 
             // Creates the player at its starting position
             player = new Player(playerAnimation, 
-                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 30, 51),
+                new Rectangle(screenWidth / 2 - 15, screenHeight / 2 - 27, 51, 54),
                 screenWidth, 
                 screenHeight);
 
@@ -210,7 +210,7 @@ namespace Sweet_Dreams
                         if (deathTimer <= 0)
                         {
                             gameState = GameState.Lose;
-                            deathTimer = 0.6;
+                            deathTimer = 0.98;
                         }
                         deathTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     }

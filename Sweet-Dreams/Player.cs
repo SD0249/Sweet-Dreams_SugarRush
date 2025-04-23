@@ -134,42 +134,42 @@ namespace Sweet_Dreams
 			speed = 2;
 			points = 0;
 			tint = Color.White;
-			stunTimer = 0.6;
+			stunTimer = 0.9;
 			reloadTimer = 1;
 			direction = Vector2.Zero;
 			timer = 0.0;
-			spf = 0.2;
+			spf = 0.3;
 			effectTimer = 1.0;
 
 			// Making animation lists
 			idleAnim = new List<Rectangle>(4);
-			idleAnim.Add(new Rectangle(7, 7, 10, 17));
-			idleAnim.Add(new Rectangle(7, 7, 10, 17));
-			idleAnim.Add(new Rectangle(31, 8, 10, 16));
-			idleAnim.Add(new Rectangle(31, 8, 10, 16));
+			idleAnim.Add(new Rectangle(4, 6, 17, 18));
+			idleAnim.Add(new Rectangle(4, 6, 17, 18));
+			idleAnim.Add(new Rectangle(28, 7, 17, 17));
+			idleAnim.Add(new Rectangle(28, 7, 17, 17));
 
 			walkingAnim = new List<Rectangle>(4);
-			walkingAnim.Add(new Rectangle(7, 32, 10, 16));
-			walkingAnim.Add(new Rectangle(31, 31, 10, 17));
-			walkingAnim.Add(new Rectangle(55, 32, 10, 16));
-			walkingAnim.Add(new Rectangle(79, 31, 10, 17));
+			walkingAnim.Add(new Rectangle(4, 31, 17, 17));
+			walkingAnim.Add(new Rectangle(28, 30, 17, 18));
+			walkingAnim.Add(new Rectangle(52, 31, 17, 17));
+			walkingAnim.Add(new Rectangle(76, 30, 17, 18));
 
 			damageAnim = new List<Rectangle>(4);
-			damageAnim.Add(new Rectangle(150, 7, 11, 17));
-			damageAnim.Add(new Rectangle(150, 7, 11, 17));
-			damageAnim.Add(new Rectangle(175, 7, 10, 17));
-			damageAnim.Add(new Rectangle(175, 7, 10, 17));
+			damageAnim.Add(new Rectangle(52, 6, 17, 18));
+			damageAnim.Add(new Rectangle(52, 6, 17, 18));
+			damageAnim.Add(new Rectangle(77, 6, 17, 18));
+			damageAnim.Add(new Rectangle(77, 6, 17, 18));
 
 			deathAnim = new List<Rectangle>(4);
-			deathAnim.Add(new Rectangle(103, 103, 10, 17));
-			deathAnim.Add(new Rectangle(128, 104, 10, 16));
-			deathAnim.Add(new Rectangle(152, 108, 13, 12));
-			deathAnim.Add(new Rectangle(176, 112, 15, 8));
+			deathAnim.Add(new Rectangle(3, 54, 17, 18));
+			deathAnim.Add(new Rectangle(28, 55, 17, 17));
+			deathAnim.Add(new Rectangle(54, 59, 16, 13));
+			deathAnim.Add(new Rectangle(79, 64, 15, 8));
 
 			animationWP = new Rectangle(worldPosition.X,
-								  worldPosition.Y + (currentFrame + 1) % 2,
-								  worldPosition.Width,
-								  walkingAnim[currentFrame].Height * 3);
+										worldPosition.Y + (currentFrame + 1) % 2,
+										walkingAnim[currentFrame].Width * 3 - 4,
+										walkingAnim[currentFrame].Height * 3);
 			currentAnim = 0;
 			prevAnim = currentAnim;
 		}
@@ -230,7 +230,7 @@ namespace Sweet_Dreams
 					}
 
 					animationWP.Y = worldPosition.Y + 10;
-					animationWP.Width = 39;
+					animationWP.Width = 48;
 					animationWP.Height = 36;
 				}
 				if (currentFrame == 3)
@@ -499,14 +499,14 @@ namespace Sweet_Dreams
 						prevPS == PlayerState.WalkRight)
 					{
 						sb.Draw(asset,
-						   worldPosition,
+						   animationWP,
 						   damageAnim[currentFrame],
 						   tint);
 					}
 					else
 					{
 						sb.Draw(asset,
-							worldPosition,
+							animationWP,
 							damageAnim[currentFrame],
 							tint,
 							0,
