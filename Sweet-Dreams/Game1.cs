@@ -282,7 +282,8 @@ namespace Sweet_Dreams
 
                         // Makes a new bullet every time you shoot
                         bullets.Add(new Bullet(candySprites, 
-                            new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16), 
+                            new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16),
+                            new Rectangle(0, 0, 16, 16),
                             player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight, rotation));
 
                         // Resets the timer for reloading the gun 
