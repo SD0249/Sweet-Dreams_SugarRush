@@ -46,7 +46,8 @@ namespace Sweet_Dreams
 		// the radius of the MouthDemon's attack
 		private Rectangle attackRadius;
 
-		private EnemyBullet bullet;
+		private Bullet bullet;
+		private List<Bullet> bullets;
 
 		// Reference to the game's randomizer
 		private Random rng;
@@ -356,6 +357,7 @@ namespace Sweet_Dreams
 					damage = 1;
 					speed = 2;
 					candyNum = 2;
+					bullets = new List<Bullet>();
 					enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(1, 40, 13, 15));
 					enemyAnim.Add(new Rectangle(18, 38, 12, 17));
@@ -407,10 +409,13 @@ namespace Sweet_Dreams
 		{
 			if (eType == EnemyType.Cloak)
 			{
-				//check that the enemy is in the screen
+				// Check that the enemy is in the screen
 
-				//check that the enemy bullet collides with player
-				if (bullet.HitPlayer)
+				// Makes the actual bullet
+				
+
+				// Check that the enemy bullet collides with player
+				if (bullet.WorldPosition.Intersects(player.WorldPosition))
 				{
 					player.Hurt = true;
 					return true;
@@ -419,7 +424,7 @@ namespace Sweet_Dreams
 
 			if (eType == EnemyType.MouthDemon)
 			{
-				// check the enemy's attack rectangle
+				// Check the enemy's attack rectangle
 				if (attackRadius.Contains(player.WorldPosition))
 				{
 					if (attackRadius.Intersects(player.WorldPosition))
