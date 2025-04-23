@@ -210,7 +210,6 @@ namespace Sweet_Dreams
 
 			// Updates the enemy's animation
 			UpdateAnimation(gameTime);
-
 		}
 
 		/// <summary>

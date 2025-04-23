@@ -7,7 +7,7 @@
 // File format:
 // Name of enemy type
 // Wave 1 Enemies
-Imp
+HornDemon
 Imp
 HornDemon
 Cloak
@@ -16,7 +16,7 @@ Cloak
 Cloak
 HornDemon
 Imp
-Imp
+Cloak
 // Wave 2 Enemies
 Imp
 Imp
