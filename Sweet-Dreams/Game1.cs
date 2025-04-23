@@ -255,7 +255,7 @@ namespace Sweet_Dreams
                             startingX = player.WorldPosition.X;
                         }
                         // If the player is right of the center...
-                        if (player.WorldPosition.X > level1.WorldWidth - 385)
+                        else if (player.WorldPosition.X > level1.WorldWidth - 385)
                         {
                             // Match the bullets startingX to the center
                             // plus how far right of the center the player is 
@@ -263,17 +263,22 @@ namespace Sweet_Dreams
                         }
 
                         // If the player is above the center...
-                        if (player.WorldPosition.Y < 213)
+                        else if (player.WorldPosition.Y < 213)
                         {
                             // Match the bullets startingY to the player's Y
                             startingY = player.WorldPosition.Y;
                         }
                         // If the player is below the center...
-                        if (player.WorldPosition.Y > level1.WorldWidth - 213)
+                        else if (player.WorldPosition.Y > level1.WorldWidth - 213)
                         {
                             // Match the bullets startingY to the center
                             // plus how far below the center the player is 
                             startingY = Math.Abs(213 + (player.WorldPosition.Y - level1.WorldWidth + 213));
+                        }
+                        else
+                        {
+                            startingX = 385;
+                            startingY = 213;
                         }
 
                         // Finding the rotation of the bullet based off the mouse
@@ -464,7 +469,7 @@ namespace Sweet_Dreams
                         _spriteBatch.DrawString(
                             arial12,
                             "God mode enabled. Enemies will not damage you in this state.",
-                            new Vector2(10, 10),
+                            new Vector2(350, screenHeight - 24),
                             Color.White);
 
                         DrawDebugInfo(_spriteBatch);
@@ -528,7 +533,7 @@ namespace Sweet_Dreams
                 Color.White);
 
             //Draws one enemy's world position
-            if (enemyManager.WorldPositions.Count > 0)
+            /* if (enemyManager.WorldPositions.Count > 0)
             {
                 sb.DrawString(
                     arial12,
@@ -536,7 +541,7 @@ namespace Sweet_Dreams
                     $"{enemyManager.WorldPositions[0].Y})",
                     new Vector2(460, screenHeight - 24),
                     Color.White);
-            }
+            } */
 
             //Draws the current state of the game
             sb.DrawString(
@@ -559,11 +564,10 @@ namespace Sweet_Dreams
                     new Vector2(10, screenHeight - 98),
                     Color.White);
 
-            //Draws the player's screen position
+            //Draws player's remaining health
             sb.DrawString(
                 arial12,
-                //$"Player Screen Position: {player.ScreenPosition.X}, {player.ScreenPosition.Y}",
-                "Player.ScreenPosition no longer has a purpose.",
+                $"Remaining Health: {player.Health}",
                 new Vector2(10,screenHeight - 124),
                 Color.White);
 
@@ -579,13 +583,6 @@ namespace Sweet_Dreams
                 arial12,
                 $"Screen Size: {screenWidth} x {screenHeight}",
                 new Vector2(10, screenHeight - 176),
-                Color.White);
-
-            //Draws player's remaining health
-            sb.DrawString(
-                arial12,
-                $"Remaining Health: {player.Health}",
-                new Vector2(10, screenHeight - 202),
                 Color.White);
         }
 

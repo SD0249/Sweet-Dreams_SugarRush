@@ -72,7 +72,7 @@ namespace Sweet_Dreams
             {
                 case 0:
                     cType = CandyType.SkullCandy;
-                    sourceRect = new Rectangle(64, 96, 16, 16);
+                    sourceRect = new Rectangle(64, 80, 16, 16);
 
 					break;
                 case 1:
@@ -92,7 +92,7 @@ namespace Sweet_Dreams
 					break;
                 case 4:
                     cType = CandyType.YellowCandy;
-                    sourceRect = new Rectangle(32, 80, 16, 16);
+                    sourceRect = new Rectangle(16, 48, 16, 16);
 
 					break;
                 case 5:
