@@ -9,12 +9,12 @@
 // Wave 1 Enemies
 Imp
 Imp
-Imp
+HornDemon
 Cloak
 Imp
 Cloak
 Cloak
-Imp
+HornDemon
 Imp
 Imp
 // Wave 2 Enemies
