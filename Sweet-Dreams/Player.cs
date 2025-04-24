@@ -603,7 +603,7 @@ namespace Sweet_Dreams
 					break;
 
 				case CandyType.Peppermint:
-					// Increase bullet reload time to half
+					// Decrease bullet reload time to half
 					reloadTimer *= 0.5;
 					tint = Color.Cyan;
 					break;
