@@ -43,6 +43,7 @@ namespace Sweet_Dreams
         private Texture2D startButton;
         private Texture2D instructionButton;
         private Texture2D quitButton;
+        private Texture2D credits;
         private Texture2D winningScreen;
         private Texture2D gameOverScreen;
         private Texture2D lifeHeart;
@@ -71,6 +72,7 @@ namespace Sweet_Dreams
         private int screenHeight;
         private SpriteFont arial12;
         private double deathTimer;
+        private bool credit;
         float rotation;
         float startingX;
         float startingY;
@@ -112,6 +114,9 @@ namespace Sweet_Dreams
             startingY = 213;
             mouse = Mouse.GetState();
 
+            // Credit is not drawn from the start
+            credit = false;
+
             base.Initialize();
         }
 
@@ -132,6 +137,7 @@ namespace Sweet_Dreams
             instructionButton = Content.Load<Texture2D>("InstructionsButton");
             quitButton = Content.Load<Texture2D>("QuitButton");
             title = Content.Load<Texture2D>("GameTitle");
+            credits = Content.Load<Texture2D>("creditScene");
             winningScreen = Content.Load<Texture2D>("WinningScreen");
             gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
             lifeHeart = Content.Load<Texture2D>("heart");
@@ -198,6 +204,12 @@ namespace Sweet_Dreams
                     if(quit.buttonPressed(mouse) == true)
                     {
                         Exit();
+                    }
+
+                    // The credits scene toggle on and off using the 'C' key.
+                    if(SingleKeyPress(Keys.C))
+                    {
+                        credit = !credit;
                     }
                     break;
 
@@ -421,13 +433,6 @@ namespace Sweet_Dreams
                     instruction.Draw(_spriteBatch);
                     quit.Draw(_spriteBatch);
 
-                    // We can alter this or delete it
-                    /* _spriteBatch.DrawString(
-                        arial12,
-                        "         Sweet Dreams\n Press enter to start game",
-                        new Vector2(300, 200),
-                        Color.White); */
-
                     // Draws placeholder instructions
                     // : Maybe this should be toggled on and off by mouse hovering over.
                     // : Nice chance to play with events and delegates.
@@ -446,6 +451,18 @@ namespace Sweet_Dreams
                         new Vector2(30, screenHeight - 80),
                         Color.White);
 
+                    }
+
+                    // Draws the credit scene if it is toggled on by the 'C' key
+                    if(credit)
+                    {
+                        DebugLib.DrawRectFill(_spriteBatch, 
+                                              new Rectangle(0, 0, screenWidth, screenHeight), 
+                                              Color.CornflowerBlue);
+
+                        _spriteBatch.Draw(credits,
+                                          new Rectangle(30, 15, (int)(screenWidth * 0.9), (int)(screenHeight * 0.9)),
+                                          Color.White);
                     }
                     break;
 
