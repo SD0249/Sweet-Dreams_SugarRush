@@ -29,7 +29,8 @@ namespace Sweet_Dreams
         private Queue<Enemy> allEnemies;
         private List<Enemy> currentEnemies;
         private List<Candy> collectibles;
-        private List<Bullet> bullets;
+        private List<Bullet> playerBullets;
+        private List<Bullet> enemyBullets;
         private Texture2D candyAsset;
         private Player player;
 
@@ -62,12 +63,13 @@ namespace Sweet_Dreams
         /// <param name="fileName">File containing all enemy data for the level.</param>
         /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
         public EnemyManager(Random rng, string fileName, List<Candy> collectibles, 
-            List<Bullet> bullets, Player player, Texture2D enemyAsset, Texture2D candyAsset, 
+            List<Bullet> playerBullets, Player player, Texture2D enemyAsset, Texture2D candyAsset, 
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
             // Initializes fields with empty data structures
             allEnemies = new Queue<Enemy>();
             currentEnemies = new List<Enemy>();
+            enemyBullets = new List<Bullet>();
 
             // Fills the queue with enemy data from the file
             this.ReadEnemyData(rng, fileName, enemyAsset, player, screenWidth, 
@@ -78,7 +80,7 @@ namespace Sweet_Dreams
             this.candyAsset = candyAsset;
 
             // Gains a reference to the list of objects that can interact with enemies
-            this.bullets = bullets;
+            this.playerBullets = playerBullets;
 
             // Gains a reference to a player
             this.player = player;
@@ -124,22 +126,22 @@ namespace Sweet_Dreams
             // Removes bullets and damages enemies if they collide
             for (int enemyIndex = 0; enemyIndex < currentEnemies.Count; enemyIndex++)
             {
-                for (int bulletIndex = 0; bulletIndex < bullets.Count; bulletIndex++)
+                for (int bulletIndex = 0; bulletIndex < playerBullets.Count; bulletIndex++)
                 {
-                    if (currentEnemies[enemyIndex].CollidesWith(bullets[bulletIndex]))
+                    if (currentEnemies[enemyIndex].CollidesWith(playerBullets[bulletIndex]))
                     {
-                        currentEnemies[enemyIndex].Health -= bullets[bulletIndex].Damage;
-                        bullets[bulletIndex].HitEnemy = true;
+                        currentEnemies[enemyIndex].Health -= playerBullets[bulletIndex].Damage;
+                        playerBullets[bulletIndex].HitEnemy = true;
                     }
                 }
             }
 
             // Any bullets that hit enemies get removed from the list
-            for (int i = 0; i < bullets.Count; i++)
+            for (int i = 0; i < playerBullets.Count; i++)
             {
-                if (bullets[i].HitEnemy)
+                if (playerBullets[i].HitEnemy)
                 {
-                    bullets.RemoveAt(i);
+                    playerBullets.RemoveAt(i);
                     i--;
                 }
             }
@@ -163,7 +165,7 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Draws all enemies currently in the level to the screen (if they're in bounds).
+        /// Draws all enemies and enemy bullets to the screen (unless they're out of bounds).
         /// </summary>
         /// <param name="sb">The SpriteBatch object that does the drawing.</param>
         public void DrawAll(SpriteBatch sb, OrthographicCamera camera)
@@ -174,6 +176,15 @@ namespace Sweet_Dreams
                 if (currentEnemies[i].IsOnScreen(camera))
                 {
                     currentEnemies[i].Draw(sb);
+                }
+            }
+
+            // Draws all enemy bullets that will appear on the screen
+            for (int i = 0; i < enemyBullets.Count; i++)
+            {
+                if (enemyBullets[i].IsOnScreen(camera))
+                {
+                    enemyBullets[i].Draw(sb);
                 }
             }
         }

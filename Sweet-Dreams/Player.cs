@@ -131,7 +131,7 @@ namespace Sweet_Dreams
 		{
 			health = 6;
 			damage = 1;
-			speed = 2;
+			speed = 3;
 			points = 0;
 			tint = Color.White;
 			stunTimer = 0.9;

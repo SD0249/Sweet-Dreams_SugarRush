@@ -46,8 +46,10 @@ namespace Sweet_Dreams
 		// the radius of the MouthDemon's attack
 		private Rectangle attackRadius;
 
+		// o.o
+		private bool addBullet;
+
 		// the attack and reloadTimer for the Cloak
-		private EnemyBullet bullet;
 		private double reloadTimer;
 
 		// Reference to the game's randomizer
@@ -85,6 +87,12 @@ namespace Sweet_Dreams
 		public override Rectangle WorldPosition
 		{
 			get { return worldPosition; }
+		}
+
+		public bool AddBullet
+		{
+			get { return addBullet; }
+			set { addBullet = value; }
 		}
 
 		/// <summary>
@@ -221,6 +229,7 @@ namespace Sweet_Dreams
 			worldPosition.Y += (int)Math.Round(direction.Y * speed);
 
 			// Updates the enemy's animation
+			reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 			UpdateAnimation(gameTime);
 		}
 
@@ -415,21 +424,16 @@ namespace Sweet_Dreams
 			}
 		}
 
-		public bool Attack()
+		public void Attack(OrthographicCamera camera)
 		{
-			if (eType == EnemyType.Cloak)
+			if (eType == EnemyType.Cloak && IsOnScreen(camera))
 			{
-				//check that the enemy is in the screen
-
-				//check the reload timer
-
-				//check that the enemy bullet collides with player
-				if (bullet.HitPlayer)
+				// Makes the actual bullet
+				if (reloadTimer <= 0)
 				{
-					player.Hurt = true;
+					reloadTimer = 1;
+					addBullet = true;
 				}
-
-				return true;
 			}
 
 			if (eType == EnemyType.MouthDemon)
@@ -441,12 +445,8 @@ namespace Sweet_Dreams
 					{
 						player.Hurt = true;
 					}
-
-					return true;
 				}
 			}
-
-			return false;
 		}
 	}
 }
