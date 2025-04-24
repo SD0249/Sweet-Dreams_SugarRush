@@ -47,8 +47,7 @@ namespace Sweet_Dreams
 		private Rectangle attackRadius;
 
 		// o.o
-		private Bullet bullet;
-		private List<Bullet> bullets;
+		private bool addBullet;
 
 		// the attack and reloadTimer for the Cloak
 		private double reloadTimer;
@@ -88,6 +87,12 @@ namespace Sweet_Dreams
 		public override Rectangle WorldPosition
 		{
 			get { return worldPosition; }
+		}
+
+		public bool AddBullet
+		{
+			get { return addBullet; }
+			set { addBullet = value; }
 		}
 
 		/// <summary>
@@ -224,6 +229,7 @@ namespace Sweet_Dreams
 			worldPosition.Y += (int)Math.Round(direction.Y * speed);
 
 			// Updates the enemy's animation
+			reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 			UpdateAnimation(gameTime);
 		}
 
@@ -371,7 +377,6 @@ namespace Sweet_Dreams
 					damage = 1;
 					speed = 2;
 					candyNum = 2;
-					bullets = new List<Bullet>();
 					enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(1, 40, 13, 15));
 					enemyAnim.Add(new Rectangle(18, 38, 12, 17));
@@ -419,22 +424,16 @@ namespace Sweet_Dreams
 			}
 		}
 
-		public bool Attack()
+		public void Attack(OrthographicCamera camera)
 		{
-			if (eType == EnemyType.Cloak)
+			if (eType == EnemyType.Cloak && IsOnScreen(camera))
 			{
-				// Check that the enemy is in the screen
-
 				// Makes the actual bullet
-				
-
-				// Check that the enemy bullet collides with player
-				if (bullet.WorldPosition.Intersects(player.WorldPosition))
+				if (reloadTimer <= 0)
 				{
-					player.Hurt = true;
+					reloadTimer = 1;
+					addBullet = true;
 				}
-
-				return true;
 			}
 
 			if (eType == EnemyType.MouthDemon)
@@ -446,12 +445,8 @@ namespace Sweet_Dreams
 					{
 						player.Hurt = true;
 					}
-
-					return true;
 				}
 			}
-
-			return false;
 		}
 	}
 }
