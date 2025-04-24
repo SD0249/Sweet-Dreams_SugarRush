@@ -53,7 +53,7 @@ namespace Sweet_Dreams
         private Texture2D purpleDungeon;
         private Texture2D candySprites;
         private Texture2D enemySprites;
-        private Texture2D tempButton;
+        private Texture2D crosshair;
 
         // Object components
         private Random rng;
@@ -141,6 +141,7 @@ namespace Sweet_Dreams
             winningScreen = Content.Load<Texture2D>("WinningScreen");
             gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
             lifeHeart = Content.Load<Texture2D>("heart");
+            crosshair = Content.Load<Texture2D>("Crosshair");
 
             // Initialize Buttons here after loading the assets
             start = new Button(startButton,
@@ -194,6 +195,7 @@ namespace Sweet_Dreams
                     if (start.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
+                        IsMouseVisible = false;
                     }
 
                     // Checks hovering
@@ -220,15 +222,17 @@ namespace Sweet_Dreams
                         player.WorldPosition.Contains(new Point(470, 30)))
                     {
                         gameState = GameState.Win;
+                        IsMouseVisible = true;
                     }
 
-                    // when the player dies???
+                    // Go to losing state when player dies
                     if (player.Health <= 0)
                     {
                         if (deathTimer <= 0)
                         {
                             gameState = GameState.Lose;
                             deathTimer = 0.98;
+                            IsMouseVisible = true;
                         }
                         deathTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     }
@@ -333,6 +337,7 @@ namespace Sweet_Dreams
                     if (playerState == PlayerState.Dead)
                     {
                         gameState = GameState.Lose;
+                        IsMouseVisible = true;
                     }
 
                     // Update ALL the camera related stuff
@@ -347,8 +352,6 @@ namespace Sweet_Dreams
 
                 case GameState.Win:
 
-                    // draw win screen to console
-                    // assuming were also going to need the button class?
                     // Draw win screen to console
 
                     if (SingleKeyPress(Keys.Enter))
@@ -492,6 +495,11 @@ namespace Sweet_Dreams
                         DrawDebugInfo(_spriteBatch);
                     }
 
+                    // Draws crosshairs at mouse position
+                    _spriteBatch.Draw(crosshair,
+                        new Rectangle(mouse.X - 20, mouse.Y - 20, 40, 40),
+                        Color.Red);
+
                     break;
 
                 case GameState.Win:
@@ -524,6 +532,7 @@ namespace Sweet_Dreams
 
                     break;
             }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
