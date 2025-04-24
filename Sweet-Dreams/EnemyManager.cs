@@ -166,6 +166,7 @@ namespace Sweet_Dreams
                     !Game1.GodMode)
                 {
                     player.Hurt = true;
+                    player.Health--;
                     enemyBullets.RemoveAt(i);
                     i--;
                 }

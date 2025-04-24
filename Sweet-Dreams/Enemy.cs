@@ -64,9 +64,14 @@ namespace Sweet_Dreams
 
 		// values needed for the enemy's animation
 		private double timer;
+		private double shockwaveTimer;
 		private double spf;
 		private List<Rectangle> enemyAnim;
-		private Rectangle animationWP;
+		private List<Rectangle> attackAnim;
+		private List<Rectangle> shockwaveAnim;
+		private Rectangle startingWP;
+		private Rectangle shockwaveWP;
+        private Rectangle animationWP;
 
 		// Unit direction vector
 		private Vector2 direction;
@@ -161,6 +166,7 @@ namespace Sweet_Dreams
 
 			// TODO: Change these values
 			timer = 0.0;
+			shockwaveTimer = 0;
 			spf = 0.2;
 		}
 
@@ -183,7 +189,7 @@ namespace Sweet_Dreams
 			{
 				// Change which frame is active, ensuring the frame is reset back to the first 
 				currentFrame++;
-				if (currentFrame >= 3)
+				if (currentFrame >= 4)
 				{
 					currentFrame = 0;
 				}
@@ -195,6 +201,7 @@ namespace Sweet_Dreams
 			// Updates the enemy's rectangles so they move properly
 			animationWP.X = worldPosition.X;
 			animationWP.Y = worldPosition.Y;
+			animationWP.Width = enemyAnim[currentFrame].Width * 3;
 			animationWP.Height = enemyAnim[currentFrame].Height * 3;
 
 			if (eType == EnemyType.Imp)
@@ -204,7 +211,49 @@ namespace Sweet_Dreams
 					animationWP.Y = worldPosition.Y - 2;
 				}
 			}
-		}
+			if (shockwaveTimer > 1.3)
+			{
+				if (currentFrame == 0)
+				{
+					shockwaveWP.X = startingWP.X - 10;
+                    shockwaveWP.Y = startingWP.Y + 55;
+                    shockwaveWP.Width = shockwaveAnim[currentFrame].Width * 3;
+                    shockwaveWP.Height = shockwaveAnim[currentFrame].Height * 3;
+                }
+                if (currentFrame == 1)
+                {
+                    shockwaveWP.X = startingWP.X - 19;
+                    shockwaveWP.Y = startingWP.Y + 46;
+                    shockwaveWP.Width = shockwaveAnim[1].Width * 3;
+                    shockwaveWP.Height = shockwaveAnim[1].Height * 3;
+                }
+                if (currentFrame == 2)
+                {
+                    shockwaveWP.X = startingWP.X - 28;
+                    shockwaveWP.Y = startingWP.Y + 37;
+                    shockwaveWP.Width = shockwaveAnim[2].Width * 3;
+                    shockwaveWP.Height = shockwaveAnim[2].Height * 3;
+                }
+                if (currentFrame == 3)
+                {
+                    shockwaveWP.X = startingWP.X - 43;
+                    shockwaveWP.Y = startingWP.Y + 25;
+                    shockwaveWP.Width = shockwaveAnim[3].Width * 3;
+                    shockwaveWP.Height = shockwaveAnim[3].Height * 3;
+                }
+            }
+            if (eType == EnemyType.Cloak)
+            {
+                if (currentFrame == 0)
+                {
+                    animationWP.Y = worldPosition.Y + 3;
+                }
+                if (currentFrame == 2)
+                {
+                    animationWP.Y = worldPosition.Y - 3;
+                }
+            }
+        }
 
 		/// <summary>
 		/// Updates the enemies position to always 
@@ -227,12 +276,14 @@ namespace Sweet_Dreams
 			// Updates world position by moving toward the player
 			worldPosition.X += (int)Math.Round(direction.X * speed);
 			worldPosition.Y += (int)Math.Round(direction.Y * speed);
+			attackRadius.X = worldPosition.X - 150;
+			attackRadius.Y = worldPosition.Y - 150;
+			attackRadius.Width = 300;
+			attackRadius.Height = 300;
 
-			// Updates the enemy's animation
-			if (eType == EnemyType.Cloak)
-			{
-                reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            // Updates the enemy's animation
+            reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+			shockwaveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
             UpdateAnimation(gameTime);
 		}
 
@@ -242,8 +293,17 @@ namespace Sweet_Dreams
 		/// <param name="sb"></param>
 		public override void Draw(SpriteBatch sb)
 		{
-			// Draws the enemy
-			if (eType == EnemyType.Imp)
+			// Draws the shockwave
+            if (shockwaveTimer > 1.3 && eType == EnemyType.MouthDemon)
+            {
+                sb.Draw(asset,
+                        shockwaveWP,
+                        shockwaveAnim[currentFrame],
+                        Color.White);
+            }
+
+            // Draws the enemy
+            if (eType == EnemyType.Imp || eType == EnemyType.Cloak)
 			{
 				if (direction.X > 0)
 				{
@@ -285,6 +345,7 @@ namespace Sweet_Dreams
 							0);
 				}
 			}
+			
 		}
 
 		/// <summary>
@@ -351,19 +412,30 @@ namespace Sweet_Dreams
 					enemyAnim.Add(new Rectangle(4, 20, 10, 12));
 					enemyAnim.Add(new Rectangle(20, 20, 10, 12));
 					enemyAnim.Add(new Rectangle(36, 19, 10, 12));
-					break;
+                    enemyAnim.Add(new Rectangle(20, 20, 10, 12));
+                    break;
 				case EnemyType.MouthDemon:
 					health = 1;
 					damage = 1;
 					candyNum = 3;
 					speed = 1;
-					enemyAnim = new List<Rectangle>(4);
-					attackRadius = new Rectangle(worldPosition.X, worldPosition.Y, 12, 12);
+                    attackRadius = new Rectangle(worldPosition.X, worldPosition.Y, 30, 30);
+                    enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
 					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
 					enemyAnim.Add(new Rectangle(36, 106, 23, 31));
 					enemyAnim.Add(new Rectangle(36, 106, 23, 31));
-					break;
+                    attackAnim = new List<Rectangle>(4);
+                    attackAnim.Add(new Rectangle(5, 107, 22, 30));
+                    attackAnim.Add(new Rectangle(36, 106, 23, 31));
+                    attackAnim.Add(new Rectangle(69, 106, 22, 31));
+                    attackAnim.Add(new Rectangle(99, 109, 26, 28));
+                    shockwaveAnim = new List<Rectangle>(4);
+                    shockwaveAnim.Add(new Rectangle(68, 8, 15, 14));
+                    shockwaveAnim.Add(new Rectangle(97, 5, 21, 20));
+                    shockwaveAnim.Add(new Rectangle(80, 31, 27, 28));
+                    shockwaveAnim.Add(new Rectangle(76, 65, 37, 36));
+                    break;
 				case EnemyType.HornDemon:
 					health = 1;
 					damage = 1;
@@ -380,12 +452,13 @@ namespace Sweet_Dreams
 					damage = 1;
 					speed = 2;
 					candyNum = 2;
-					enemyAnim = new List<Rectangle>(4);
+                    animationWP = new Rectangle(0, 0, 30, 36);
+                    enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(1, 40, 13, 15));
-					enemyAnim.Add(new Rectangle(18, 38, 12, 17));
-					enemyAnim.Add(new Rectangle(33, 39, 13, 16));
-					enemyAnim.Add(new Rectangle(48, 41, 14, 14));
-					break;
+					enemyAnim.Add(new Rectangle(18, 39, 14, 16));
+                    enemyAnim.Add(new Rectangle(37, 38, 12, 17));
+                    enemyAnim.Add(new Rectangle(18, 39, 14, 16));
+                    break;
 			}
 
 			// Changes the enemy worldPosition based on the enemy's sourceRect
@@ -442,9 +515,18 @@ namespace Sweet_Dreams
 			if (eType == EnemyType.MouthDemon)
 			{
 				// check the enemy's attack rectangle
-				if (attackRadius.Contains(player.WorldPosition)) // also check the reload timer
+				if (attackRadius.Contains(player.WorldPosition) &&
+					shockwaveTimer <= 0) 
 				{
-					if (attackRadius.Intersects(player.WorldPosition))
+                    currentFrame = 0;
+					startingWP = new Rectangle(worldPosition.X + 20,
+											   worldPosition.Y ,
+											   worldPosition.Width,
+											   worldPosition.Height);
+					shockwaveTimer = 2;
+
+					if (shockwaveWP.Intersects(player.WorldPosition) && 
+						!Game1.GodMode)
 					{
 						player.Hurt = true;
 					}
