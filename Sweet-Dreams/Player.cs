@@ -607,15 +607,14 @@ namespace Sweet_Dreams
 
 				case CandyType.Peppermint:
 					// Increase bullet velocity
+					speed = 3;
 					tint = Color.Cyan;
 					break;
 
 				case CandyType.CandyCorn:
-					// TEST
-					// bullet pickups
-
-
-
+					// increase the player speed
+					reloadTimer = 0.5;
+					tint = Color.Pink;
 					break;
 
 				case CandyType.GreenCandy:
