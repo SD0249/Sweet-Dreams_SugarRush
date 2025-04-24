@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,9 +30,15 @@ namespace Sweet_Dreams
         private Queue<Enemy> allEnemies;
         private List<Enemy> currentEnemies;
         private List<Candy> collectibles;
-        private List<Bullet> bullets;
+        private List<Bullet> playerBullets;
+        private List<Bullet> enemyBullets;
         private Texture2D candyAsset;
         private Player player;
+        private float rotation;
+        private int screenWidth;
+        private int screenHeight;
+        private int worldWidth;
+        private int worldHeight;
 
         // --------------------------------------------------------------
         // Properties
@@ -62,12 +69,19 @@ namespace Sweet_Dreams
         /// <param name="fileName">File containing all enemy data for the level.</param>
         /// <param name="collectibles">Reference to the game's list of candy to draw.</param>
         public EnemyManager(Random rng, string fileName, List<Candy> collectibles, 
-            List<Bullet> bullets, Player player, Texture2D enemyAsset, Texture2D candyAsset, 
+            List<Bullet> playerBullets, Player player, Texture2D enemyAsset, Texture2D candyAsset, 
             int screenWidth, int screenHeight, int worldWidth, int worldHeight)
         {
             // Initializes fields with empty data structures
             allEnemies = new Queue<Enemy>();
             currentEnemies = new List<Enemy>();
+            enemyBullets = new List<Bullet>();
+
+            // Saves screen/world's width & height
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
+            this.worldWidth = worldWidth;
+            this.worldHeight = worldHeight;
 
             // Fills the queue with enemy data from the file
             this.ReadEnemyData(rng, fileName, enemyAsset, player, screenWidth, 
@@ -78,7 +92,7 @@ namespace Sweet_Dreams
             this.candyAsset = candyAsset;
 
             // Gains a reference to the list of objects that can interact with enemies
-            this.bullets = bullets;
+            this.playerBullets = playerBullets;
 
             // Gains a reference to a player
             this.player = player;
@@ -96,7 +110,7 @@ namespace Sweet_Dreams
         /// if the current wave has finished.
         /// </summary>
         /// <param name="gameTime">Time information from MonoGame.</param>
-        public void UpdateAll(GameTime gameTime)
+        public void UpdateAll(GameTime gameTime, Level level1, OrthographicCamera camera)
         {
             // Updates all enemy positions and states
             for (int i = 0; i < currentEnemies.Count; i++)
@@ -124,35 +138,86 @@ namespace Sweet_Dreams
             // Removes bullets and damages enemies if they collide
             for (int enemyIndex = 0; enemyIndex < currentEnemies.Count; enemyIndex++)
             {
-                for (int bulletIndex = 0; bulletIndex < bullets.Count; bulletIndex++)
+                for (int bulletIndex = 0; bulletIndex < playerBullets.Count; bulletIndex++)
                 {
-                    if (currentEnemies[enemyIndex].CollidesWith(bullets[bulletIndex]))
+                    if (currentEnemies[enemyIndex].CollidesWith(playerBullets[bulletIndex]))
                     {
-                        currentEnemies[enemyIndex].Health -= bullets[bulletIndex].Damage;
-                        bullets[bulletIndex].HitEnemy = true;
+                        currentEnemies[enemyIndex].Health -= playerBullets[bulletIndex].Damage;
+                        playerBullets[bulletIndex].HitEnemy = true;
                     }
                 }
             }
 
             // Any bullets that hit enemies get removed from the list
-            for (int i = 0; i < bullets.Count; i++)
+            for (int i = 0; i < playerBullets.Count; i++)
             {
-                if (bullets[i].HitEnemy)
+                if (playerBullets[i].HitEnemy)
                 {
-                    bullets.RemoveAt(i);
+                    playerBullets.RemoveAt(i);
                     i--;
                 }
             }
 
+            for (int i = 0; i < enemyBullets.Count; i++)
+            {
+                enemyBullets[i].Update(gameTime);
+
+                if (enemyBullets[i].WorldPosition.Intersects(player.WorldPosition) &&
+                    !Game1.GodMode)
+                {
+                    player.Hurt = true;
+                    player.Health--;
+                    enemyBullets.RemoveAt(i);
+                    i--;
+                }
+
+                // Removes the bullet from the list if it is out of bounds
+                if (i >= 0 &&
+                    enemyBullets[i].OutOfBounds(level1.WorldWidth, level1.WorldHeight))
+                {
+                    enemyBullets.RemoveAt(i);
+                    i--;
+                }
+            }
+            
+
             // If any enemy is dead, it drops candy then gets removed from the list
+            // Also, if any of the enemies should add a bullet, do that
             for (int i = 0; i < currentEnemies.Count; i++)
             {
+                currentEnemies[i].Attack(camera);
+
+                if (currentEnemies[i].AddBullet)
+                {
+                    // Finding the rotation of the bullet based off the mouse
+                    rotation = (float)Math.Atan2(currentEnemies[i].WorldPosition.Y - player.WorldPosition.Y,
+                                                 currentEnemies[i].WorldPosition.X - player.WorldPosition.X);
+
+                    // Makes a new bullet
+                    enemyBullets.Add(new Bullet(candyAsset, 
+                                                new Rectangle(currentEnemies[i].WorldPosition.X,
+                                                              currentEnemies[i].WorldPosition.Y,
+                                                              16,
+                                                              16),
+                                                new Rectangle(64, 96, 16, 16),
+                                                1, 
+                                                screenWidth, 
+                                                screenHeight, 
+                                                5,
+                                                worldWidth, 
+                                                worldHeight, 
+                                                rotation));
+
+                    currentEnemies[i].AddBullet = false;
+                }
+
                 if (!currentEnemies[i].IsAlive)
                 {
                     currentEnemies[i].DropCandy(collectibles, candyAsset);
                     currentEnemies.RemoveAt(i);
                     i--;
                 }
+
             }
 
             // A new wave of ten enemies forms once all current enemies are gone
@@ -163,7 +228,7 @@ namespace Sweet_Dreams
         }
 
         /// <summary>
-        /// Draws all enemies currently in the level to the screen (if they're in bounds).
+        /// Draws all enemies and enemy bullets to the screen (unless they're out of bounds).
         /// </summary>
         /// <param name="sb">The SpriteBatch object that does the drawing.</param>
         public void DrawAll(SpriteBatch sb, OrthographicCamera camera)
@@ -174,6 +239,15 @@ namespace Sweet_Dreams
                 if (currentEnemies[i].IsOnScreen(camera))
                 {
                     currentEnemies[i].Draw(sb);
+                }
+            }
+
+            // Draws all enemy bullets that will appear on the screen
+            for (int i = 0; i < enemyBullets.Count; i++)
+            {
+                if (enemyBullets[i].IsOnScreen(camera))
+                {
+                    enemyBullets[i].Draw(sb);
                 }
             }
         }

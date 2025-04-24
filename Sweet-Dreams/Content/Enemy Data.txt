@@ -10,9 +10,9 @@
 HornDemon
 Imp
 HornDemon
-Cloak
+HornDemon
 Imp
-Cloak
+HornDemon
 Cloak
 HornDemon
 Imp
@@ -23,19 +23,19 @@ Imp
 Cloak
 HornDemon
 Cloak
-Cloak
+Imp
 HornDemon
 HornDemon
 Cloak
 MouthDemon
 // Wave 3 Enemies
-HornDemon
-HornDemon
+Imp
+Imp
 Cloak
 MouthDemon
-HornDemon
 Cloak
-HornDemon
-HornDemon
+Cloak
+Cloak
+Imp
 MouthDemon
 MouthDemon
