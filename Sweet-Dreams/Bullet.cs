@@ -58,14 +58,14 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public Bullet(Texture2D asset, Rectangle worldPosition, Rectangle sourceRect,
-            int damage, int screenWidth, int screenHeight, 
+            int damage, int screenWidth, int screenHeight, int speed,
             int worldWidth, int worldHeight, float rotation)
         :base(asset, worldPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
             this.damage = damage;
             hitEnemy = false;
-            speed = 3;
+            this.speed = speed;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
             this.rotation = rotation;

@@ -229,8 +229,11 @@ namespace Sweet_Dreams
 			worldPosition.Y += (int)Math.Round(direction.Y * speed);
 
 			// Updates the enemy's animation
-			reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-			UpdateAnimation(gameTime);
+			if (eType == EnemyType.Cloak)
+			{
+                reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            UpdateAnimation(gameTime);
 		}
 
 		/// <summary>
@@ -431,7 +434,7 @@ namespace Sweet_Dreams
 				// Makes the actual bullet
 				if (reloadTimer <= 0)
 				{
-					reloadTimer = 1;
+					reloadTimer = 2;
 					addBullet = true;
 				}
 			}
