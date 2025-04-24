@@ -594,6 +594,9 @@ namespace Sweet_Dreams
 			switch (candyType)
 			{
 				case CandyType.SkullCandy:
+					// TO DO: I do think it would be nice to implement the color tint here too with the power-ups.
+					//        However, since the frame change is quite quick, the tint change doesn't show :(
+
 					// Deal damage to the player
 					if (!Game1.GodMode)
 					{
@@ -603,17 +606,15 @@ namespace Sweet_Dreams
 					break;
 
 				case CandyType.Peppermint:
-					// Increase bullet reload time to half
-					reloadTimer *= 0.5;
+					// Increase bullet velocity
+					speed = 3;
 					tint = Color.Cyan;
 					break;
 
 				case CandyType.CandyCorn:
-					// TEST
-					// bullet pickups
-
-
-
+					// increase the player speed
+					reloadTimer = 0.5;
+					tint = Color.Pink;
 					break;
 
 				case CandyType.GreenCandy:
