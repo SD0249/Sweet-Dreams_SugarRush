@@ -218,8 +218,9 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     // Victory when all enemies are gone and the player is at the door
-                    if (enemyManager.IsLevelCleared() && 
-                        player.WorldPosition.Contains(new Point(470, 30)))
+                    if (enemyManager.IsLevelCleared() &&
+                        player.WorldPosition.Contains(new Point(470, 30)) ||
+                        currentKbState.IsKeyDown(Keys.RightAlt))
                     {
                         gameState = GameState.Win;
                         IsMouseVisible = true;
@@ -305,7 +306,7 @@ namespace Sweet_Dreams
                         bullets.Add(new Bullet(candySprites, 
                             new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16),
                             new Rectangle(0, 0, 16, 16),
-                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight, rotation));
+                            player.Damage, screenWidth, screenHeight, 3, level1.WorldWidth, level1.WorldHeight, rotation));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -330,7 +331,7 @@ namespace Sweet_Dreams
                     // Updates all enemies unless the level has been cleared
                     if (!enemyManager.IsLevelCleared())
                     {
-                        enemyManager.UpdateAll(gameTime);
+                        enemyManager.UpdateAll(gameTime, level1, camera);
                     }
 
                     // If the player is dead the game state changes to lose
@@ -443,14 +444,15 @@ namespace Sweet_Dreams
                     {
                         DebugLib.DrawRectFill(
                             _spriteBatch,
-                            new Rectangle(20, screenHeight - 85, 535, 65),
+                            new Rectangle(20, screenHeight - 85, 535, 80),
                             Color.Black);
 
                         _spriteBatch.DrawString(
                         arial12,
                         "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
                         "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
-                        "Toggle 'god mode' (and debug information) with the G key.",
+                        "Toggle 'god mode' (and debug information) with the G key.\n" +
+                        "Press C Key for CREDITS.",
                         new Vector2(30, screenHeight - 80),
                         Color.White);
 
@@ -508,6 +510,8 @@ namespace Sweet_Dreams
                         winningScreen,
                         new Rectangle(0, 0, screenWidth, screenHeight),
                         Color.White);
+
+                    DebugLib.DrawRectFill(_spriteBatch, 250, 15, 305, 25, Color.Black);
 
                     _spriteBatch.DrawString(
                         arial12,
