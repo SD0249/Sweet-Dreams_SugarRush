@@ -144,6 +144,7 @@ namespace Sweet_Dreams
                     {
                         currentEnemies[enemyIndex].Health -= playerBullets[bulletIndex].Damage;
                         playerBullets[bulletIndex].HitEnemy = true;
+                        currentEnemies[enemyIndex].Hurt();
                     }
                 }
             }

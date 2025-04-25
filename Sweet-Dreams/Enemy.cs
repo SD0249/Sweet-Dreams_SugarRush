@@ -82,6 +82,10 @@ namespace Sweet_Dreams
 		// Reference to the player
 		Player player;
 
+		// fields for damage indication
+		private double tintTimer;
+		Color tint;
+
 		// --------------------------------------------------------------
 		// Properties
 		// --------------------------------------------------------------
@@ -168,6 +172,9 @@ namespace Sweet_Dreams
 			timer = 0.0;
 			shockwaveTimer = 0;
 			spf = 0.2;
+
+			tintTimer = 0.0;
+			tint = Color.White;
 		}
 
 		// --------------------------------------------------------------
@@ -285,6 +292,17 @@ namespace Sweet_Dreams
             reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 			shockwaveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
             UpdateAnimation(gameTime);
+
+			//Updates the enemy's hurt status
+			if (tintTimer > 0)
+			{
+				tintTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+			}
+			if (tintTimer < 0)
+			{
+				tintTimer = 0;
+				tint = Color.White;
+			}
 		}
 
 		/// <summary>
@@ -310,14 +328,14 @@ namespace Sweet_Dreams
 					sb.Draw(asset,
 							animationWP,
 							enemyAnim[currentFrame],
-							Color.White);
+							tint);
 				}
 				else
 				{
 					sb.Draw(asset,
 							animationWP,
 							enemyAnim[currentFrame],
-							Color.White,
+							tint,
 							0,
 							new Vector2(0, 0),
 							SpriteEffects.FlipHorizontally,
@@ -331,14 +349,14 @@ namespace Sweet_Dreams
 					sb.Draw(asset,
 							worldPosition,
 							enemyAnim[currentFrame],
-							Color.White);
+							tint);
 				}
 				else
 				{
 					sb.Draw(asset,
 							worldPosition,
 							enemyAnim[currentFrame],
-							Color.White,
+							tint,
 							0,
 							new Vector2(0, 0),
 							SpriteEffects.FlipHorizontally,
@@ -532,6 +550,16 @@ namespace Sweet_Dreams
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Changes the color of the Enemy (called in the Manager) 
+		/// when they collide with the Bullets
+		/// </summary>
+		public void Hurt()
+		{
+			tintTimer = 0.5;
+			tint = Color.Red;
 		}
 	}
 }
