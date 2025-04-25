@@ -75,7 +75,8 @@ namespace Sweet_Dreams
 		/// </summary>
 		public bool Hurt
 		{
-			set { hurt = value; }
+            get { return hurt; }
+            set { hurt = value; }
 		}
 
 		/// <summary>

@@ -534,25 +534,35 @@ namespace Sweet_Dreams
                         Color.White);
 
                     // Draws a heart for each of the player's remaining lives
-                    heartRect = new Rectangle(-10, -10, 80, 80);
+                    heartRect = new Rectangle(screenWidth - 220, screenHeight/2 - 60, 80, 80);
                     for (int i = 0; i < player.Health; i++)
                     {
                         _spriteBatch.Draw(
                             lifeHeart,
                             heartRect,
                             Color.White);
-
                         heartRect.X += 50;
+                        if (heartRect.X >= screenWidth - 80)
+                        {
+                            heartRect.X = screenWidth - 220;
+                            heartRect.Y += 40;
+                        }
                     }
+                    DebugLib.DrawRectFill(_spriteBatch, 600, 175, 135, 25, Color.Black);
+                    _spriteBatch.DrawString(arial12,
+                        "Remaining Health: ",
+                        new Vector2(605, 180),
+                        Color.White);
 
                     // Draws player points
+                    DebugLib.DrawRectFill(_spriteBatch, 115, 225, 85, 25, Color.Black);
                     _spriteBatch.Draw(candySprites,
-                        new Rectangle(20, 60, 50, 50),
+                        new Rectangle(60, 220, 40, 40),
                         new Rectangle(48, 160, 16, 16),
                         Color.White);
                     _spriteBatch.DrawString(arial12,
                         $"Points: {player.Points}",
-                        new Vector2(85, 75),
+                        new Vector2(120, 230),
                         Color.White);
 
                     break;
