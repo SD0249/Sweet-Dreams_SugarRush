@@ -443,25 +443,24 @@ namespace Sweet_Dreams
                     instruction.Draw(_spriteBatch);
                     quit.Draw(_spriteBatch);
 
-                    // Draws placeholder instructions
+                    // Draws instructions
                     // : Maybe this should be toggled on and off by mouse hovering over.
                     // : Nice chance to play with events and delegates.
                     if (instruction.IsHovered == true)
                     {
                         DebugLib.DrawRectFill(
                             _spriteBatch,
-                            new Rectangle(20, screenHeight - 85, 535, 80),
+                            new Rectangle(20, screenHeight - 85, 620, 80),
                             Color.Black);
 
                         _spriteBatch.DrawString(
                         arial12,
-                        "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
-                        "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
-                        "Toggle 'god mode' (and debug information) with the G key.\n" +
-                        "Press C Key for CREDITS.",
+                        "Instructions: Shoot all of the demons without getting hit by them to escape the nightmare!\n" +
+                        "Pick up candy dropped by enemies to gain power-ups, but don't eat the skull candy!\n" +
+                        "Use WASD or arrow keys to move. Aim and shoot by moving and clicking the mouse.\n" +
+                        "Toggle 'god mode' (and debug information) with the G key. Press C Key for CREDITS.",
                         new Vector2(30, screenHeight - 80),
                         Color.White);
-
                     }
 
                     // Draws the credit scene if it is toggled on by the 'C' key
