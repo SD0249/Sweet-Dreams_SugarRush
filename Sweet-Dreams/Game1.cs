@@ -271,7 +271,7 @@ namespace Sweet_Dreams
                     // Updates the player
                     player.Update(gameTime);
 
-                    // Checks for a left click and bullet timer or god mode to shoot
+                    // Checks for a left click and bullet timer
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         player.ReloadTimer <= 0)
                     {
@@ -338,8 +338,8 @@ namespace Sweet_Dreams
                         }
                     }
 
-                    // Updates all enemies unless the level has been cleared
-                    if (!enemyManager.IsLevelCleared())
+                    // Updates all enemies unless the level has been cleared or player is dead
+                    if (!enemyManager.IsLevelCleared() && !(player.PlayerState == PlayerState.Dead))
                     {
                         enemyManager.UpdateAll(gameTime, level1, camera);
                     }
@@ -411,10 +411,13 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Draw(_spriteBatch);
                     }
-                }                
+                }
 
                 // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch, camera);
+                if (player.PlayerState != PlayerState.Dead)
+                {
+                    enemyManager.DrawAll(_spriteBatch, camera);
+                }
 
                 // Draws the player
                 player.Draw(_spriteBatch);            
@@ -522,6 +525,15 @@ namespace Sweet_Dreams
                         $"Points: {player.Points}",
                         new Vector2(80, 70),
                         Color.White);
+
+                    // Tells player how to win once level is cleared
+                    if (enemyManager.IsLevelCleared())
+                    {
+                        _spriteBatch.DrawString(arial12,
+                        "Escape through the door!",
+                        new Vector2(screenWidth - 196, 16),
+                        Color.White);
+                    }
 
                     // Draws the Debug Information if debug mode is on
                     if (GodMode)
@@ -687,7 +699,7 @@ namespace Sweet_Dreams
             // Screen dimensions
             sb.DrawString(
                 arial12,
-                $"Screen Size: {screenWidth} x {screenHeight}",
+                $"Window Size: {screenWidth} x {screenHeight}",
                 new Vector2(10, screenHeight - 176),
                 Color.White);
         }
