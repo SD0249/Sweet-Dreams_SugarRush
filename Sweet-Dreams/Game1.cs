@@ -71,12 +71,14 @@ namespace Sweet_Dreams
         private int screenWidth;
         private int screenHeight;
         private SpriteFont arial12;
+        private SpriteFont arial8;
         private double deathTimer;
         private bool credit;
         private float rotation;
         private float startingX;
         private float startingY;
         private Rectangle heartRect;
+        private Rectangle creditBounds;
 
         /// <summary>
         /// Whether or not the game is currently in god/debug mode.
@@ -121,6 +123,10 @@ namespace Sweet_Dreams
             // Credit is not drawn from the start
             credit = false;
 
+            // The area to check whether the mouse
+            // is hovering over to draw credit texts
+            creditBounds = new Rectangle(30, 15, (int)(screenWidth*0.9), (int)(screenHeight* 0.9));
+
             base.Initialize();
         }
 
@@ -132,6 +138,7 @@ namespace Sweet_Dreams
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
+            arial8 = Content.Load<SpriteFont>("arial8");
 
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
             enemySprites = Content.Load<Texture2D>("DemonSprites");
@@ -465,13 +472,38 @@ namespace Sweet_Dreams
                     // Draws the credit scene if it is toggled on by the 'C' key
                     if(credit)
                     {
+                        // Viewport background clear
                         DebugLib.DrawRectFill(_spriteBatch, 
                                               new Rectangle(0, 0, screenWidth, screenHeight), 
                                               Color.CornflowerBlue);
-
+                        
+                        // Draw the credit asset
                         _spriteBatch.Draw(credits,
-                                          new Rectangle(30, 15, (int)(screenWidth * 0.9), (int)(screenHeight * 0.9)),
+                                          creditBounds,
                                           Color.White);
+
+                        // If mouse is hovered over the candy, display these information
+                        if(creditBounds.Contains(mouse.Position))
+                        {
+                            DebugLib.DrawRectFill(_spriteBatch,
+                                                  creditBounds,
+                                                  Color.LightPink);
+
+                            _spriteBatch.DrawString(arial8,
+                                                "Demon Enemy: \nhttps://0x72.itch.io/dungeontileset-ii\n\n" +
+                                                "Basic Player Sprite: \nhttps://penzilla.itch.io/protagonist-character\n\n" +
+                                                "Tile Set: \nhttps://cardinalzebra.itch.io/dungeon-tiles-1\n\n" +
+                                                "GirlSleeping: \nhttps://www.istockphoto.com/vector/cute-boy-sleeping-at-night-gm1439430303-479700218\n\n" +
+                                                "DemonArm: \nhttps://www.artstation.com/artwork/kQmmVA\n\n" +
+                                                "Shock Wave: \nhttps://morningkingdom.itch.io/shock-wave-smoke?download\n\n" +
+                                                "Candies: \nhttps://acursedpixel.itch.io/treats-n-tricks?download\n\n" +
+                                                "Heart: \nhttps://opengameart.org/content/heart-nes-colors\n\n" +
+                                                "CrossHair: \nhttps://opengameart.org/content/3-fps-crosshairs\n\n" +
+                                                "CreditCandy: \nhttps://in.pinterest.com/pin/410249847327526476/\n\n" +
+                                                "Additional Library: Debug Library by Nikki Murello",
+                                                new Vector2(35, 20),
+                                                Color.Black);
+                        }
                     }
                     break;
 
