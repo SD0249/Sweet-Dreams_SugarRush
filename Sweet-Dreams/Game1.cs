@@ -643,13 +643,6 @@ namespace Sweet_Dreams
             //    new Vector2(10, screenHeight - 24),
             //    Color.White);
 
-            //Draws the number of enemies currently in the world
-            sb.DrawString(
-                arial12,
-                "Enemies in the World: " + enemyManager.WorldPositions.Count,
-                new Vector2(10, screenHeight - 24),
-                Color.White);
-
             //Draws one enemy's world position
             /* if (enemyManager.WorldPositions.Count > 0)
             {
@@ -661,32 +654,39 @@ namespace Sweet_Dreams
                     Color.White);
             } */
 
-            //Draws the current state of the game
+            //Draws the number of enemies currently in the world
             sb.DrawString(
                 arial12,
-                $"Game's State: {gameState}",
-                new Vector2(10, screenHeight - 48),
-                Color.White);
-
-            //Draws the current state of the player
-            sb.DrawString(
-                arial12,
-                $"Player's State: {player.PlayerState}",
-                new Vector2(10, screenHeight - 72),
+                "Enemies in the World: " + enemyManager.WorldPositions.Count,
+                new Vector2(10, screenHeight - 24),
                 Color.White);
 
             //Draws the current number of bullets
             sb.DrawString(
                     arial12,
-                    $"Bullet Count: {bullets.Count}",
-                    new Vector2(10, screenHeight - 98),
+                    $"Bullets in the World: {bullets.Count}",
+                    new Vector2(10, screenHeight - 48),
                     Color.White);
 
-            //Draws player's remaining health
+            //Draws number of candies in the world
             sb.DrawString(
                 arial12,
-                $"Remaining Health: {player.Health}",
-                new Vector2(10,screenHeight - 124),
+                $"Candies in the Wrold: {collectibles.Count}",
+                new Vector2(10, screenHeight - 72),
+                Color.White);
+
+            //Draws the current state of the game
+            sb.DrawString(
+                arial12,
+                $"Game State: {gameState}",
+                new Vector2(10, screenHeight - 98),
+                Color.White);
+
+            //Draws the current state of the player
+            sb.DrawString(
+                arial12,
+                $"Player State: {player.PlayerState}",
+                new Vector2(10, screenHeight - 124),
                 Color.White);
 
             //Draws the player's world position
@@ -696,7 +696,7 @@ namespace Sweet_Dreams
                 new Vector2(10, screenHeight - 150),
                 Color.White);
 
-            // Screen dimensions
+            // Window dimensions
             sb.DrawString(
                 arial12,
                 $"Window Size: {screenWidth} x {screenHeight}",
