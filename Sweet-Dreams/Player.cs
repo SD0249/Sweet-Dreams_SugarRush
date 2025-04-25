@@ -131,7 +131,7 @@ namespace Sweet_Dreams
 		{
 			health = 6;
 			damage = 1;
-			speed = 2;
+			speed = 4;
 			points = 0;
 			tint = Color.White;
 			stunTimer = 0.9;
@@ -139,7 +139,7 @@ namespace Sweet_Dreams
 			direction = Vector2.Zero;
 			timer = 0.0;
 			spf = 0.3;
-			effectTimer = 1.0;
+			effectTimer = 2.0;
 
 			// Making animation lists
 			idleAnim = new List<Rectangle>(4);
@@ -301,7 +301,8 @@ namespace Sweet_Dreams
 						else
 						{
 							tint = Color.White;
-							effectTimer = 1.0;
+							speed = 4;
+							effectTimer = 2.0;
 						}
 					}
 
@@ -339,7 +340,8 @@ namespace Sweet_Dreams
 						else
 						{
 							tint = Color.White;
-							effectTimer = 1.0;
+                            speed = 4;
+                            effectTimer = 2.0;
 						}
 					}
 
@@ -377,7 +379,8 @@ namespace Sweet_Dreams
 						else
 						{
 							tint = Color.White;
-							effectTimer = 1.0;
+                            speed = 4;
+                            effectTimer = 2.0;
 						}
 					}
 
@@ -606,28 +609,29 @@ namespace Sweet_Dreams
 					break;
 
 				case CandyType.Peppermint:
-					// Increase bullet velocity
-					speed = 3;
-					tint = Color.Cyan;
-					break;
+                    // Increases player speed
+                    tint = Color.Yellow;
+					speed = 5;
+
+                    break;
 
 				case CandyType.CandyCorn:
-					// increase the player speed
-					reloadTimer = 0.5;
-					tint = Color.Pink;
+                    // Decrease bullet reload time to half
+                    reloadTimer *= 0.5;
+					tint = Color.Cyan;
 					break;
 
 				case CandyType.GreenCandy:
 					// TO DO: Maybe add sound effect for these guys too?
 					// Add 5 points to player points
 					points += 5;
-					tint = Color.Yellow;
+
 					break;
 
 				case CandyType.YellowCandy:
 					// Add 10 points to player points
 					points += 10;
-					tint = Color.Yellow;
+
 					break;
 				case CandyType.Chocolate:
 					// Heal player health
@@ -689,7 +693,7 @@ namespace Sweet_Dreams
 			int speedScalar = speed;
 			if (Game1.GodMode)
 			{
-				speedScalar = 4;
+				speedScalar = 6;
 			}
 
 			// Moves the player by scaling its direction vector by its speed stat

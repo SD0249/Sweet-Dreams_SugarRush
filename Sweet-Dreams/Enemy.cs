@@ -217,29 +217,29 @@ namespace Sweet_Dreams
 				{
 					shockwaveWP.X = startingWP.X - 10;
                     shockwaveWP.Y = startingWP.Y + 55;
-                    shockwaveWP.Width = shockwaveAnim[currentFrame].Width * 3;
-                    shockwaveWP.Height = shockwaveAnim[currentFrame].Height * 3;
+                    shockwaveWP.Width = shockwaveAnim[0].Width * 6;
+                    shockwaveWP.Height = shockwaveAnim[0].Height * 6;
                 }
                 if (currentFrame == 1)
                 {
                     shockwaveWP.X = startingWP.X - 19;
                     shockwaveWP.Y = startingWP.Y + 46;
-                    shockwaveWP.Width = shockwaveAnim[1].Width * 3;
-                    shockwaveWP.Height = shockwaveAnim[1].Height * 3;
+                    shockwaveWP.Width = shockwaveAnim[1].Width * 6;
+                    shockwaveWP.Height = shockwaveAnim[1].Height * 6;
                 }
                 if (currentFrame == 2)
                 {
                     shockwaveWP.X = startingWP.X - 28;
                     shockwaveWP.Y = startingWP.Y + 37;
-                    shockwaveWP.Width = shockwaveAnim[2].Width * 3;
-                    shockwaveWP.Height = shockwaveAnim[2].Height * 3;
+                    shockwaveWP.Width = shockwaveAnim[2].Width * 6;
+                    shockwaveWP.Height = shockwaveAnim[2].Height * 6;
                 }
                 if (currentFrame == 3)
                 {
                     shockwaveWP.X = startingWP.X - 43;
                     shockwaveWP.Y = startingWP.Y + 25;
-                    shockwaveWP.Width = shockwaveAnim[3].Width * 3;
-                    shockwaveWP.Height = shockwaveAnim[3].Height * 3;
+                    shockwaveWP.Width = shockwaveAnim[3].Width * 6;
+                    shockwaveWP.Height = shockwaveAnim[3].Height * 6;
                 }
             }
             if (eType == EnemyType.Cloak)
@@ -294,7 +294,7 @@ namespace Sweet_Dreams
 		public override void Draw(SpriteBatch sb)
 		{
 			// Draws the shockwave
-            if (shockwaveTimer > 1.3 && eType == EnemyType.MouthDemon)
+            if (shockwaveTimer > 1.3 && eType == EnemyType.MouthDemon && currentFrame > 0)
             {
                 sb.Draw(asset,
                         shockwaveWP,
@@ -406,7 +406,7 @@ namespace Sweet_Dreams
 					health = 1;
 					damage = 1;
 					candyNum = 1;
-					speed = 3;
+					speed = 4;
 					animationWP = new Rectangle(0, 0, 30, 36);
 					enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(4, 20, 10, 12));
@@ -415,11 +415,11 @@ namespace Sweet_Dreams
                     enemyAnim.Add(new Rectangle(20, 20, 10, 12));
                     break;
 				case EnemyType.MouthDemon:
-					health = 1;
-					damage = 1;
+					health = 5;
+					damage = 2;
 					candyNum = 3;
 					speed = 1;
-                    attackRadius = new Rectangle(worldPosition.X, worldPosition.Y, 30, 30);
+                    attackRadius = new Rectangle(worldPosition.X, worldPosition.Y, 50, 50);
                     enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
 					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
@@ -437,7 +437,7 @@ namespace Sweet_Dreams
                     shockwaveAnim.Add(new Rectangle(76, 65, 37, 36));
                     break;
 				case EnemyType.HornDemon:
-					health = 1;
+					health = 2;
 					damage = 1;
 					candyNum = 2;
 					speed = 2;
@@ -448,7 +448,7 @@ namespace Sweet_Dreams
 					enemyAnim.Add(new Rectangle(35, 63, 11, 15));
 					break;
 				case EnemyType.Cloak:
-					health = 1;
+					health = 3;
 					damage = 1;
 					speed = 2;
 					candyNum = 2;
@@ -519,8 +519,8 @@ namespace Sweet_Dreams
 					shockwaveTimer <= 0) 
 				{
                     currentFrame = 0;
-					startingWP = new Rectangle(worldPosition.X + 20,
-											   worldPosition.Y ,
+					startingWP = new Rectangle(worldPosition.X - 20,
+											   worldPosition.Y,
 											   worldPosition.Width,
 											   worldPosition.Height);
 					shockwaveTimer = 2;

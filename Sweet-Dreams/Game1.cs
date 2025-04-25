@@ -73,9 +73,10 @@ namespace Sweet_Dreams
         private SpriteFont arial12;
         private double deathTimer;
         private bool credit;
-        float rotation;
-        float startingX;
-        float startingY;
+        private float rotation;
+        private float startingX;
+        private float startingY;
+        private Rectangle heartRect;
 
         /// <summary>
         /// Whether or not the game is currently in god/debug mode.
@@ -113,6 +114,9 @@ namespace Sweet_Dreams
             startingX = 385;
             startingY = 213;
             mouse = Mouse.GetState();
+
+            // Where to draw hearts (updated later)
+            heartRect = new Rectangle(0, 0, 1, 1);
 
             // Credit is not drawn from the start
             credit = false;
@@ -474,7 +478,7 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     // Draws a heart for each of the player's remaining lives
-                    Rectangle heartRect = new Rectangle(-10, -10, 80, 80);
+                    heartRect = new Rectangle(-10, -10, 80, 80);
                     for (int i = 0; i < player.Health; i++)
                     {
                         _spriteBatch.Draw(
@@ -484,6 +488,16 @@ namespace Sweet_Dreams
 
                         heartRect.X += 50;
                     }
+
+                    // Draws player points
+                    _spriteBatch.Draw(candySprites,
+                        new Rectangle(20, 60, 40, 40),
+                        new Rectangle(48, 160, 16, 16),
+                        Color.White);
+                    _spriteBatch.DrawString(arial12,
+                        $"Points: {player.Points}",
+                        new Vector2(80, 70),
+                        Color.White);
 
                     // Draws the Debug Information if debug mode is on
                     if (GodMode)
@@ -519,6 +533,28 @@ namespace Sweet_Dreams
                         new Vector2(255, 20),
                         Color.White);
 
+                    // Draws a heart for each of the player's remaining lives
+                    heartRect = new Rectangle(-10, -10, 80, 80);
+                    for (int i = 0; i < player.Health; i++)
+                    {
+                        _spriteBatch.Draw(
+                            lifeHeart,
+                            heartRect,
+                            Color.White);
+
+                        heartRect.X += 50;
+                    }
+
+                    // Draws player points
+                    _spriteBatch.Draw(candySprites,
+                        new Rectangle(20, 60, 50, 50),
+                        new Rectangle(48, 160, 16, 16),
+                        Color.White);
+                    _spriteBatch.DrawString(arial12,
+                        $"Points: {player.Points}",
+                        new Vector2(85, 75),
+                        Color.White);
+
                     break;
 
                 case GameState.Lose:
@@ -533,6 +569,12 @@ namespace Sweet_Dreams
                         "Press ENTER to return to the menu screen.",
                         new Vector2(250, screenHeight - 50),
                         Color.LightGray);
+
+                    // Points earned
+                    _spriteBatch.DrawString(arial12,
+                        $"Points: {player.Points}",
+                        new Vector2(10, 10),
+                        Color.White);
 
                     break;
             }
