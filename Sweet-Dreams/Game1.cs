@@ -32,7 +32,6 @@ namespace Sweet_Dreams
 
         // State fields
         private GameState gameState;
-        private PlayerState playerState;
         private KeyboardState currentKbState;
         private KeyboardState previousKbState;
         private MouseState mouse;
@@ -252,7 +251,7 @@ namespace Sweet_Dreams
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
                     // Turns on or off god/debug mode if G is pressed
-                    if (SingleKeyPress(Keys.G))
+                    if (SingleKeyPress(Keys.G) && player.PlayerState != PlayerState.Dead)
                     {
                         GodMode = !GodMode;
                     }
@@ -316,8 +315,8 @@ namespace Sweet_Dreams
                         // Makes a new bullet every time you shoot
                         bullets.Add(new Bullet(candySprites, 
                             new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16),
-                            new Rectangle(0, 0, 16, 16),
-                            player.Damage, screenWidth, screenHeight, 3, level1.WorldWidth, level1.WorldHeight, rotation));
+                            new Rectangle(0, 0, 16, 16), player.Damage, screenWidth, screenHeight,
+                            3, level1.WorldWidth, level1.WorldHeight, rotation));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -343,13 +342,6 @@ namespace Sweet_Dreams
                     if (!enemyManager.IsLevelCleared())
                     {
                         enemyManager.UpdateAll(gameTime, level1, camera);
-                    }
-
-                    // If the player is dead the game state changes to lose
-                    if (playerState == PlayerState.Dead)
-                    {
-                        gameState = GameState.Lose;
-                        IsMouseVisible = true;
                     }
 
                     // Update ALL the camera related stuff

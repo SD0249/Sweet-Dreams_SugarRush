@@ -59,9 +59,6 @@ namespace Sweet_Dreams
 		private int worldWidth;
 		private int worldHeight;
 
-		// Source Rectangle for animations
-		Rectangle sourceRect;
-
 		// values needed for the enemy's animation
 		private double timer;
 		private double shockwaveTimer;

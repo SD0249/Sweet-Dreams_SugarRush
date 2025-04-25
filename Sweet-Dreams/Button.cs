@@ -16,7 +16,6 @@ namespace Sweet_Dreams
         private Rectangle bounds;
         private Rectangle sourceRec;
         private Texture2D texture;
-        private MouseState mouse;
         private bool isHovered;
 
         // These two can totally be changed depending on the real
@@ -104,6 +103,5 @@ namespace Sweet_Dreams
                 sourceRec,
                 currentButtonColor);
         }
-
     }
 }

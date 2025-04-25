@@ -30,8 +30,6 @@ namespace Sweet_Dreams
 		private int health;
 		private double reloadTimer;
 		private double stunTimer;
-		private int playerHealth;
-		private bool isAlive;
 		private int damage;
 		private int points;
 		private int speed;
@@ -123,10 +121,10 @@ namespace Sweet_Dreams
 			set { points = value; }
 		}
 
-		// --------------------------------------------------------------
-		// Constructor
-		// --------------------------------------------------------------
-		public Player(Texture2D asset, Rectangle worldPosition,
+        // --------------------------------------------------------------
+        // Constructor
+        // --------------------------------------------------------------
+        public Player(Texture2D asset, Rectangle worldPosition,
 			int screenWidth, int screenHeight)
 			: base(asset, worldPosition, screenWidth, screenHeight)
 		{
@@ -303,6 +301,7 @@ namespace Sweet_Dreams
 						{
 							tint = Color.White;
 							speed = 4;
+							damage = 1;
 							effectTimer = 2.0;
 						}
 					}
@@ -342,6 +341,7 @@ namespace Sweet_Dreams
 						{
 							tint = Color.White;
                             speed = 4;
+                            damage = 1;
                             effectTimer = 2.0;
 						}
 					}
@@ -381,6 +381,7 @@ namespace Sweet_Dreams
 						{
 							tint = Color.White;
                             speed = 4;
+                            damage = 1;
                             effectTimer = 2.0;
 						}
 					}
@@ -433,8 +434,10 @@ namespace Sweet_Dreams
 						prevPS = new PlayerState();
 						stunTimer = 0.8;
 						tint = Color.White;
-					}
-					stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        damage = 1;
+						speed = 4;
+                    }
+                    stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 					break;
 
 				case PlayerState.Dead:
@@ -617,8 +620,8 @@ namespace Sweet_Dreams
                     break;
 
 				case CandyType.CandyCorn:
-                    // Decrease bullet reload time to half
-                    reloadTimer *= 0.5;
+					// Increases bullet damage
+					damage = 2;
 					tint = Color.Cyan;
 					break;
 
@@ -642,17 +645,6 @@ namespace Sweet_Dreams
 					}
 					break;
 			}
-			/*
-			 * BUFFS AND DEBUFFS
-			 * 
-			 * BUFFS:
-			 * More damage
-			 * reload timer
-			 * 
-			 * DEBUFFS
-			 * slower speed
-			 * 
-			 */
 		}
 
 		/// <summary>
