@@ -1,42 +1,54 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\",
+  "WorkspaceRootPath": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\orthographiccamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\content\\arial8.spritefont||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:content\\arial8.spritefont||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\content\\arial12.spritefont||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:content\\arial12.spritefont||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\debuglib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:debuglib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\orthographiccamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:orthographiccamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:bullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\brook\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:candy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|c:\\users\\go4it\\onedrive\\desktop\\sweet-dreams_sugarrush\\sweet-dreams\\gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{433636B3-7EAB-4CE8-B74E-C1C0119CEA58}|Sweet-Dreams.csproj|solutionrelative:gameobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,64 +58,54 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EnemyManager.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
-              "RelativeDocumentMoniker": "EnemyManager.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
-              "RelativeToolTip": "EnemyManager.cs",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAAAJIAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T00:30:28.345Z",
+              "DocumentIndex": 2,
+              "Title": "arial8.spritefont",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Content\\arial8.spritefont",
+              "RelativeDocumentMoniker": "Content\\arial8.spritefont",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Content\\arial8.spritefont",
+              "RelativeToolTip": "Content\\arial8.spritefont",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-04-25T05:10:25.585Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "OrthographicCamera.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\OrthographicCamera.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\OrthographicCamera.cs",
               "RelativeDocumentMoniker": "OrthographicCamera.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\OrthographicCamera.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\OrthographicCamera.cs",
               "RelativeToolTip": "OrthographicCamera.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-24T23:56:44.804Z"
+              "WhenOpened": "2025-04-24T23:56:44.804Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "Bullet.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
               "RelativeDocumentMoniker": "Bullet.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Bullet.cs",
               "RelativeToolTip": "Bullet.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T01:33:54.035Z"
+              "WhenOpened": "2025-04-12T01:33:54.035Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Candy.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
-              "RelativeDocumentMoniker": "Candy.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
-              "RelativeToolTip": "Candy.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T01:33:54.022Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "Button.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
               "RelativeDocumentMoniker": "Button.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Button.cs",
               "RelativeToolTip": "Button.cs",
               "ViewState": "AgIAAE4AAAAAAAAAAAAYwGUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -111,12 +113,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
               "Title": "Enemy.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
               "RelativeDocumentMoniker": "Enemy.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs*",
-              "RelativeToolTip": "Enemy.cs*",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Enemy.cs",
+              "RelativeToolTip": "Enemy.cs",
               "ViewState": "AgIAAB0CAAAAAAAAAAAAACwCAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-12T01:33:54.032Z",
@@ -124,11 +126,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "GameObject.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
               "RelativeDocumentMoniker": "GameObject.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\GameObject.cs",
               "RelativeToolTip": "GameObject.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -136,11 +138,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
               "RelativeDocumentMoniker": "Player.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Player.cs",
               "RelativeToolTip": "Player.cs",
               "ViewState": "AgIAABUBAAAAAAAAAAAAADIAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -149,15 +151,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
               "Title": "Game1.cs",
-              "DocumentMoniker": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
               "RelativeDocumentMoniker": "Game1.cs",
-              "ToolTip": "C:\\Users\\brook\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Game1.cs",
               "RelativeToolTip": "Game1.cs",
-              "ViewState": "AgIAACICAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANsBAAAAAAAAAAAwwOUBAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T01:33:54.043Z"
+              "WhenOpened": "2025-04-12T01:33:54.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "arial12.spritefont",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Content\\arial12.spritefont",
+              "RelativeDocumentMoniker": "Content\\arial12.spritefont",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Content\\arial12.spritefont",
+              "RelativeToolTip": "Content\\arial12.spritefont",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAACMAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-04-25T05:13:38.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DebugLib.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\DebugLib.cs",
+              "RelativeDocumentMoniker": "DebugLib.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\DebugLib.cs",
+              "RelativeToolTip": "DebugLib.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T04:51:19.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnemyManager.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
+              "RelativeDocumentMoniker": "EnemyManager.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\EnemyManager.cs",
+              "RelativeToolTip": "EnemyManager.cs",
+              "ViewState": "AgIAANAAAAAAAAAAAAAAAJIAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T00:30:28.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Candy.cs",
+              "DocumentMoniker": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
+              "RelativeDocumentMoniker": "Candy.cs",
+              "ToolTip": "C:\\Users\\go4it\\OneDrive\\Desktop\\Sweet-Dreams_SugarRush\\Sweet-Dreams\\Candy.cs",
+              "RelativeToolTip": "Candy.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T01:33:54.022Z"
             }
           ]
         }
