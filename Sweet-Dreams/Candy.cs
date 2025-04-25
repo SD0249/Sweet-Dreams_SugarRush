@@ -22,6 +22,9 @@ namespace Sweet_Dreams
         Chocolate
     }
 
+    /// <summary>
+    /// Collectible item dropped by enemies.
+    /// </summary>
     public class Candy : GameObject
     {
         // --------------------------------------------------------------

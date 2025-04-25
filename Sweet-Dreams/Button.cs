@@ -8,6 +8,9 @@ using System.Collections.Generic;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /// <summary>
+    /// A hoverable and clickable button.
+    /// </summary>
     public class Button
     {
         // --------------------------------------------------------------
@@ -16,7 +19,6 @@ namespace Sweet_Dreams
         private Rectangle bounds;
         private Rectangle sourceRec;
         private Texture2D texture;
-        private MouseState mouse;
         private bool isHovered;
 
         // These two can totally be changed depending on the real
@@ -104,6 +106,5 @@ namespace Sweet_Dreams
                 sourceRec,
                 currentButtonColor);
         }
-
     }
 }

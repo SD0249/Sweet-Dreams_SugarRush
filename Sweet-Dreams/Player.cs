@@ -19,6 +19,9 @@ namespace Sweet_Dreams
 		Hit
 	}
 
+	/// <summary>
+	/// The user-controlled game object.
+	/// </summary>
 	public class Player : GameObject
 	{
 		// --------------------------------------------------------------
@@ -30,8 +33,6 @@ namespace Sweet_Dreams
 		private int health;
 		private double reloadTimer;
 		private double stunTimer;
-		private int playerHealth;
-		private bool isAlive;
 		private int damage;
 		private int points;
 		private int speed;
@@ -75,7 +76,8 @@ namespace Sweet_Dreams
 		/// </summary>
 		public bool Hurt
 		{
-			set { hurt = value; }
+            get { return hurt; }
+            set { hurt = value; }
 		}
 
 		/// <summary>
@@ -122,16 +124,16 @@ namespace Sweet_Dreams
 			set { points = value; }
 		}
 
-		// --------------------------------------------------------------
-		// Constructor
-		// --------------------------------------------------------------
-		public Player(Texture2D asset, Rectangle worldPosition,
+        // --------------------------------------------------------------
+        // Constructor
+        // --------------------------------------------------------------
+        public Player(Texture2D asset, Rectangle worldPosition,
 			int screenWidth, int screenHeight)
 			: base(asset, worldPosition, screenWidth, screenHeight)
 		{
 			health = 6;
 			damage = 1;
-			speed = 3;
+			speed = 4;
 			points = 0;
 			tint = Color.White;
 			stunTimer = 0.9;
@@ -139,7 +141,7 @@ namespace Sweet_Dreams
 			direction = Vector2.Zero;
 			timer = 0.0;
 			spf = 0.3;
-			effectTimer = 1.0;
+			effectTimer = 2.0;
 
 			// Making animation lists
 			idleAnim = new List<Rectangle>(4);
@@ -301,7 +303,9 @@ namespace Sweet_Dreams
 						else
 						{
 							tint = Color.White;
-							effectTimer = 1.0;
+							speed = 4;
+							damage = 1;
+							effectTimer = 2.0;
 						}
 					}
 
@@ -339,7 +343,9 @@ namespace Sweet_Dreams
 						else
 						{
 							tint = Color.White;
-							effectTimer = 1.0;
+                            speed = 4;
+                            damage = 1;
+                            effectTimer = 2.0;
 						}
 					}
 
@@ -377,7 +383,9 @@ namespace Sweet_Dreams
 						else
 						{
 							tint = Color.White;
-							effectTimer = 1.0;
+                            speed = 4;
+                            damage = 1;
+                            effectTimer = 2.0;
 						}
 					}
 
@@ -429,8 +437,10 @@ namespace Sweet_Dreams
 						prevPS = new PlayerState();
 						stunTimer = 0.8;
 						tint = Color.White;
-					}
-					stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        damage = 1;
+						speed = 4;
+                    }
+                    stunTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 					break;
 
 				case PlayerState.Dead:
@@ -594,6 +604,9 @@ namespace Sweet_Dreams
 			switch (candyType)
 			{
 				case CandyType.SkullCandy:
+					// TO DO: I do think it would be nice to implement the color tint here too with the power-ups.
+					//        However, since the frame change is quite quick, the tint change doesn't show :(
+
 					// Deal damage to the player
 					if (!Game1.GodMode)
 					{
@@ -603,30 +616,29 @@ namespace Sweet_Dreams
 					break;
 
 				case CandyType.Peppermint:
-					// Decrease bullet reload time to half
-					reloadTimer *= 0.5;
-					tint = Color.Cyan;
-					break;
+                    // Increases player speed
+                    tint = Color.Yellow;
+					speed = 5;
+
+                    break;
 
 				case CandyType.CandyCorn:
-					// TEST
-					// bullet pickups
-
-
-
+					// Increases bullet damage
+					damage = 2;
+					tint = Color.Cyan;
 					break;
 
 				case CandyType.GreenCandy:
 					// TO DO: Maybe add sound effect for these guys too?
 					// Add 5 points to player points
 					points += 5;
-					tint = Color.Yellow;
+
 					break;
 
 				case CandyType.YellowCandy:
 					// Add 10 points to player points
 					points += 10;
-					tint = Color.Yellow;
+
 					break;
 				case CandyType.Chocolate:
 					// Heal player health
@@ -636,17 +648,6 @@ namespace Sweet_Dreams
 					}
 					break;
 			}
-			/*
-			 * BUFFS AND DEBUFFS
-			 * 
-			 * BUFFS:
-			 * More damage
-			 * reload timer
-			 * 
-			 * DEBUFFS
-			 * slower speed
-			 * 
-			 */
 		}
 
 		/// <summary>
@@ -688,7 +689,7 @@ namespace Sweet_Dreams
 			int speedScalar = speed;
 			if (Game1.GodMode)
 			{
-				speedScalar = 4;
+				speedScalar = 6;
 			}
 
 			// Moves the player by scaling its direction vector by its speed stat

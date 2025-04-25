@@ -14,6 +14,10 @@ namespace Sweet_Dreams
     /* Nickolas Sailer
      * Purpose: A GameObject class will be the parent class for Bullet,
      * Player, and Enemies classes, since they all have similar fields and methods. */
+    
+    /// <summary>
+    /// Abstract class to represent anything that can be interacted with in the game.
+    /// </summary>
     public abstract class GameObject
     {
         // --------------------------------------------------------------

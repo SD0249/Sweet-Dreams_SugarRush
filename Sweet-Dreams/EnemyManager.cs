@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +34,11 @@ namespace Sweet_Dreams
         private List<Bullet> enemyBullets;
         private Texture2D candyAsset;
         private Player player;
+        private float rotation;
+        private int screenWidth;
+        private int screenHeight;
+        private int worldWidth;
+        private int worldHeight;
 
         // --------------------------------------------------------------
         // Properties
@@ -71,6 +77,12 @@ namespace Sweet_Dreams
             currentEnemies = new List<Enemy>();
             enemyBullets = new List<Bullet>();
 
+            // Saves screen/world's width & height
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
+            this.worldWidth = worldWidth;
+            this.worldHeight = worldHeight;
+
             // Fills the queue with enemy data from the file
             this.ReadEnemyData(rng, fileName, enemyAsset, player, screenWidth, 
                 screenHeight, worldWidth, worldHeight);
@@ -98,7 +110,7 @@ namespace Sweet_Dreams
         /// if the current wave has finished.
         /// </summary>
         /// <param name="gameTime">Time information from MonoGame.</param>
-        public void UpdateAll(GameTime gameTime)
+        public void UpdateAll(GameTime gameTime, Level level1, OrthographicCamera camera)
         {
             // Updates all enemy positions and states
             for (int i = 0; i < currentEnemies.Count; i++)
@@ -132,6 +144,7 @@ namespace Sweet_Dreams
                     {
                         currentEnemies[enemyIndex].Health -= playerBullets[bulletIndex].Damage;
                         playerBullets[bulletIndex].HitEnemy = true;
+                        currentEnemies[enemyIndex].Hurt();
                     }
                 }
             }
@@ -146,15 +159,66 @@ namespace Sweet_Dreams
                 }
             }
 
+            for (int i = 0; i < enemyBullets.Count; i++)
+            {
+                enemyBullets[i].Update(gameTime);
+
+                if (enemyBullets[i].WorldPosition.Intersects(player.WorldPosition) &&
+                    !Game1.GodMode)
+                {
+                    player.Hurt = true;
+                    player.Health--;
+                    enemyBullets.RemoveAt(i);
+                    i--;
+                }
+
+                // Removes the bullet from the list if it is out of bounds
+                if (i >= 0 &&
+                    enemyBullets[i].OutOfBounds(level1.WorldWidth, level1.WorldHeight))
+                {
+                    enemyBullets.RemoveAt(i);
+                    i--;
+                }
+            }
+            
+
             // If any enemy is dead, it drops candy then gets removed from the list
+            // Also, if any of the enemies should add a bullet, do that
             for (int i = 0; i < currentEnemies.Count; i++)
             {
+                currentEnemies[i].Attack(camera);
+
+                if (currentEnemies[i].AddBullet)
+                {
+                    // Finding the rotation of the bullet based off the mouse
+                    rotation = (float)Math.Atan2(currentEnemies[i].WorldPosition.Y - player.WorldPosition.Y,
+                                                 currentEnemies[i].WorldPosition.X - player.WorldPosition.X);
+
+                    // Makes a new bullet
+                    enemyBullets.Add(new Bullet(candyAsset, 
+                                                new Rectangle(currentEnemies[i].WorldPosition.X,
+                                                              currentEnemies[i].WorldPosition.Y,
+                                                              16,
+                                                              16),
+                                                new Rectangle(64, 96, 16, 16),
+                                                1, 
+                                                screenWidth, 
+                                                screenHeight, 
+                                                5,
+                                                worldWidth, 
+                                                worldHeight, 
+                                                rotation));
+
+                    currentEnemies[i].AddBullet = false;
+                }
+
                 if (!currentEnemies[i].IsAlive)
                 {
                     currentEnemies[i].DropCandy(collectibles, candyAsset);
                     currentEnemies.RemoveAt(i);
                     i--;
                 }
+
             }
 
             // A new wave of ten enemies forms once all current enemies are gone
@@ -196,22 +260,8 @@ namespace Sweet_Dreams
         /// in the level, false otherwise.</returns>
         public bool IsLevelCleared()
         {
-            if (currentEnemies.Count == 0 && allEnemies.Count == 0)
-            {
-                return true;
-            }
-            if (player.Health <=0 && currentEnemies.Count !=0)
-            {
-                currentEnemies.Clear();
-                return false;
-            }
-            if (player.Health == 5)
-            {
-                // ReadEnemyData();
-                return false;
-            }
+            return currentEnemies.Count == 0 && allEnemies.Count == 0;
 
-            return false;
         }
 
         // --------------------------------------------------------------

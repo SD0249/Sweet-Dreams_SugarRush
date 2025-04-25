@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:_106x106_small.png
 
+#begin _852x852_small.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:_852x852_small.png
+
 #begin acursedpixel_16x16_candyicons.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -44,6 +56,13 @@
 /processorParam:TextureFormat=Compressed
 /build:arial12.spritefont
 
+#begin arial8.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:arial8.spritefont
+
 #begin creditScene.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -55,6 +74,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:creditScene.png
+
+#begin Crosshair.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Crosshair.png
 
 #begin DemonSprites.png
 /importer:TextureImporter
@@ -139,18 +170,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:QuitButton.png
-
-#begin ShitButton.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ShitButton.png
 
 #begin StartButton.png
 /importer:TextureImporter

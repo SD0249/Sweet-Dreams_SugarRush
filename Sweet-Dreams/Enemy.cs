@@ -26,6 +26,9 @@ namespace Sweet_Dreams
 		Cloak
 	}
 
+	/// <summary>
+	/// Game object that chases and damages the player.
+	/// </summary>
 	public class Enemy : GameObject
 	{
 		// --------------------------------------------------------------
@@ -59,14 +62,15 @@ namespace Sweet_Dreams
 		private int worldWidth;
 		private int worldHeight;
 
-		// Source Rectangle for animations
-		Rectangle sourceRect;
-
 		// values needed for the enemy's animation
 		private double timer;
+		private double shockwaveTimer;
 		private double spf;
 		private List<Rectangle> enemyAnim;
-		private Rectangle animationWP;
+		private List<Rectangle> shockwaveAnim;
+		private Rectangle startingWP;
+		private Rectangle shockwaveWP;
+        private Rectangle animationWP;
 
 		// Unit direction vector
 		private Vector2 direction;
@@ -76,6 +80,11 @@ namespace Sweet_Dreams
 
 		// Reference to the player
 		Player player;
+		int prevPHealth;
+
+        // fields for damage indication
+        private double tintTimer;
+		Color tint;
 
 		// --------------------------------------------------------------
 		// Properties
@@ -127,22 +136,21 @@ namespace Sweet_Dreams
 		{
 			get { return health; }
 			set { health = value; }
-
 		}
 
-		// --------------------------------------------------------------
-		// Constructors
-		// --------------------------------------------------------------
-		/// <summary>
-		/// Generates a randomly positioned enemy of a given type.
-		/// </summary>
-		/// <param name="eType">The type of enemy.</param>
-		/// <param name="rng">Reference to the game's randomizer.</param>
-		/// <param name="asset">Spritesheet of enemies.</param>
-		/// Position will be randomized in the constructor.</param>
-		/// <param name="screenWidth">Screen's width.</param>
-		/// <param name="screenHeight">Screen's height.</param>
-		public Enemy(EnemyType eType, Random rng, Texture2D asset, Player player,
+        // --------------------------------------------------------------
+        // Constructors
+        // --------------------------------------------------------------
+        /// <summary>
+        /// Generates a randomly positioned enemy of a given type.
+        /// </summary>
+        /// <param name="eType">The type of enemy.</param>
+        /// <param name="rng">Reference to the game's randomizer.</param>
+        /// <param name="asset">Spritesheet of enemies.</param>
+        /// Position will be randomized in the constructor.</param>
+        /// <param name="screenWidth">Screen's width.</param>
+        /// <param name="screenHeight">Screen's height.</param>
+        public Enemy(EnemyType eType, Random rng, Texture2D asset, Player player,
 			int screenWidth, int screenHeight, int worldWidth, int worldHeight)
 			: base(asset, new Rectangle(0, 0, 1, 1), screenWidth, screenHeight)
 		{
@@ -150,6 +158,7 @@ namespace Sweet_Dreams
 			this.worldWidth = worldWidth;
 			this.worldHeight = worldHeight;
 			this.player = player;
+			prevPHealth = 100;
 			reloadTimer = 1;
 
 			// Determines type-specific field values for this enemy
@@ -159,9 +168,12 @@ namespace Sweet_Dreams
 			// Positions the enemy on the world's border
 			GoToWorldEdge();
 
-			// TODO: Change these values
+			// Default animation values
 			timer = 0.0;
+			shockwaveTimer = 0;
 			spf = 0.2;
+			tintTimer = 0.0;
+			tint = Color.White;
 		}
 
 		// --------------------------------------------------------------
@@ -183,7 +195,7 @@ namespace Sweet_Dreams
 			{
 				// Change which frame is active, ensuring the frame is reset back to the first 
 				currentFrame++;
-				if (currentFrame >= 3)
+				if (currentFrame >= 4)
 				{
 					currentFrame = 0;
 				}
@@ -195,6 +207,7 @@ namespace Sweet_Dreams
 			// Updates the enemy's rectangles so they move properly
 			animationWP.X = worldPosition.X;
 			animationWP.Y = worldPosition.Y;
+			animationWP.Width = enemyAnim[currentFrame].Width * 3;
 			animationWP.Height = enemyAnim[currentFrame].Height * 3;
 
 			if (eType == EnemyType.Imp)
@@ -204,7 +217,54 @@ namespace Sweet_Dreams
 					animationWP.Y = worldPosition.Y - 2;
 				}
 			}
-		}
+			if (shockwaveTimer > 1.3)
+			{
+				/* if (currentFrame == 0)
+				{
+					shockwaveWP.X = startingWP.X - 10;
+                    shockwaveWP.Y = startingWP.Y + 55;
+                    shockwaveWP.Width = shockwaveAnim[0].Width * 2;
+                    shockwaveWP.Height = shockwaveAnim[0].Height * 2;
+                } */
+                if (currentFrame == 1)
+                {
+                    shockwaveWP.X = startingWP.X;
+					shockwaveWP.Y = startingWP.Y + 45;
+                    shockwaveWP.Width = shockwaveAnim[1].Width;
+                    shockwaveWP.Height = shockwaveAnim[1].Height;
+                }
+                if (currentFrame == 2)
+                {
+                    shockwaveWP.X = startingWP.X - 60;
+                    shockwaveWP.Y = startingWP.Y - 15;
+                    shockwaveWP.Width = shockwaveAnim[2].Width * 3;
+                    shockwaveWP.Height = shockwaveAnim[2].Height * 3;
+                }
+                if (currentFrame == 3)
+                {
+                    shockwaveWP.X = startingWP.X - 154;
+                    shockwaveWP.Y = startingWP.Y - 109;
+                    shockwaveWP.Width = shockwaveAnim[3].Width * 5;
+                    shockwaveWP.Height = shockwaveAnim[3].Height * 5;
+                }
+				if (shockwaveTimer < 1.3)
+				{
+					shockwaveWP.Width = 2;
+					shockwaveWP.Height = 2;
+				}
+            }
+            if (eType == EnemyType.Cloak)
+            {
+                if (currentFrame == 0)
+                {
+                    animationWP.Y = worldPosition.Y + 3;
+                }
+                if (currentFrame == 2)
+                {
+                    animationWP.Y = worldPosition.Y - 3;
+                }
+            }
+        }
 
 		/// <summary>
 		/// Updates the enemies position to always 
@@ -227,10 +287,26 @@ namespace Sweet_Dreams
 			// Updates world position by moving toward the player
 			worldPosition.X += (int)Math.Round(direction.X * speed);
 			worldPosition.Y += (int)Math.Round(direction.Y * speed);
+			attackRadius.X = worldPosition.X - 130;
+			attackRadius.Y = worldPosition.Y - 130;
+			attackRadius.Width = 375;
+			attackRadius.Height = 375;
 
-			// Updates the enemy's animation
-			reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-			UpdateAnimation(gameTime);
+            // Updates the enemy's animation
+            reloadTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+			shockwaveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+            UpdateAnimation(gameTime);
+
+			//Updates the enemy's hurt status
+			if (tintTimer > 0)
+			{
+				tintTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+			}
+			if (tintTimer < 0)
+			{
+				tintTimer = 0;
+				tint = Color.White;
+			}
 		}
 
 		/// <summary>
@@ -239,22 +315,31 @@ namespace Sweet_Dreams
 		/// <param name="sb"></param>
 		public override void Draw(SpriteBatch sb)
 		{
-			// Draws the enemy
-			if (eType == EnemyType.Imp)
+			// Draws the shockwave
+            if (shockwaveTimer > 1.3 && eType == EnemyType.MouthDemon && currentFrame > 0)
+            {
+                sb.Draw(asset,
+                        shockwaveWP,
+                        shockwaveAnim[currentFrame],
+                        Color.White);
+            }
+
+            // Draws the enemy
+            if (eType == EnemyType.Imp || eType == EnemyType.Cloak)
 			{
 				if (direction.X > 0)
 				{
 					sb.Draw(asset,
 							animationWP,
 							enemyAnim[currentFrame],
-							Color.White);
+							tint);
 				}
 				else
 				{
 					sb.Draw(asset,
 							animationWP,
 							enemyAnim[currentFrame],
-							Color.White,
+							tint,
 							0,
 							new Vector2(0, 0),
 							SpriteEffects.FlipHorizontally,
@@ -268,20 +353,21 @@ namespace Sweet_Dreams
 					sb.Draw(asset,
 							worldPosition,
 							enemyAnim[currentFrame],
-							Color.White);
+							tint);
 				}
 				else
 				{
 					sb.Draw(asset,
 							worldPosition,
 							enemyAnim[currentFrame],
-							Color.White,
+							tint,
 							0,
 							new Vector2(0, 0),
 							SpriteEffects.FlipHorizontally,
 							0);
 				}
 			}
+			
 		}
 
 		/// <summary>
@@ -342,27 +428,33 @@ namespace Sweet_Dreams
 					health = 1;
 					damage = 1;
 					candyNum = 1;
-					speed = 3;
+					speed = 4;
 					animationWP = new Rectangle(0, 0, 30, 36);
 					enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(4, 20, 10, 12));
 					enemyAnim.Add(new Rectangle(20, 20, 10, 12));
 					enemyAnim.Add(new Rectangle(36, 19, 10, 12));
-					break;
+                    enemyAnim.Add(new Rectangle(20, 20, 10, 12));
+                    break;
 				case EnemyType.MouthDemon:
-					health = 1;
-					damage = 1;
+					health = 5;
+					damage = 2;
 					candyNum = 3;
 					speed = 1;
-					enemyAnim = new List<Rectangle>(4);
-					attackRadius = new Rectangle(worldPosition.X, worldPosition.Y, 12, 12);
-					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
-					enemyAnim.Add(new Rectangle(5, 107, 22, 30));
-					enemyAnim.Add(new Rectangle(36, 106, 23, 31));
-					enemyAnim.Add(new Rectangle(36, 106, 23, 31));
-					break;
+                    attackRadius = new Rectangle(worldPosition.X - 150, worldPosition.Y - 150, 300, 300);
+                    enemyAnim = new List<Rectangle>(4);
+					enemyAnim.Add(new Rectangle(5, 81, 22, 30));
+					enemyAnim.Add(new Rectangle(5, 81, 22, 30));
+					enemyAnim.Add(new Rectangle(36, 80, 23, 31));
+					enemyAnim.Add(new Rectangle(36, 80, 23, 31));
+                    shockwaveAnim = new List<Rectangle>(4);
+                    shockwaveAnim.Add(new Rectangle(70, 18, 45, 45));
+                    shockwaveAnim.Add(new Rectangle(123, 1, 95, 95));
+                    shockwaveAnim.Add(new Rectangle(137, 114, 71, 71));
+                    shockwaveAnim.Add(new Rectangle(19, 117, 80, 80));
+                    break;
 				case EnemyType.HornDemon:
-					health = 1;
+					health = 2;
 					damage = 1;
 					candyNum = 2;
 					speed = 2;
@@ -373,16 +465,17 @@ namespace Sweet_Dreams
 					enemyAnim.Add(new Rectangle(35, 63, 11, 15));
 					break;
 				case EnemyType.Cloak:
-					health = 1;
+					health = 3;
 					damage = 1;
 					speed = 2;
 					candyNum = 2;
-					enemyAnim = new List<Rectangle>(4);
+                    animationWP = new Rectangle(0, 0, 30, 36);
+                    enemyAnim = new List<Rectangle>(4);
 					enemyAnim.Add(new Rectangle(1, 40, 13, 15));
-					enemyAnim.Add(new Rectangle(18, 38, 12, 17));
-					enemyAnim.Add(new Rectangle(33, 39, 13, 16));
-					enemyAnim.Add(new Rectangle(48, 41, 14, 14));
-					break;
+					enemyAnim.Add(new Rectangle(18, 39, 14, 16));
+                    enemyAnim.Add(new Rectangle(37, 38, 12, 17));
+                    enemyAnim.Add(new Rectangle(18, 39, 14, 16));
+                    break;
 			}
 
 			// Changes the enemy worldPosition based on the enemy's sourceRect
@@ -431,22 +524,52 @@ namespace Sweet_Dreams
 				// Makes the actual bullet
 				if (reloadTimer <= 0)
 				{
-					reloadTimer = 1;
+					reloadTimer = 2;
 					addBullet = true;
 				}
 			}
 
 			if (eType == EnemyType.MouthDemon)
 			{
-				// check the enemy's attack rectangle
-				if (attackRadius.Contains(player.WorldPosition)) // also check the reload timer
+				// Check the enemy's attack rectangle
+				if (attackRadius.Contains(player.WorldPosition) &&
+					shockwaveTimer <= 0) 
 				{
-					if (attackRadius.Intersects(player.WorldPosition))
-					{
-						player.Hurt = true;
-					}
+                    currentFrame = 0;
+					startingWP = new Rectangle(worldPosition.X - 20,
+											   worldPosition.Y,
+											   worldPosition.Width,
+											   worldPosition.Height);
+					shockwaveTimer = 2;
 				}
-			}
+				// Saves the previous player health so the shockwave
+				// doesnt one shot the player
+				if (prevPHealth == 100)
+				{
+                    prevPHealth = player.Health;
+                }
+                // Checks if shockwave hits the player
+                if (shockwaveWP.Intersects(player.WorldPosition) &&
+                        !Game1.GodMode)
+                {
+                    player.Hurt = true;
+					player.Health = prevPHealth - 2;
+                }
+                if (player.Hurt == false)
+                {
+					prevPHealth = 100;
+                }
+            }
+		}
+
+		/// <summary>
+		/// Changes the color of the Enemy (called in the Manager) 
+		/// when they collide with the Bullets
+		/// </summary>
+		public void Hurt()
+		{
+			tintTimer = 0.5;
+			tint = Color.Red;
 		}
 	}
 }

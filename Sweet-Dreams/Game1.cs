@@ -32,7 +32,6 @@ namespace Sweet_Dreams
 
         // State fields
         private GameState gameState;
-        private PlayerState playerState;
         private KeyboardState currentKbState;
         private KeyboardState previousKbState;
         private MouseState mouse;
@@ -53,7 +52,7 @@ namespace Sweet_Dreams
         private Texture2D purpleDungeon;
         private Texture2D candySprites;
         private Texture2D enemySprites;
-        private Texture2D tempButton;
+        private Texture2D crosshair;
 
         // Object components
         private Random rng;
@@ -71,11 +70,14 @@ namespace Sweet_Dreams
         private int screenWidth;
         private int screenHeight;
         private SpriteFont arial12;
+        private SpriteFont arial8;
         private double deathTimer;
         private bool credit;
-        float rotation;
-        float startingX;
-        float startingY;
+        private float rotation;
+        private float startingX;
+        private float startingY;
+        private Rectangle heartRect;
+        private Rectangle creditBounds;
 
         /// <summary>
         /// Whether or not the game is currently in god/debug mode.
@@ -114,8 +116,15 @@ namespace Sweet_Dreams
             startingY = 213;
             mouse = Mouse.GetState();
 
+            // Where to draw hearts (updated later)
+            heartRect = new Rectangle(0, 0, 1, 1);
+
             // Credit is not drawn from the start
             credit = false;
+
+            // The area to check whether the mouse
+            // is hovering over to draw credit texts
+            creditBounds = new Rectangle(30, 15, (int)(screenWidth*0.9), (int)(screenHeight* 0.9));
 
             base.Initialize();
         }
@@ -128,6 +137,7 @@ namespace Sweet_Dreams
             playerAnimation = Content.Load<Texture2D>("PlayerAnimation");
             purpleDungeon = Content.Load<Texture2D>("Full");
             arial12 = Content.Load<SpriteFont>("arial12");
+            arial8 = Content.Load<SpriteFont>("arial8");
 
             candySprites = Content.Load<Texture2D>("acursedpixel_16x16_candyicons");
             enemySprites = Content.Load<Texture2D>("DemonSprites");
@@ -141,6 +151,7 @@ namespace Sweet_Dreams
             winningScreen = Content.Load<Texture2D>("WinningScreen");
             gameOverScreen = Content.Load<Texture2D>("SweetDreamsGameOver");
             lifeHeart = Content.Load<Texture2D>("heart");
+            crosshair = Content.Load<Texture2D>("Crosshair");
 
             // Initialize Buttons here after loading the assets
             start = new Button(startButton,
@@ -194,6 +205,7 @@ namespace Sweet_Dreams
                     if (start.buttonPressed(mouse) == true)
                     {
                         gameState = GameState.Game;
+                        IsMouseVisible = false;
                     }
 
                     // Checks hovering
@@ -216,19 +228,22 @@ namespace Sweet_Dreams
                 case GameState.Game:
 
                     // Victory when all enemies are gone and the player is at the door
-                    if (enemyManager.IsLevelCleared() && 
-                        player.WorldPosition.Contains(new Point(470, 30)))
+                    if (enemyManager.IsLevelCleared() &&
+                        player.WorldPosition.Contains(new Point(470, 30)) ||
+                        currentKbState.IsKeyDown(Keys.RightAlt))
                     {
                         gameState = GameState.Win;
+                        IsMouseVisible = true;
                     }
 
-                    // when the player dies???
+                    // Go to losing state when player dies
                     if (player.Health <= 0)
                     {
                         if (deathTimer <= 0)
                         {
                             gameState = GameState.Lose;
                             deathTimer = 0.98;
+                            IsMouseVisible = true;
                         }
                         deathTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                     }
@@ -236,7 +251,7 @@ namespace Sweet_Dreams
                     // ADD WHEN GAME DOOR IS ADDED!!! if player reaches the door when enemy list isnt empty player dies :)
 
                     // Turns on or off god/debug mode if G is pressed
-                    if (SingleKeyPress(Keys.G))
+                    if (SingleKeyPress(Keys.G) && player.PlayerState != PlayerState.Dead)
                     {
                         GodMode = !GodMode;
                     }
@@ -256,7 +271,7 @@ namespace Sweet_Dreams
                     // Updates the player
                     player.Update(gameTime);
 
-                    // Checks for a left click and bullet timer or god mode to shoot
+                    // Checks for a left click and bullet timer
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         player.ReloadTimer <= 0)
                     {
@@ -300,8 +315,8 @@ namespace Sweet_Dreams
                         // Makes a new bullet every time you shoot
                         bullets.Add(new Bullet(candySprites, 
                             new Rectangle(player.WorldPosition.X, player.WorldPosition.Y, 16, 16),
-                            new Rectangle(0, 0, 16, 16),
-                            player.Damage, screenWidth, screenHeight, level1.WorldWidth, level1.WorldHeight, rotation));
+                            new Rectangle(0, 0, 16, 16), player.Damage, screenWidth, screenHeight,
+                            3, level1.WorldWidth, level1.WorldHeight, rotation));
 
                         // Resets the timer for reloading the gun 
                         player.ReloadTimer = 1;
@@ -323,16 +338,10 @@ namespace Sweet_Dreams
                         }
                     }
 
-                    // Updates all enemies unless the level has been cleared
-                    if (!enemyManager.IsLevelCleared())
+                    // Updates all enemies unless the level has been cleared or player is dead
+                    if (!enemyManager.IsLevelCleared() && !(player.PlayerState == PlayerState.Dead))
                     {
-                        enemyManager.UpdateAll(gameTime);
-                    }
-
-                    // If the player is dead the game state changes to lose
-                    if (playerState == PlayerState.Dead)
-                    {
-                        gameState = GameState.Lose;
+                        enemyManager.UpdateAll(gameTime, level1, camera);
                     }
 
                     // Update ALL the camera related stuff
@@ -347,8 +356,6 @@ namespace Sweet_Dreams
 
                 case GameState.Win:
 
-                    // draw win screen to console
-                    // assuming were also going to need the button class?
                     // Draw win screen to console
 
                     if (SingleKeyPress(Keys.Enter))
@@ -404,10 +411,13 @@ namespace Sweet_Dreams
                     {
                         bullets[i].Draw(_spriteBatch);
                     }
-                }                
+                }
 
                 // Draws all enemies that are on screen
-                enemyManager.DrawAll(_spriteBatch, camera);
+                if (player.PlayerState != PlayerState.Dead)
+                {
+                    enemyManager.DrawAll(_spriteBatch, camera);
+                }
 
                 // Draws the player
                 player.Draw(_spriteBatch);            
@@ -433,44 +443,68 @@ namespace Sweet_Dreams
                     instruction.Draw(_spriteBatch);
                     quit.Draw(_spriteBatch);
 
-                    // Draws placeholder instructions
+                    // Draws instructions
                     // : Maybe this should be toggled on and off by mouse hovering over.
                     // : Nice chance to play with events and delegates.
                     if (instruction.IsHovered == true)
                     {
                         DebugLib.DrawRectFill(
                             _spriteBatch,
-                            new Rectangle(20, screenHeight - 85, 535, 80),
+                            new Rectangle(20, screenHeight - 85, 620, 80),
                             Color.Black);
 
                         _spriteBatch.DrawString(
                         arial12,
-                        "Instructions: Shoot all enemies by clicking the mouse where you want to aim.\n" +
-                        "Don't get hit by them! Pick up the candy that they drop to gain power-ups.\n" +
-                        "Toggle 'god mode' (and debug information) with the G key.\n" +
-                        "Press C Key for CREDITS.",
+                        "Instructions: Shoot all of the demons without getting hit by them to escape the nightmare!\n" +
+                        "Pick up candy dropped by enemies to gain power-ups, but don't eat the skull candy!\n" +
+                        "Use WASD or arrow keys to move. Aim and shoot by moving and clicking the mouse.\n" +
+                        "Toggle 'god mode' (and debug information) with the G key. Press C Key for CREDITS.",
                         new Vector2(30, screenHeight - 80),
                         Color.White);
-
                     }
 
                     // Draws the credit scene if it is toggled on by the 'C' key
                     if(credit)
                     {
+                        // Viewport background clear
                         DebugLib.DrawRectFill(_spriteBatch, 
                                               new Rectangle(0, 0, screenWidth, screenHeight), 
                                               Color.CornflowerBlue);
-
+                        
+                        // Draw the credit asset
                         _spriteBatch.Draw(credits,
-                                          new Rectangle(30, 15, (int)(screenWidth * 0.9), (int)(screenHeight * 0.9)),
+                                          creditBounds,
                                           Color.White);
+
+                        // If mouse is hovered over the candy, display these information
+                        if(creditBounds.Contains(mouse.Position))
+                        {
+                            DebugLib.DrawRectFill(_spriteBatch,
+                                                  creditBounds,
+                                                  Color.LightPink);
+
+                            _spriteBatch.DrawString(arial8,
+                                                "Demon Enemy: \nhttps://0x72.itch.io/dungeontileset-ii\n\n" +
+                                                "Basic Player Sprite: \nhttps://penzilla.itch.io/protagonist-character\n\n" +
+                                                "Tile Set: \nhttps://cardinalzebra.itch.io/dungeon-tiles-1\n\n" +
+                                                "GirlSleeping: \nhttps://www.istockphoto.com/vector/cute-boy-sleeping-at-night-gm1439430303-479700218\n\n" +
+                                                "DemonArm: \nhttps://www.artstation.com/artwork/kQmmVA\n\n" +
+                                                "Shock Wave: \nhttps://morningkingdom.itch.io/shock-wave-smoke?download\n\n" +
+                                                "Candies: \nhttps://acursedpixel.itch.io/treats-n-tricks?download\n\n" +
+                                                "Heart: \nhttps://opengameart.org/content/heart-nes-colors\n\n" +
+                                                "CrossHair: \nhttps://opengameart.org/content/3-fps-crosshairs\n\n" +
+                                                "CreditCandy: \nhttps://in.pinterest.com/pin/410249847327526476/\n\n" +
+                                                "Additional Library: Debug Library by Nikki Murello",
+                                                new Vector2(35, 20),
+                                                Color.Black);
+                        }
                     }
                     break;
 
                 case GameState.Game:
 
                     // Draws a heart for each of the player's remaining lives
-                    Rectangle heartRect = new Rectangle(-10, -10, 80, 80);
+                    heartRect = new Rectangle(-10, -10, 80, 80);
                     for (int i = 0; i < player.Health; i++)
                     {
                         _spriteBatch.Draw(
@@ -479,6 +513,25 @@ namespace Sweet_Dreams
                             Color.White);
 
                         heartRect.X += 50;
+                    }
+
+                    // Draws player points
+                    _spriteBatch.Draw(candySprites,
+                        new Rectangle(20, 60, 40, 40),
+                        new Rectangle(48, 160, 16, 16),
+                        Color.White);
+                    _spriteBatch.DrawString(arial12,
+                        $"Points: {player.Points}",
+                        new Vector2(80, 70),
+                        Color.White);
+
+                    // Tells player how to win once level is cleared
+                    if (enemyManager.IsLevelCleared())
+                    {
+                        _spriteBatch.DrawString(arial12,
+                        "Escape through the door!",
+                        new Vector2(screenWidth - 196, 16),
+                        Color.White);
                     }
 
                     // Draws the Debug Information if debug mode is on
@@ -493,6 +546,11 @@ namespace Sweet_Dreams
                         DrawDebugInfo(_spriteBatch);
                     }
 
+                    // Draws crosshairs at mouse position
+                    _spriteBatch.Draw(crosshair,
+                        new Rectangle(mouse.X - 20, mouse.Y - 20, 40, 40),
+                        Color.Red);
+
                     break;
 
                 case GameState.Win:
@@ -502,10 +560,44 @@ namespace Sweet_Dreams
                         new Rectangle(0, 0, screenWidth, screenHeight),
                         Color.White);
 
+                    DebugLib.DrawRectFill(_spriteBatch, 250, 15, 305, 25, Color.Black);
+
                     _spriteBatch.DrawString(
                         arial12,
                         "Press ENTER to return to the menu screen.",
                         new Vector2(255, 20),
+                        Color.White);
+
+                    // Draws a heart for each of the player's remaining lives
+                    heartRect = new Rectangle(screenWidth - 220, screenHeight/2 - 60, 80, 80);
+                    for (int i = 0; i < player.Health; i++)
+                    {
+                        _spriteBatch.Draw(
+                            lifeHeart,
+                            heartRect,
+                            Color.White);
+                        heartRect.X += 50;
+                        if (heartRect.X >= screenWidth - 80)
+                        {
+                            heartRect.X = screenWidth - 220;
+                            heartRect.Y += 40;
+                        }
+                    }
+                    DebugLib.DrawRectFill(_spriteBatch, 600, 175, 135, 25, Color.Black);
+                    _spriteBatch.DrawString(arial12,
+                        "Remaining Health: ",
+                        new Vector2(605, 180),
+                        Color.White);
+
+                    // Draws player points
+                    DebugLib.DrawRectFill(_spriteBatch, 115, 225, 85, 25, Color.Black);
+                    _spriteBatch.Draw(candySprites,
+                        new Rectangle(60, 220, 40, 40),
+                        new Rectangle(48, 160, 16, 16),
+                        Color.White);
+                    _spriteBatch.DrawString(arial12,
+                        $"Points: {player.Points}",
+                        new Vector2(120, 230),
                         Color.White);
 
                     break;
@@ -523,8 +615,15 @@ namespace Sweet_Dreams
                         new Vector2(250, screenHeight - 50),
                         Color.LightGray);
 
+                    // Points earned
+                    _spriteBatch.DrawString(arial12,
+                        $"Points: {player.Points}",
+                        new Vector2(10, 10),
+                        Color.White);
+
                     break;
             }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -543,13 +642,6 @@ namespace Sweet_Dreams
             //    new Vector2(10, screenHeight - 24),
             //    Color.White);
 
-            //Draws the number of enemies currently in the world
-            sb.DrawString(
-                arial12,
-                "Enemies in the World: " + enemyManager.WorldPositions.Count,
-                new Vector2(10, screenHeight - 24),
-                Color.White);
-
             //Draws one enemy's world position
             /* if (enemyManager.WorldPositions.Count > 0)
             {
@@ -561,32 +653,39 @@ namespace Sweet_Dreams
                     Color.White);
             } */
 
-            //Draws the current state of the game
+            //Draws the number of enemies currently in the world
             sb.DrawString(
                 arial12,
-                $"Game's State: {gameState}",
-                new Vector2(10, screenHeight - 48),
-                Color.White);
-
-            //Draws the current state of the player
-            sb.DrawString(
-                arial12,
-                $"Player's State: {player.PlayerState}",
-                new Vector2(10, screenHeight - 72),
+                "Enemies in the World: " + enemyManager.WorldPositions.Count,
+                new Vector2(10, screenHeight - 24),
                 Color.White);
 
             //Draws the current number of bullets
             sb.DrawString(
                     arial12,
-                    $"Bullet Count: {bullets.Count}",
-                    new Vector2(10, screenHeight - 98),
+                    $"Bullets in the World: {bullets.Count}",
+                    new Vector2(10, screenHeight - 48),
                     Color.White);
 
-            //Draws player's remaining health
+            //Draws number of candies in the world
             sb.DrawString(
                 arial12,
-                $"Remaining Health: {player.Health}",
-                new Vector2(10,screenHeight - 124),
+                $"Candies in the Wrold: {collectibles.Count}",
+                new Vector2(10, screenHeight - 72),
+                Color.White);
+
+            //Draws the current state of the game
+            sb.DrawString(
+                arial12,
+                $"Game State: {gameState}",
+                new Vector2(10, screenHeight - 98),
+                Color.White);
+
+            //Draws the current state of the player
+            sb.DrawString(
+                arial12,
+                $"Player State: {player.PlayerState}",
+                new Vector2(10, screenHeight - 124),
                 Color.White);
 
             //Draws the player's world position
@@ -596,10 +695,10 @@ namespace Sweet_Dreams
                 new Vector2(10, screenHeight - 150),
                 Color.White);
 
-            // Screen dimensions
+            // Window dimensions
             sb.DrawString(
                 arial12,
-                $"Screen Size: {screenWidth} x {screenHeight}",
+                $"Window Size: {screenWidth} x {screenHeight}",
                 new Vector2(10, screenHeight - 176),
                 Color.White);
         }

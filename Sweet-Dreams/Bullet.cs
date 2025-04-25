@@ -11,7 +11,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace Sweet_Dreams
 {
     /* Nick Sailor, Ayvin Krug
-     * Purpose: */
+     * Purpose: Hazardous object to be fired at player and enemies.*/
+    
+    /// <summary>
+    /// Damaging object that can be fired by one entity at another.
+    /// </summary>
     public class Bullet : GameObject
     {
         // --------------------------------------------------------------
@@ -58,14 +62,14 @@ namespace Sweet_Dreams
         // Constructor
         // --------------------------------------------------------------
         public Bullet(Texture2D asset, Rectangle worldPosition, Rectangle sourceRect,
-            int damage, int screenWidth, int screenHeight, 
+            int damage, int screenWidth, int screenHeight, int speed,
             int worldWidth, int worldHeight, float rotation)
         :base(asset, worldPosition, screenWidth, screenHeight)
         {
             this.asset = asset;
             this.damage = damage;
             hitEnemy = false;
-            speed = 3;
+            this.speed = speed;
             mouse = Mouse.GetState();
             origin = new Vector2(0, 0);
             this.rotation = rotation;
