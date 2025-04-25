@@ -8,6 +8,9 @@ using System.Collections.Generic;
 // A shooter game. Kill all the enemies to survive and collect candies!
 namespace Sweet_Dreams
 {
+    /// <summary>
+    /// A hoverable and clickable button.
+    /// </summary>
     public class Button
     {
         // --------------------------------------------------------------

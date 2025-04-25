@@ -11,7 +11,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace Sweet_Dreams
 {
     /* Nick Sailor, Ayvin Krug
-     * Purpose: */
+     * Purpose: Hazardous object to be fired at player and enemies.*/
+    
+    /// <summary>
+    /// Damaging object that can be fired by one entity at another.
+    /// </summary>
     public class Bullet : GameObject
     {
         // --------------------------------------------------------------

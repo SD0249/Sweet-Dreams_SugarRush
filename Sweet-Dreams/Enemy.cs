@@ -26,6 +26,9 @@ namespace Sweet_Dreams
 		Cloak
 	}
 
+	/// <summary>
+	/// Game object that chases and damages the player.
+	/// </summary>
 	public class Enemy : GameObject
 	{
 		// --------------------------------------------------------------
@@ -165,11 +168,10 @@ namespace Sweet_Dreams
 			// Positions the enemy on the world's border
 			GoToWorldEdge();
 
-			// TODO: Change these values
+			// Default animation values
 			timer = 0.0;
 			shockwaveTimer = 0;
 			spf = 0.2;
-
 			tintTimer = 0.0;
 			tint = Color.White;
 		}

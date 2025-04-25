@@ -19,6 +19,9 @@ namespace Sweet_Dreams
 		Hit
 	}
 
+	/// <summary>
+	/// The user-controlled game object.
+	/// </summary>
 	public class Player : GameObject
 	{
 		// --------------------------------------------------------------
