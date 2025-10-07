@@ -7,6 +7,7 @@ Developed Using MonoGame Framework.
 - [Architecture Diagram](#architecture-diagram)
 - [File IO](#file-io)
 - [Design](#design)
+- [Art and Interface](#art-and-design)
 - [Post Mortem](#post-mortem)
 
 ## Major Features
