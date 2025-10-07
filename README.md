@@ -7,7 +7,7 @@ Developed Using MonoGame Framework.
 - [Architecture Diagram](#architecture-diagram)
 - [File IO](#file-io)
 - [Design](#design)
-- -[Post Mortem](#post-mortem)
+- [Post Mortem](#post-mortem)
 
 ## Major Features
 - Data Driven(File IO)
@@ -44,6 +44,7 @@ Cutesy Horror Themed Top-Down Shooter. <br />
   - Candy gives you Power-Up or Debuff!
   - Different Enemy Types (Different AI Logics)
   - Turret Bullets (Able to support 360 degree range)
+ 
  ![Gameplay Screen](Images/gameplayScreen1.png)
 
 ## Art and Interface 
